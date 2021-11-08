@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:patient_tracking/Models/food.dart';
 import '../dummy_data.dart';
 import '../Models/medicine.dart';
 import '../Widgets/ilaçilaçetkileşimi.dart';
@@ -15,8 +16,9 @@ class _IlacDetayState extends State<IlacDetay>
   int medId;
   String medName;
   String sideEffect;
-  Map<int, String> medToMedInteraction;
-  Map<int, String> medToFoodInteraction;
+  List<Food> forbiddenFoods;
+  List<Medicine> forbiddenMeds;
+
   TabController _tabController;
   void _handleTabSelection() async {
     setState(() {
@@ -45,8 +47,8 @@ class _IlacDetayState extends State<IlacDetay>
       if (med.id == medId) {
         medName = med.name;
         sideEffect = med.sideEffect;
-        medToMedInteraction = med.medToMedInteraction;
-        medToFoodInteraction = med.medToFoodInteraction;
+        forbiddenFoods = med.forbiddenFoods;
+        forbiddenMeds = med.forbiddenMeds;
       }
     }
     return DefaultTabController(
@@ -62,20 +64,16 @@ class _IlacDetayState extends State<IlacDetay>
                 unselectedLabelColor: Colors.grey,
                 indicatorColor: Colors.orange,
                 tabs: [
-                  Tab(text: 'Yan Etkiler'),
-                  Tab(text: 'İlaç-İlaç Etkileşimleri'),
-                  Tab(text: 'İlaç-Besin Etkileşimleri')
+                  Tab(text: 'Yan etkiler'),
+                  Tab(text: 'Tüketilmemesi gereken ilaçlar'),
+                  Tab(text: 'Tüketilmemesi gereken besinler')
                 ],
               ),
             ),
           ),
           body: TabBarView(
             controller: _tabController,
-            children: [
-              Container(),
-              MedToMedInteraction(medToMedInteraction),
-              Container()
-            ],
+            children: [Container(), MedToMedInteraction(), Container()],
           ),
         ));
   }

@@ -9,6 +9,8 @@ import 'Screens/hava_durumu_screen.dart';
 import 'BildirimAPI.dart';
 import 'preferencesController.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import './Providers/medicines.dart';
+import 'package:provider/provider.dart';
 
 void main() async {
   /*
@@ -54,52 +56,56 @@ class _MyAppState extends State<MyApp> {
     const primaryColor = const Color(0xFFD4F4DD); //ana menü item
     const secondaryColor = const Color(0xFF17BEBB); //appbar-navbar
     final ThemeData theme = ThemeData();
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: theme.copyWith(
-          appBarTheme: AppBarTheme(color: secondaryColor),
-          timePickerTheme: TimePickerThemeData(
-            backgroundColor: Colors.green,
-            helpTextStyle: TextStyle(
-              color: Colors.white,
+    return ChangeNotifierProvider(
+      create: (ctx) =>
+          Medicines(), //If anything changes, only the widgets that are listening will rebuild
+      child: MaterialApp(
+        title: 'Flutter Demo',
+        theme: theme.copyWith(
+            appBarTheme: AppBarTheme(color: secondaryColor),
+            timePickerTheme: TimePickerThemeData(
+              backgroundColor: Colors.green,
+              helpTextStyle: TextStyle(
+                color: Colors.white,
+              ),
             ),
-          ),
-          textTheme: TextTheme(
-            bodyText1: TextStyle(
-              color: Colors.black,
-              fontSize: 15,
-              fontWeight: FontWeight.bold,
+            textTheme: TextTheme(
+              bodyText1: TextStyle(
+                color: Colors.black,
+                fontSize: 15,
+                fontWeight: FontWeight.bold,
+              ),
+              bodyText2: TextStyle(
+                color: primaryColor,
+                fontSize: 15,
+                fontWeight: FontWeight.bold,
+              ),
+              headline1: TextStyle(
+                color: Colors.black,
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+              headline2: TextStyle(
+                color: Colors.black,
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
             ),
-            bodyText2: TextStyle(
-              color: primaryColor,
-              fontSize: 15,
-              fontWeight: FontWeight.bold,
-            ),
-            headline1: TextStyle(
-              color: Colors.black,
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-            ),
-            headline2: TextStyle(
-              color: Colors.black,
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          scaffoldBackgroundColor: primaryColor,
-          colorScheme: theme.colorScheme.copyWith(
-            background: backgroundColor,
-            primary: primaryColor,
-            secondary: secondaryColor,
-          )),
-      home: AnaMenu(),
-      routes: {
-        AnaMenu.routeName: (ctx) => AnaMenu(),
-        KullandigimIlaclar.routeName: (ctx) => KullandigimIlaclar(),
-        IlacDetay.routeName: (ctx) => IlacDetay(),
-        Hatirlatici.routeName: (ctx) => Hatirlatici(),
-        HavaDurumu.routeName: (ctx) => HavaDurumu(),
-      },
+            scaffoldBackgroundColor: primaryColor,
+            colorScheme: theme.colorScheme.copyWith(
+              background: backgroundColor,
+              primary: primaryColor,
+              secondary: secondaryColor,
+            )),
+        home: AnaMenu(),
+        routes: {
+          AnaMenu.routeName: (ctx) => AnaMenu(),
+          KullandigimIlaclar.routeName: (ctx) => KullandigimIlaclar(),
+          IlacDetay.routeName: (ctx) => IlacDetay(),
+          Hatirlatici.routeName: (ctx) => Hatirlatici(),
+          HavaDurumu.routeName: (ctx) => HavaDurumu(),
+        },
+      ),
     );
   }
 }

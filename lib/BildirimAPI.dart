@@ -10,9 +10,10 @@ import './global.dart';
 class BildirimAPI {
   static final _notifications = FlutterLocalNotificationsPlugin();
   static final onNotifications = BehaviorSubject<String>();
-  static List<int> bildirimGunleri = [];
+
   static Future<List<int>> initNotificationDays() async {
     var prefs = await SharedPreferences.getInstance();
+    List<int> bildirimGunleri = [];
 
     if (prefs.getBool('isPazartesi')) bildirimGunleri.add(DateTime.monday);
     if (prefs.getBool('isSali')) bildirimGunleri.add(DateTime.tuesday);

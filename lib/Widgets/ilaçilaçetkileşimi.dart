@@ -1,12 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:patient_tracking/Providers/medicines.dart';
+import 'package:provider/provider.dart';
 import '../dummy_data.dart';
 import '../Models/medicine.dart';
 
 class MedToMedInteraction extends StatelessWidget {
-  Map<int, String> interactions;
-  MedToMedInteraction(this.interactions);
-
   String getMedicineById(int id) {
     String retVal = '';
     DUMMY_MEDS.forEach((element) {
@@ -19,35 +18,8 @@ class MedToMedInteraction extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return interactions.length > 0
-        ? ListView.builder(
-            itemCount: interactions.length,
-            itemBuilder: (ctx, index) {
-              return Card(
-                elevation: 40,
-                child: Row(
-                  children: [
-                    Text(
-                      '${getMedicineById(interactions.keys.elementAt(index))}: ',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 15,
-                      ),
-                    ),
-                    SizedBox(
-                      width: 15,
-                    ),
-                    Text(
-                      interactions.values.elementAt(index),
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 15,
-                      ),
-                    )
-                  ],
-                ),
-              );
-            })
-        : Container();
+    final medsData = Provider.of<Medicines>(context);
+    final meds = medsData.meds;
+    return Container();
   }
 }
