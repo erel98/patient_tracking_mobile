@@ -9,17 +9,18 @@ class Medicine {
   List<Food> forbiddenFoods;
   List<Medicine> forbiddenMeds;
   bool isNotificationActive;
+  String unit;
 
-  Medicine([
-    int id,
-    String name,
-    List<String> sideEffects,
-    String stomach,
-    int quantity,
-    List<Food> forbiddenFoods,
-    List<Medicine> forbiddenMeds,
-    bool isNotificationActive,
-  ]) {
+  Medicine(
+      {int id,
+      String name,
+      List<String> sideEffects,
+      String stomach,
+      int quantity,
+      List<Food> forbiddenFoods,
+      List<Medicine> forbiddenMeds,
+      bool isNotificationActive,
+      String unit}) {
     this.id = id;
     this.name = name;
     this.sideEffects = sideEffects;
@@ -28,6 +29,7 @@ class Medicine {
     this.forbiddenFoods = forbiddenFoods;
     this.forbiddenMeds = forbiddenMeds;
     this.isNotificationActive = isNotificationActive;
+    this.unit = unit;
   }
   void display() {
     print('id: $id\nName: $name\nSide Effect: $sideEffects');

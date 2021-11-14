@@ -7,6 +7,7 @@ import 'Screens/kullandığım_ilaçlar_screen.dart';
 import 'Screens/ilaç_detay_screen.dart';
 import 'Screens/hatırlatıcı_screen.dart';
 import 'Screens/hava_durumu_screen.dart';
+import 'Screens/bugünkü_ilaçlarım_screen.dart';
 import 'BildirimAPI.dart';
 import 'preferencesController.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -85,6 +86,7 @@ class _MyAppState extends State<MyApp> {
           IlacDetay.routeName: (ctx) => IlacDetay(),
           Hatirlatici.routeName: (ctx) => Hatirlatici(),
           HavaDurumu.routeName: (ctx) => HavaDurumu(),
+          DailyMedsScreen.routeName: (ctx) => DailyMedsScreen(),
         },
       ),
     );

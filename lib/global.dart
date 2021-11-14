@@ -4,13 +4,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'Widgets/ana_menü_item.dart';
 import 'Screens/kullandığım_ilaçlar_screen.dart';
 import 'Screens/hatırlatıcı_screen.dart';
+import 'Screens/bugünkü_ilaçlarım_screen.dart';
 
 class Global {
   static var initialState = 0;
   static List<int> bildirimGunleri = [];
   static Time bildirimSaati;
   static var mainMenuItemList = <Widget>[
-    AnaMenuItem('İlaçlarım', '', null),
+    AnaMenuItem('İlaçlarım', DailyMedsScreen.routeName, null),
     AnaMenuItem('Kullandığım\nilaçlar', KullandigimIlaclar.routeName, null),
     AnaMenuItem('Geçmiş', '', null),
     AnaMenuItem('Hatırlatıcı', Hatirlatici.routeName, null),

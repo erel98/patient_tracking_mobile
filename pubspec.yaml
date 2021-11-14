@@ -26,7 +26,6 @@ dependencies:
   provider: ^6.0.1
   shared_preferences: ^2.0.5
   fl_chart: ^0.36.1
-  http: ^0.13.1
   intl: ^0.17.0
   pedantic: ^1.11.0
   flutter_slidable: ^0.6.0
@@ -35,6 +34,8 @@ dependencies:
   timezone: ^0.8.0
   flutter_native_timezone: ^2.0.0
   flutter_icons: ^1.1.0
+  html: ^0.15.0
+  http: ^0.13.4
 
 
   # The following adds the Cupertino Icons font to your application.
