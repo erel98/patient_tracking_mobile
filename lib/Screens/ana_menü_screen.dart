@@ -1,4 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_icons/flutter_icons.dart';
+import 'package:patient_tracking/constraints.dart';
 import '../global.dart';
 import '../Widgets/ana_menü.dart';
 import '../Widgets/accountMenu.dart';
@@ -28,45 +31,73 @@ class _AnaMenuState extends State<AnaMenu> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.background,
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.secondary,
-        leading: IconButton(
-          onPressed: null,
-          icon: Icon(
-            Icons.menu,
-            color: Colors.black,
+        backgroundColor: Colors.white,
+        appBar: AppBar(
+          elevation: 0,
+          backgroundColor: kPrimaryColor,
+          leading: IconButton(
+            onPressed: null,
+            icon: Icon(
+              Icons.menu,
+              color: Colors.black,
+            ),
           ),
         ),
-        centerTitle: true,
-        title: Text(
-          "Uygulama İsmi",
-          style: TextStyle(color: Colors.black),
-        ),
-        actions: [
+        bottomNavigationBar: bottomNavBar(),
+        body: Column(
+          children: [
+            Container(
+              padding: EdgeInsets.all(10),
+              height: MediaQuery.of(context).size.height * 0.1,
+              decoration: BoxDecoration(
+                color: kPrimaryColor,
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(30),
+                  bottomRight: Radius.circular(30),
+                ),
+              ),
+              child: Row(
+                children: [
+                  Text(
+                    'Hoşgeldiniz Adile Hanım',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20),
+                  ),
+                  Spacer(),
+                  Icon(FontAwesome.smile_o)
+                ],
+              ),
+            ),
+            widgetOptions.elementAt(Global.initialState),
+          ],
+        ));
+  }
+
+  Container bottomNavBar() {
+    return Container(
+      padding: EdgeInsets.only(left: 50, right: 50, bottom: 10),
+      height: 70,
+      decoration: BoxDecoration(color: Colors.white, boxShadow: [
+        BoxShadow(
+            offset: Offset(0, -10),
+            blurRadius: 35,
+            color: kPrimaryColor.withOpacity(0.38))
+      ]),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
           IconButton(
-              onPressed: null,
-              icon: Icon(
-                Icons.info,
-                size: 25,
-                color: Colors.white,
-              ))
+            icon: Icon(FontAwesome.home),
+            onPressed: () => onItemTapped(0),
+          ),
+          IconButton(
+            icon: Icon(FontAwesome.user),
+            onPressed: () => onItemTapped(1),
+          )
         ],
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Theme.of(context).colorScheme.secondary,
-        selectedItemColor: Colors.black,
-        unselectedIconTheme: IconThemeData(opacity: 0.5),
-        selectedLabelStyle: TextStyle(fontWeight: FontWeight.bold),
-        selectedIconTheme: IconThemeData(opacity: 1),
-        items: [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Ana Ekran'),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profil')
-        ],
-        currentIndex: Global.initialState,
-        onTap: onItemTapped,
-      ),
-      body: widgetOptions.elementAt(Global.initialState),
     );
   }
 }
