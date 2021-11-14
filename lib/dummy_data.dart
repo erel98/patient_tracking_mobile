@@ -1,7 +1,7 @@
 // ignore_for_file: non_constant_identifier_names
 
 import 'Models/medicine.dart';
-
+/*
 final DUMMY_MEDS = [
   Medicine(
     1,
@@ -24,3 +24,4 @@ final DUMMY_MEDS = [
     'yok',
   ),
 ];
+*/

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:patient_tracking/constraints.dart';
 import 'Screens/ana_menü_screen.dart';
 import 'Screens/kullandığım_ilaçlar_screen.dart';
 import 'Screens/ilaç_detay_screen.dart';
@@ -52,51 +53,31 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+    /*
     const backgroundColor = const Color(0xFF0E7C7B); //background
     const primaryColor = const Color(0xFFD4F4DD); //ana menü item
     const secondaryColor = const Color(0xFF17BEBB); //appbar-navbar
+    */
     final ThemeData theme = ThemeData();
+
     return ChangeNotifierProvider(
       create: (ctx) =>
           Medicines(), //If anything changes, only the widgets that are listening will rebuild
       child: MaterialApp(
         title: 'Flutter Demo',
         theme: theme.copyWith(
-            appBarTheme: AppBarTheme(color: secondaryColor),
-            timePickerTheme: TimePickerThemeData(
-              backgroundColor: Colors.green,
-              helpTextStyle: TextStyle(
-                color: Colors.white,
-              ),
+          visualDensity: VisualDensity.adaptivePlatformDensity,
+          primaryColor: kPrimaryColor,
+          textTheme: Theme.of(context).textTheme.apply(bodyColor: kTextColor),
+          appBarTheme: AppBarTheme(color: kPrimaryColor),
+          timePickerTheme: TimePickerThemeData(
+            backgroundColor: Colors.green,
+            helpTextStyle: TextStyle(
+              color: Colors.white,
             ),
-            textTheme: TextTheme(
-              bodyText1: TextStyle(
-                color: Colors.black,
-                fontSize: 15,
-                fontWeight: FontWeight.bold,
-              ),
-              bodyText2: TextStyle(
-                color: primaryColor,
-                fontSize: 15,
-                fontWeight: FontWeight.bold,
-              ),
-              headline1: TextStyle(
-                color: Colors.black,
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
-              headline2: TextStyle(
-                color: Colors.black,
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            scaffoldBackgroundColor: primaryColor,
-            colorScheme: theme.colorScheme.copyWith(
-              background: backgroundColor,
-              primary: primaryColor,
-              secondary: secondaryColor,
-            )),
+          ),
+          scaffoldBackgroundColor: Colors.white,
+        ),
         home: AnaMenu(),
         routes: {
           AnaMenu.routeName: (ctx) => AnaMenu(),

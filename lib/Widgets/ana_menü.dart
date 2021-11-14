@@ -9,14 +9,17 @@ class AnaMenuGrid extends StatefulWidget {
 class _AnaMenuGridState extends State<AnaMenuGrid> {
   @override
   Widget build(BuildContext context) {
-    return GridView(
-        gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-          maxCrossAxisExtent: 100,
-          childAspectRatio: 1,
-          crossAxisSpacing: 20,
-          mainAxisSpacing: 20,
-        ),
-        padding: const EdgeInsets.all(25),
-        children: Global.mainMenuItemList);
+    return Container(
+      height: MediaQuery.of(context).size.height * 0.5,
+      child: GridView(
+          gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+            maxCrossAxisExtent: 100,
+            childAspectRatio: 1.2,
+            crossAxisSpacing: 10,
+            mainAxisSpacing: 10,
+          ),
+          padding: const EdgeInsets.all(25),
+          children: Global.mainMenuItemList),
+    );
   }
 }

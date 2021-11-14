@@ -10,15 +10,15 @@ class Global {
   static List<int> bildirimGunleri = [];
   static Time bildirimSaati;
   static var mainMenuItemList = <Widget>[
-    AnaMenuItem('Bugünkü ilaçlarım', '', null),
-    AnaMenuItem('Kullandığım ilaçlar', KullandigimIlaclar.routeName, null),
+    AnaMenuItem('İlaçlarım', '', null),
+    AnaMenuItem('Kullandığım\nilaçlar', KullandigimIlaclar.routeName, null),
     AnaMenuItem('Geçmiş', '', null),
     AnaMenuItem('Hatırlatıcı', Hatirlatici.routeName, null),
-    AnaMenuItem('Organ Transplant', '', null),
+    AnaMenuItem('Organ\nTransplant', '', null),
     AnaMenuItem('Danışmanlık', '', null),
     AnaMenuItem('Kan basıncı', '', null),
-    AnaMenuItem('Kan glikoz değeri', '', null),
-    AnaMenuItem('Kan ilaç düzeyi', '', null),
+    AnaMenuItem('Kan glikoz\ndeğeri', '', null),
+    AnaMenuItem('Kan ilaç\ndüzeyi', '', null),
     AnaMenuItem('Yan etkiler', '', null),
     AnaMenuItem(
         'Mesajlar',

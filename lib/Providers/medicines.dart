@@ -9,7 +9,7 @@ class Medicines with ChangeNotifier {
     Medicine(
         1,
         'Aspirin',
-        '',
+        [''],
         'Aç karna',
         1,
         [
@@ -22,7 +22,7 @@ class Medicines with ChangeNotifier {
     Medicine(
         2,
         'Minoset',
-        'Uyku',
+        ['Uyku', 'Baş dönmesi', 'Yorgunluk'],
         'Tok karna',
         1,
         [
@@ -34,7 +34,7 @@ class Medicines with ChangeNotifier {
     Medicine(
         3,
         'Novaljin',
-        '',
+        ['İştahsızlık', 'Kaşıntı'],
         'Aç karna',
         2,
         [
@@ -45,7 +45,7 @@ class Medicines with ChangeNotifier {
     Medicine(
         4,
         'Arveles',
-        'yok',
+        ['Baş ağrısı', 'Bulantı'],
         'Tok karna',
         1,
         [

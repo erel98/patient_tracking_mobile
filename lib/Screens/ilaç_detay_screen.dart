@@ -1,8 +1,11 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:patient_tracking/Models/food.dart';
-import '../dummy_data.dart';
 import '../Models/medicine.dart';
-import '../Widgets/ilaçilaçetkileşimi.dart';
+import '../Widgets/ilaç_ilaç_etkileşimi.dart';
+import 'package:patient_tracking/Providers/medicines.dart';
+import 'package:provider/provider.dart';
+import '../Widgets/yan_etkiler.dart';
 
 class IlacDetay extends StatefulWidget {
   static const routeName = '/ilac-detay';
@@ -15,7 +18,7 @@ class _IlacDetayState extends State<IlacDetay>
   int _currentIndex = 0;
   int medId;
   String medName;
-  String sideEffect;
+  List<String> sideEffects;
   List<Food> forbiddenFoods;
   List<Medicine> forbiddenMeds;
 
@@ -40,41 +43,85 @@ class _IlacDetayState extends State<IlacDetay>
 
   @override
   Widget build(BuildContext context) {
+    final medsData = Provider.of<Medicines>(context);
+    final meds = medsData.meds;
     final routeArgs =
         ModalRoute.of(context).settings.arguments as Map<String, int>;
     medId = routeArgs['medId'] as int;
-    for (Medicine med in DUMMY_MEDS) {
+    print('medId from detay: $medId');
+    for (Medicine med in meds) {
       if (med.id == medId) {
         medName = med.name;
-        sideEffect = med.sideEffect;
+        sideEffects = med.sideEffects;
         forbiddenFoods = med.forbiddenFoods;
         forbiddenMeds = med.forbiddenMeds;
       }
     }
-    return DefaultTabController(
-        length: 3,
-        child: Scaffold(
-          appBar: AppBar(
-            title: Text(medName),
-            centerTitle: true,
-            bottom: PreferredSize(
-              preferredSize: Size.fromHeight(30),
-              child: TabBar(
-                controller: _tabController,
-                unselectedLabelColor: Colors.grey,
-                indicatorColor: Colors.orange,
-                tabs: [
-                  Tab(text: 'Yan etkiler'),
-                  Tab(text: 'Tüketilmemesi gereken ilaçlar'),
-                  Tab(text: 'Tüketilmemesi gereken besinler')
-                ],
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(medName),
+        centerTitle: true,
+      ),
+      body: SingleChildScrollView(
+        child: Container(
+          margin: EdgeInsets.only(top: 15),
+          child: Column(
+            children: [
+              Container(
+                padding: EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  color: Colors.purple,
+                  borderRadius: BorderRadius.circular(25),
+                ),
+                child: Text(
+                  'Bilinen Yan Etkileri',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
               ),
-            ),
+              SideEffects(medId),
+              Container(
+                padding: EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  color: Colors.purple,
+                  borderRadius: BorderRadius.circular(25),
+                ),
+                child: Text(
+                  'Beraberinde Kullanılmaması Gereken İlaçlar',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 17,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              Container(child: MedToMedInteraction(medId)),
+              Container(
+                padding: EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  color: Colors.purple,
+                  borderRadius: BorderRadius.circular(25),
+                ),
+                child: Text(
+                  'Beraberinde Tüketilmemesi Gereken Besinler',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 17,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              Container(),
+            ],
           ),
-          body: TabBarView(
-            controller: _tabController,
-            children: [Container(), MedToMedInteraction(), Container()],
-          ),
-        ));
+        ),
+      ),
+    );
   }
 }

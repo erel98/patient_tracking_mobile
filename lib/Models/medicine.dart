@@ -3,7 +3,7 @@ import 'food.dart';
 class Medicine {
   int id;
   String name;
-  String sideEffect;
+  List<String> sideEffects;
   String stomach;
   int quantity;
   List<Food> forbiddenFoods;
@@ -13,7 +13,7 @@ class Medicine {
   Medicine([
     int id,
     String name,
-    String sideEffect,
+    List<String> sideEffects,
     String stomach,
     int quantity,
     List<Food> forbiddenFoods,
@@ -22,7 +22,7 @@ class Medicine {
   ]) {
     this.id = id;
     this.name = name;
-    this.sideEffect = sideEffect;
+    this.sideEffects = sideEffects;
     this.stomach = stomach;
     this.quantity = quantity;
     this.forbiddenFoods = forbiddenFoods;
@@ -30,6 +30,6 @@ class Medicine {
     this.isNotificationActive = isNotificationActive;
   }
   void display() {
-    print('id: $id\nName: $name\nSide Effect: $sideEffect');
+    print('id: $id\nName: $name\nSide Effect: $sideEffects');
   }
 }
