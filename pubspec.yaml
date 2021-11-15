@@ -36,6 +36,7 @@ dependencies:
   flutter_icons: ^1.1.0
   html: ^0.15.0
   http: ^0.13.4
+  bordered_text: ^2.0.0
 
 
   # The following adds the Cupertino Icons font to your application.

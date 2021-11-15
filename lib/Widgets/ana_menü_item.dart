@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:patient_tracking/constraints.dart';
+import 'package:bordered_text/bordered_text.dart';
 
 class AnaMenuItem extends StatelessWidget {
   String menuText;
@@ -16,24 +17,28 @@ class AnaMenuItem extends StatelessWidget {
       child: Container(
         padding: EdgeInsets.all(5),
         decoration: BoxDecoration(
-          color: Colors.grey,
-          borderRadius: BorderRadius.circular(10),
-        ),
+            color: kMenuItemColor,
+            borderRadius: BorderRadius.circular(10),
+            boxShadow: []),
         child: Center(
           child: Column(
             children: [
-              FittedBox(
-                fit: BoxFit.fitWidth,
-                child: Text(
-                  menuText,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold, color: Colors.black),
-                ),
-              ),
               Container(
                 child: icon,
-                margin: EdgeInsets.only(top: 10),
+                margin: EdgeInsets.only(bottom: 5),
+              ),
+              FittedBox(
+                fit: BoxFit.fitHeight,
+                child: BorderedText(
+                  strokeWidth: 1,
+                  strokeColor: Colors.black,
+                  child: Text(
+                    menuText,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold, color: Colors.white),
+                  ),
+                ),
               ),
             ],
           ),

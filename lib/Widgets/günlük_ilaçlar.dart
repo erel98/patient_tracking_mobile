@@ -37,25 +37,21 @@ class _DailyMedsState extends State<DailyMeds> {
       for (int j = 0; j < currentEvents[i].medsToTake.length; j++) {
         var currentMed = currentEvents[i].medsToTake[j];
         retVal.add(Container(
-          margin: EdgeInsets.symmetric(horizontal: 15),
+          margin: EdgeInsets.symmetric(horizontal: 10),
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(15),
-              color: Colors.white,
+              color: kSecondaryColor,
               border: Border.all(
                   color: now.difference(currentTime).inMinutes.abs() <= 30
                       ? Colors.red
                       : Colors.white)),
-          child: Card(
-            elevation: 30,
-            child: ListTile(
-              title: Text(
-                '${currentEvents[i].saat == 23.99 ? 0 : currentEvents[i].saat.toInt()}:00 ${currentMed.name}',
-                style:
-                    TextStyle(color: kTextColor, fontWeight: FontWeight.bold),
-              ),
-              subtitle: Text('${currentMed.quantity} ${currentMed.unit}'),
-              trailing: Image.asset('assets/icons/Clock-icon.png'),
+          child: ListTile(
+            title: Text(
+              '${currentEvents[i].saat == 23.99 ? 0 : currentEvents[i].saat.toInt()}:00 ${currentMed.name}',
+              style: TextStyle(color: kTextColor, fontWeight: FontWeight.bold),
             ),
+            subtitle: Text('${currentMed.quantity} ${currentMed.unit}'),
+            trailing: Image.asset('assets/icons/Clock-icon.png'),
           ),
         ));
       }
@@ -66,6 +62,8 @@ class _DailyMedsState extends State<DailyMeds> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(children: getDailyMeds());
+    return Container(
+        margin: EdgeInsets.only(top: 10),
+        child: Column(children: getDailyMeds()));
   }
 }

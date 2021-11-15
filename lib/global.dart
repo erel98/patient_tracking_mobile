@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'Widgets/ana_menü_item.dart';
@@ -11,22 +12,86 @@ class Global {
   static List<int> bildirimGunleri = [];
   static Time bildirimSaati;
   static var mainMenuItemList = <Widget>[
-    AnaMenuItem('İlaçlarım', DailyMedsScreen.routeName, null),
-    AnaMenuItem('Kullandığım\nilaçlar', KullandigimIlaclar.routeName, null),
-    AnaMenuItem('Geçmiş', '', null),
-    AnaMenuItem('Hatırlatıcı', Hatirlatici.routeName, null),
-    AnaMenuItem('Organ\nTransplant', '', null),
-    AnaMenuItem('Danışmanlık', '', null),
+    AnaMenuItem(
+      'İlaçlarım',
+      DailyMedsScreen.routeName,
+      Icon(
+        FontAwesome5Solid.pills,
+        color: Colors.white,
+        size: 30,
+      ),
+    ),
+    AnaMenuItem(
+      'Kullandığım\nilaçlar',
+      KullandigimIlaclar.routeName,
+      Icon(
+        FontAwesome5Solid.capsules,
+        color: Colors.white,
+        size: 30,
+      ),
+    ),
+    AnaMenuItem(
+      'Geçmiş',
+      '',
+      Icon(
+        FontAwesome5Solid.book_medical,
+        color: Colors.white,
+        size: 30,
+      ),
+    ),
+    AnaMenuItem(
+      'Hatırlatıcı',
+      Hatirlatici.routeName,
+      Icon(
+        FontAwesome.bell,
+        color: Colors.white,
+        size: 30,
+      ),
+    ),
+    AnaMenuItem(
+      'Organ\nTransplant',
+      '',
+      Icon(
+        FontAwesome.heart,
+        color: Colors.white,
+        size: 30,
+      ),
+    ),
+    AnaMenuItem(
+      'Danışmanlık',
+      '',
+      Icon(
+        FontAwesome.question,
+        color: Colors.white,
+        size: 30,
+      ),
+    ),
     AnaMenuItem('Kan basıncı', '', null),
     AnaMenuItem('Kan glikoz\ndeğeri', '', null),
-    AnaMenuItem('Kan ilaç\ndüzeyi', '', null),
-    AnaMenuItem('Yan etkiler', '', null),
+    AnaMenuItem(
+      'Kan ilaç\ndüzeyi',
+      '',
+      Icon(
+        FontAwesome5Solid.chart_line,
+        color: Colors.white,
+        size: 30,
+      ),
+    ),
+    AnaMenuItem(
+      'Yan etkiler',
+      '',
+      Icon(
+        FontAwesome5.sticky_note,
+        color: Colors.white,
+        size: 30,
+      ),
+    ),
     AnaMenuItem(
         'Mesajlar',
         '',
         Icon(
           Icons.message,
-          color: Colors.black,
+          color: Colors.white,
           size: 30,
         )),
   ];

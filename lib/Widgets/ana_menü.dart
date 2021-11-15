@@ -10,11 +10,12 @@ class _AnaMenuGridState extends State<AnaMenuGrid> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      margin: EdgeInsets.only(top: 10),
       height: MediaQuery.of(context).size.height * 0.5,
       child: GridView(
           gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
             maxCrossAxisExtent: 100,
-            childAspectRatio: 1.2,
+            childAspectRatio: 1,
             crossAxisSpacing: 10,
             mainAxisSpacing: 10,
           ),
