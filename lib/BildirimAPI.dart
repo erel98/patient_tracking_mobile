@@ -74,29 +74,34 @@ class BildirimAPI {
         payload: payload,
       );
 
-  static void showScheduledNotification({
+  static Future<void> showScheduledNotification({
     int id = 0,
     String title,
     String body,
     String payload,
     DateTime scheduledDate,
-  }) async =>
-      _notifications.zonedSchedule(
-          id,
-          title,
-          body,
-          _scheduleWeekly(await initNotificationTime(),
-              days: await initNotificationDays()),
-          //_scheduleDaily(Time(8)),
-          //TZDateTime.from(scheduledDate, local),
-          await _notificationDetails(),
-          payload: payload,
-          androidAllowWhileIdle: true,
-          uiLocalNotificationDateInterpretation:
-              UILocalNotificationDateInterpretation.absoluteTime,
-          matchDateTimeComponents: DateTimeComponents.dayOfWeekAndTime
-          //matchDateTimeComponents: DateTimeComponents.time
-          );
+  }) async {
+    final tz.TZDateTime now = tz.TZDateTime.now(tz.local);
+    tz.TZDateTime scheduledDate =
+        tz.TZDateTime(tz.local, now.year, now.month, now.day, 1, 11);
+    await _notifications.zonedSchedule(
+        id,
+        title,
+        body,
+        scheduledDate,
+        // _scheduleWeekly(await initNotificationTime(),
+        //     days: await initNotificationDays()),
+        //_scheduleDaily(Time(8)),
+        //TZDateTime.from(scheduledDate, local),
+        await _notificationDetails(),
+        payload: payload,
+        androidAllowWhileIdle: true,
+        uiLocalNotificationDateInterpretation:
+            UILocalNotificationDateInterpretation.absoluteTime,
+        matchDateTimeComponents: DateTimeComponents.dayOfWeekAndTime
+        //matchDateTimeComponents: DateTimeComponents.time
+        );
+  }
 
   static TZDateTime _scheduleDaily(Time time) {
     final now = TZDateTime.now(local);

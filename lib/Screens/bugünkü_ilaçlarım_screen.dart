@@ -6,6 +6,7 @@ import 'package:patient_tracking/Providers/medicines.dart';
 import 'package:patient_tracking/Widgets/g%C3%BCnl%C3%BCk_ila%C3%A7lar.dart';
 import 'package:patient_tracking/constraints.dart';
 import 'package:provider/provider.dart';
+import '../BildirimAPI.dart';
 
 class DailyMedsScreen extends StatefulWidget {
   static final routeName = '/daily-meds';
@@ -58,30 +59,36 @@ class _DailyMedsScreenState extends State<DailyMedsScreen>
     CalendarDay tuesday = CalendarDay(2, 2, tuesdayEvents);
 
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: kPrimaryColor,
-        bottom: PreferredSize(
-          preferredSize: Size.fromHeight(30),
-          child: TabBar(
-            indicatorColor: Colors.black,
-            controller: _tabController,
-            tabs: _tabs,
+        appBar: AppBar(
+          backgroundColor: kPrimaryColor,
+          bottom: PreferredSize(
+            preferredSize: Size.fromHeight(30),
+            child: TabBar(
+              indicatorColor: Colors.black,
+              controller: _tabController,
+              tabs: _tabs,
+            ),
           ),
         ),
-      ),
-      body: TabBarView(
-        controller: _tabController,
-        children: [
-          DailyMeds(monday),
-          DailyMeds(tuesday),
-          DailyMeds(tuesday),
-          DailyMeds(tuesday),
-          DailyMeds(tuesday),
-          DailyMeds(tuesday),
-          DailyMeds(tuesday),
-        ],
-      ),
-    );
+        body: TabBarView(
+          controller: _tabController,
+          children: [
+            DailyMeds(monday),
+            DailyMeds(tuesday),
+            DailyMeds(tuesday),
+            DailyMeds(tuesday),
+            DailyMeds(tuesday),
+            DailyMeds(tuesday),
+            DailyMeds(tuesday),
+          ],
+        ),
+        floatingActionButton: FloatingActionButton(
+          child: CircleAvatar(backgroundColor: kPrimaryColor),
+          onPressed: () async {
+            await BildirimAPI.showScheduledNotification(
+                title: 'denemece', body: 'denemece2');
+          },
+        ));
   }
 
   List<Widget> get _tabs {
@@ -126,7 +133,7 @@ class _DailyMedsScreenState extends State<DailyMedsScreen>
         child: FittedBox(
           fit: BoxFit.fitWidth,
           child: Text(
-            'Cuma',
+            'Cum',
             style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
           ),
         ),

@@ -1,8 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:patient_tracking/Widgets/myTextField.dart';
+import 'package:patient_tracking/constraints.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../global.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:google_maps_webservice/places.dart';
 
 class HavaDurumu extends StatefulWidget {
   static const routeName = '/hava-durumu';
@@ -12,6 +15,9 @@ class HavaDurumu extends StatefulWidget {
 }
 
 class _HavaDurumuState extends State<HavaDurumu> {
+  final places =
+      new GoogleMapsPlaces(apiKey: 'AIzaSyAcWPqNNsZZXc_8r9XiMYGSe7LWSK2Qi-k');
+
   TimeOfDay _time;
   void _selectTime() async {
     _time = TimeOfDay(hour: 7, minute: 0);
@@ -49,377 +55,242 @@ class _HavaDurumuState extends State<HavaDurumu> {
   Widget build(BuildContext context) {
     final mq = MediaQuery.of(context).size;
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       appBar: AppBar(),
-      body: Column(
-        children: [
-          Container(
-            margin: EdgeInsets.only(top: 45),
-            child: Text(
-              'Bildirimler: ${bildirimlerAktif ? 'Aktif' : 'Kapalı'}',
-              style: TextStyle(
-                color: bildirimlerAktif
-                    ? Theme.of(context).colorScheme.background
-                    : Colors.grey,
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Container(
+              margin: EdgeInsets.only(top: 45),
+              child: Text(
+                'Bildirimler: ${bildirimlerAktif ? 'Aktif' : 'Kapalı'}',
+                style: TextStyle(
+                  color: bildirimlerAktif ? kPrimaryColor : Colors.grey,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
-          ),
-          Switch(
-            value: bildirimlerAktif,
-            activeColor: Theme.of(context).colorScheme.background,
-            onChanged: (state) {
-              setState(() {
-                bildirimlerAktif = state;
-              });
-            },
-          ),
-          SizedBox(
-            height: mq.height * 0.05,
-          ),
-          bildirimlerAktif
-              ? Column(
-                  children: [
-                    Container(
-                      height: mq.height * 0.2,
-                      child: Row(
+            Switch(
+              value: bildirimlerAktif,
+              activeColor: kPrimaryColor,
+              onChanged: (state) {
+                setState(() {
+                  bildirimlerAktif = state;
+                });
+              },
+            ),
+            MyTextField(
+              hintText: 'Şehir',
+            ),
+            /*
+            Autocomplete(optionsBuilder: (TextEditingValue textEditingValue){
+              if (textEditingValue.text == '') {
+          return const Iterable<String>.empty();
+        }
+        return 
+            }),
+            */
+            bildirimlerAktif
+                ? Column(
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            pztAktif = !pztAktif;
+                          });
+                        },
+                        child: WeekDay(
+                          pztAktif ? kPrimaryColor : Colors.grey,
+                          'Pazartesi',
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            saliAktif = !saliAktif;
+                          });
+                        },
+                        child: WeekDay(
+                          saliAktif ? kPrimaryColor : Colors.grey,
+                          'Salı',
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            crsAktif = !crsAktif;
+                          });
+                        },
+                        child: WeekDay(
+                          crsAktif ? kPrimaryColor : Colors.grey,
+                          'Çarşamba',
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            prsAktif = !prsAktif;
+                          });
+                        },
+                        child: WeekDay(
+                          prsAktif ? kPrimaryColor : Colors.grey,
+                          'Perşembe',
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            cumaAktif = !cumaAktif;
+                          });
+                        },
+                        child: WeekDay(
+                          cumaAktif ? kPrimaryColor : Colors.grey,
+                          'Cuma',
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            ctsAktif = !ctsAktif;
+                          });
+                        },
+                        child: WeekDay(
+                          ctsAktif ? kPrimaryColor : Colors.grey,
+                          'Cumartesi',
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            pzrAktif = !pzrAktif;
+                          });
+                        },
+                        child: WeekDay(
+                          pzrAktif ? kPrimaryColor : Colors.grey,
+                          'Pazar',
+                        ),
+                      ),
+                    ],
+                  )
+                : Container(),
+            SizedBox(
+              height: mq.height * 0.05,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                bildirimlerAktif
+                    ? ElevatedButton(
+                        onPressed: () {
+                          setState(() {
+                            saatGirildi = true;
+                            _selectTime();
+                          });
+                        },
+                        child: Text('Saat'),
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all(
+                              Theme.of(context).colorScheme.secondary),
+                        ),
+                      )
+                    : Container(),
+                bildirimlerAktif
+                    ? Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          InkWell(
-                            onTap: () {
-                              setState(() {
-                                pztAktif = !pztAktif;
-                              });
+                          ElevatedButton(
+                            onPressed: () async {
+                              if (_time == null) {
+                                var prefs =
+                                    await SharedPreferences.getInstance();
+                                if (pztAktif)
+                                  Global.bildirimGunleri.add(DateTime.monday);
+                                if (saliAktif)
+                                  Global.bildirimGunleri.add(DateTime.tuesday);
+                                if (crsAktif)
+                                  Global.bildirimGunleri
+                                      .add(DateTime.wednesday);
+                                if (prsAktif)
+                                  Global.bildirimGunleri.add(DateTime.thursday);
+                                if (cumaAktif)
+                                  Global.bildirimGunleri.add(DateTime.friday);
+                                if (ctsAktif)
+                                  Global.bildirimGunleri.add(DateTime.saturday);
+                                if (pzrAktif)
+                                  Global.bildirimGunleri.add(DateTime.sunday);
+                                Global.setBildirimGunleri();
+
+                                var _bildirimSaati =
+                                    Time(_time.hour, _time.minute);
+                                Global.bildirimSaati = _bildirimSaati;
+
+                                print(
+                                    'prefs pazartesi: ${prefs.getBool('isPazartesi')}');
+                                print('prefs salı: ${prefs.getBool('isSali')}');
+                                print(
+                                    'prefs çarşamba: ${prefs.getBool('isCarsamba')}');
+                                print(
+                                    'prefs perşembe: ${prefs.getBool('isPersembe')}');
+                                print('prefs cuma: ${prefs.getBool('isCuma')}');
+                                print(
+                                    'prefs cumartesi: ${prefs.getBool('isCumartesi')}');
+                                print(
+                                    'prefs pazar: ${prefs.getBool('isPazar')}');
+                                print(
+                                    'prefs bildirim saati: ${prefs.getInt('bildirim-saat')}');
+                                print(
+                                    'prefs bildirim dakikası: ${prefs.getBool('bildirim-dakika')}');
+                              } else {
+                                setState(() {
+                                  hataText = true;
+                                });
+                              }
                             },
-                            child: Container(
-                              width: mq.width * 0.25,
-                              height: mq.height * 0.2,
-                              decoration: BoxDecoration(
-                                color: pztAktif ? Colors.green : Colors.grey,
-                                border: Border.all(
-                                  color: Colors.black,
-                                ),
-                              ),
-                              child: Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  Text(
-                                    'Pazatesi',
-                                    style: TextStyle(
-                                        fontSize: 15, color: Colors.black),
-                                  ),
-                                  Checkbox(
-                                      value: pztAktif,
-                                      onChanged: (value) {
-                                        setState(() {
-                                          pztAktif = value;
-                                        });
-                                      }),
-                                ],
-                              ),
+                            child: Text('Kaydet'),
+                            style: ButtonStyle(
+                              backgroundColor: MaterialStateProperty.all(
+                                  Theme.of(context).colorScheme.secondary),
                             ),
                           ),
-                          InkWell(
-                            onTap: () {
-                              setState(() {
-                                saliAktif = !saliAktif;
-                              });
-                            },
-                            child: Container(
-                              width: mq.width * 0.25,
-                              decoration: BoxDecoration(
-                                  color: saliAktif ? Colors.green : Colors.grey,
-                                  border: Border.all(
-                                    color: Colors.black,
-                                  )),
-                              child: Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  Text(
-                                    'Salı',
-                                    style: TextStyle(
-                                        fontSize: 15, color: Colors.black),
-                                  ),
-                                  Checkbox(
-                                      value: saliAktif,
-                                      onChanged: (value) {
-                                        setState(() {
-                                          saliAktif = value;
-                                        });
-                                      }),
-                                ],
-                              ),
-                            ),
-                          ),
-                          InkWell(
-                            onTap: () {
-                              setState(() {
-                                crsAktif = !crsAktif;
-                              });
-                            },
-                            child: Container(
-                              width: mq.width * 0.25,
-                              decoration: BoxDecoration(
-                                  color: crsAktif ? Colors.green : Colors.grey,
-                                  border: Border.all(
-                                    color: Colors.black,
-                                  )),
-                              child: Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  Text(
-                                    'Çarşamba',
-                                    style: TextStyle(
-                                        fontSize: 15, color: Colors.black),
-                                  ),
-                                  Checkbox(
-                                      value: crsAktif,
-                                      onChanged: (value) {
-                                        setState(() {
-                                          crsAktif = value;
-                                        });
-                                      }),
-                                ],
-                              ),
-                            ),
-                          ),
-                          InkWell(
-                            onTap: () {
-                              setState(() {
-                                prsAktif = !prsAktif;
-                              });
-                            },
-                            child: Container(
-                              width: mq.width * 0.25,
-                              decoration: BoxDecoration(
-                                  color: prsAktif ? Colors.green : Colors.grey,
-                                  border: Border.all(
-                                    color: Colors.black,
-                                  )),
-                              child: Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  Text(
-                                    'Perşembe',
-                                    style: TextStyle(
-                                        fontSize: 15, color: Colors.black),
-                                  ),
-                                  Checkbox(
-                                      value: prsAktif,
-                                      onChanged: (value) {
-                                        setState(() {
-                                          prsAktif = value;
-                                        });
-                                      }),
-                                ],
-                              ),
-                            ),
-                          ),
+                          hataText
+                              ? Text(
+                                  'Lütfen saat giriniz',
+                                  style: TextStyle(color: Colors.red),
+                                )
+                              : Container()
                         ],
-                      ),
-                    ),
-                    InkWell(
-                      onTap: () {
-                        setState(() {
-                          cumaAktif = !cumaAktif;
-                        });
-                      },
-                      child: Container(
-                        height: mq.height * 0.2,
-                        child: Row(
-                          children: [
-                            Container(
-                              width: mq.width * 0.33333,
-                              decoration: BoxDecoration(
-                                  color: cumaAktif ? Colors.green : Colors.grey,
-                                  border: Border.all(
-                                    color: Colors.black,
-                                  )),
-                              child: Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  Text(
-                                    'Cuma',
-                                    style: TextStyle(
-                                        fontSize: 15, color: Colors.black),
-                                  ),
-                                  Checkbox(
-                                      value: cumaAktif,
-                                      onChanged: (value) {
-                                        setState(() {
-                                          cumaAktif = value;
-                                        });
-                                      }),
-                                ],
-                              ),
-                            ),
-                            InkWell(
-                              onTap: () {
-                                setState(() {
-                                  ctsAktif = !ctsAktif;
-                                });
-                              },
-                              child: Container(
-                                width: mq.width * 0.33333,
-                                decoration: BoxDecoration(
-                                    color:
-                                        ctsAktif ? Colors.green : Colors.grey,
-                                    border: Border.all(
-                                      color: Colors.black,
-                                    )),
-                                child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  children: [
-                                    Text(
-                                      'Cumartesi',
-                                      style: TextStyle(
-                                          fontSize: 15, color: Colors.black),
-                                    ),
-                                    Checkbox(
-                                        value: ctsAktif,
-                                        onChanged: (value) {
-                                          setState(() {
-                                            ctsAktif = value;
-                                          });
-                                        }),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            InkWell(
-                              onTap: () {
-                                setState(() {
-                                  pzrAktif = !pzrAktif;
-                                });
-                              },
-                              child: Container(
-                                width: mq.width * 0.33333,
-                                decoration: BoxDecoration(
-                                    color:
-                                        pzrAktif ? Colors.green : Colors.grey,
-                                    border: Border.all(
-                                      color: Colors.black,
-                                    )),
-                                child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  children: [
-                                    Text(
-                                      'Pazar',
-                                      style: TextStyle(
-                                          fontSize: 15, color: Colors.black),
-                                    ),
-                                    Checkbox(
-                                        value: pzrAktif,
-                                        onChanged: (value) {
-                                          setState(() {
-                                            pzrAktif = value;
-                                          });
-                                        }),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                )
-              : Container(),
-          SizedBox(
-            height: mq.height * 0.05,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              bildirimlerAktif
-                  ? ElevatedButton(
-                      onPressed: () {
-                        setState(() {
-                          saatGirildi = true;
-                          _selectTime();
-                        });
-                      },
-                      child: Text('Saat'),
-                      style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all(
-                            Theme.of(context).colorScheme.secondary),
-                      ),
-                    )
-                  : Container(),
-              bildirimlerAktif
-                  ? Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        ElevatedButton(
-                          onPressed: () async {
-                            if (_time == null) {
-                              var prefs = await SharedPreferences.getInstance();
-                              if (pztAktif)
-                                Global.bildirimGunleri.add(DateTime.monday);
-                              if (saliAktif)
-                                Global.bildirimGunleri.add(DateTime.tuesday);
-                              if (crsAktif)
-                                Global.bildirimGunleri.add(DateTime.wednesday);
-                              if (prsAktif)
-                                Global.bildirimGunleri.add(DateTime.thursday);
-                              if (cumaAktif)
-                                Global.bildirimGunleri.add(DateTime.friday);
-                              if (ctsAktif)
-                                Global.bildirimGunleri.add(DateTime.saturday);
-                              if (pzrAktif)
-                                Global.bildirimGunleri.add(DateTime.sunday);
-                              Global.setBildirimGunleri();
+                      )
+                    : Container()
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
 
-                              var _bildirimSaati =
-                                  Time(_time.hour, _time.minute);
-                              Global.bildirimSaati = _bildirimSaati;
+class WeekDay extends StatelessWidget {
+  final Color color;
+  final String day;
+  WeekDay(this.color, this.day);
 
-                              print(
-                                  'prefs pazartesi: ${prefs.getBool('isPazartesi')}');
-                              print('prefs salı: ${prefs.getBool('isSali')}');
-                              print(
-                                  'prefs çarşamba: ${prefs.getBool('isCarsamba')}');
-                              print(
-                                  'prefs perşembe: ${prefs.getBool('isPersembe')}');
-                              print('prefs cuma: ${prefs.getBool('isCuma')}');
-                              print(
-                                  'prefs cumartesi: ${prefs.getBool('isCumartesi')}');
-                              print('prefs pazar: ${prefs.getBool('isPazar')}');
-                              print(
-                                  'prefs bildirim saati: ${prefs.getInt('bildirim-saat')}');
-                              print(
-                                  'prefs bildirim dakikası: ${prefs.getBool('bildirim-dakika')}');
-                            } else {
-                              setState(() {
-                                hataText = true;
-                              });
-                            }
-                          },
-                          child: Text('Kaydet'),
-                          style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all(
-                                Theme.of(context).colorScheme.secondary),
-                          ),
-                        ),
-                        hataText
-                            ? Text(
-                                'Lütfen saat giriniz',
-                                style: TextStyle(color: Colors.red),
-                              )
-                            : Container()
-                      ],
-                    )
-                  : Container()
-            ],
-          ),
-        ],
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.only(bottom: 10),
+      height: 40,
+      width: MediaQuery.of(context).size.width * 0.9,
+      decoration: BoxDecoration(
+        color: color,
+        borderRadius: BorderRadius.circular(15),
+      ),
+      child: Center(
+        child: Text(
+          day,
+          textAlign: TextAlign.center,
+        ),
       ),
     );
   }

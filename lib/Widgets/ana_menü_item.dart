@@ -27,6 +27,9 @@ class AnaMenuItem extends StatelessWidget {
                 child: icon,
                 margin: EdgeInsets.only(bottom: 5),
               ),
+              SizedBox(
+                height: menuText.length > 10 ? 15 : 20,
+              ),
               FittedBox(
                 fit: BoxFit.fitHeight,
                 child: BorderedText(

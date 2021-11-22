@@ -16,7 +16,7 @@ class AnaMenu extends StatefulWidget {
 
 class _AnaMenuState extends State<AnaMenu> {
   List<Widget> widgetOptions = <Widget>[
-    AnaMenuGrid(),
+    AnaMenuGrid(appBar),
     AccountMenu(),
   ];
   void onItemTapped(int index) {
@@ -30,28 +30,42 @@ class _AnaMenuState extends State<AnaMenu> {
     super.initState();
   }
 
+  static AppBar appBar = AppBar(
+    bottomOpacity: 0,
+    elevation: 0,
+    backgroundColor: kPrimaryColor,
+    leading: IconButton(
+      onPressed: null,
+      icon: Icon(
+        Icons.menu,
+        color: Colors.black,
+      ),
+    ),
+  );
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.white,
-        appBar: AppBar(
-          elevation: 0,
-          backgroundColor: kPrimaryColor,
-          leading: IconButton(
-            onPressed: null,
-            icon: Icon(
-              Icons.menu,
-              color: Colors.black,
-            ),
-          ),
-        ),
-        bottomNavigationBar: bottomNavBar(),
-        body: Column(
-          children: [
-            TopContainer(),
-            widgetOptions.elementAt(Global.initialState),
-          ],
-        ));
+      backgroundColor: Colors.white,
+      appBar: appBar,
+      bottomNavigationBar: bottomNavBar(),
+      body: Column(
+        children: [
+          TopContainer(),
+          widgetOptions.elementAt(Global.initialState),
+        ],
+      ),
+      floatingActionButton: Global.initialState == 1
+          ? FloatingActionButton(
+              backgroundColor: kPrimaryColor,
+              onPressed: () => null,
+              child: Padding(
+                padding: const EdgeInsets.all(3.0),
+                child: FittedBox(fit: BoxFit.fitWidth, child: Text('Kaydet')),
+              ),
+            )
+          : null,
+    );
   }
 
   Container bottomNavBar() {
@@ -149,6 +163,7 @@ class TopContainer extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 20),
       height: MediaQuery.of(context).size.height * 0.1,
       decoration: BoxDecoration(
+        border: Border.all(width: 0, color: kPrimaryColor),
         color: kPrimaryColor,
         borderRadius: BorderRadius.only(
           bottomLeft: Radius.circular(30),
