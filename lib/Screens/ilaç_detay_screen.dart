@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:patient_tracking/Models/food.dart';
+import 'package:patient_tracking/Widgets/topContainer.dart';
 import '../Models/medicine.dart';
 import '../Widgets/ilaç_ilaç_etkileşimi.dart';
 import 'package:patient_tracking/Providers/medicines.dart';
@@ -59,68 +60,10 @@ class _IlacDetayState extends State<IlacDetay>
     }
     return Scaffold(
       appBar: AppBar(
-        title: Text(medName),
-        centerTitle: true,
+        elevation: 0,
       ),
-      body: SingleChildScrollView(
-        child: Container(
-          margin: EdgeInsets.only(top: 15),
-          child: Column(
-            children: [
-              Container(
-                padding: EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  color: Colors.purple,
-                  borderRadius: BorderRadius.circular(25),
-                ),
-                child: Text(
-                  'Bilinen Yan Etkileri',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-              SideEffects(medId),
-              Container(
-                padding: EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  color: Colors.purple,
-                  borderRadius: BorderRadius.circular(25),
-                ),
-                child: Text(
-                  'Beraberinde Kullanılmaması Gereken İlaçlar',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 17,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-              Container(child: MedToMedInteraction(medId)),
-              Container(
-                padding: EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  color: Colors.purple,
-                  borderRadius: BorderRadius.circular(25),
-                ),
-                child: Text(
-                  'Beraberinde Tüketilmemesi Gereken Besinler',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 17,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-              Container(),
-            ],
-          ),
-        ),
+      body: Column(
+        children: [TopContainer()],
       ),
     );
   }

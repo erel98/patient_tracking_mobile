@@ -51,7 +51,8 @@ class _HatirlaticiState extends State<Hatirlatici> {
                       child: Icon(Icons.local_hospital,
                           size: 150,
                           color: Theme.of(context).colorScheme.primary),
-                      onTap: null,
+                      onTap: () =>
+                          Navigator.of(context).pushNamed('/randevu-screen'),
                     ),
                     Text('Randevularım',
                         style: Theme.of(context).textTheme.bodyText2)

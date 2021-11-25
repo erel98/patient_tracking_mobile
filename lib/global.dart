@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:patient_tracking/constraints.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'Widgets/ana_menü_item.dart';
 import 'Screens/kullandığım_ilaçlar_screen.dart';
@@ -11,14 +12,15 @@ class Global {
   static var initialState = 0;
   static List<int> bildirimGunleri = [];
   static Time bildirimSaati;
+  static double iconSize = 50;
   static var mainMenuItemList = <Widget>[
     AnaMenuItem(
       'İlaçlarım',
       DailyMedsScreen.routeName,
       Icon(
         FontAwesome5Solid.pills,
-        color: Colors.white,
-        size: 30,
+        color: kMenuIconColor,
+        size: iconSize,
       ),
     ),
     AnaMenuItem(
@@ -26,8 +28,8 @@ class Global {
       KullandigimIlaclar.routeName,
       Icon(
         FontAwesome5Solid.capsules,
-        color: Colors.white,
-        size: 30,
+        color: kMenuIconColor,
+        size: iconSize,
       ),
     ),
     AnaMenuItem(
@@ -35,8 +37,8 @@ class Global {
       '',
       Icon(
         FontAwesome5Solid.book_medical,
-        color: Colors.white,
-        size: 30,
+        color: kMenuIconColor,
+        size: iconSize,
       ),
     ),
     AnaMenuItem(
@@ -44,8 +46,8 @@ class Global {
       Hatirlatici.routeName,
       Icon(
         FontAwesome.bell,
-        color: Colors.white,
-        size: 30,
+        color: kMenuIconColor,
+        size: iconSize,
       ),
     ),
     AnaMenuItem(
@@ -53,8 +55,8 @@ class Global {
       '',
       Icon(
         FontAwesome.heart,
-        color: Colors.white,
-        size: 30,
+        color: kMenuIconColor,
+        size: iconSize,
       ),
     ),
     AnaMenuItem(
@@ -62,8 +64,8 @@ class Global {
       '',
       Icon(
         FontAwesome.question,
-        color: Colors.white,
-        size: 30,
+        color: kMenuIconColor,
+        size: iconSize,
       ),
     ),
     AnaMenuItem('Kan basıncı', '', null),
@@ -73,8 +75,8 @@ class Global {
       '',
       Icon(
         FontAwesome5Solid.chart_line,
-        color: Colors.white,
-        size: 30,
+        color: kMenuIconColor,
+        size: iconSize,
       ),
     ),
     AnaMenuItem(
@@ -82,8 +84,8 @@ class Global {
       '',
       Icon(
         FontAwesome5.sticky_note,
-        color: Colors.white,
-        size: 30,
+        color: kMenuIconColor,
+        size: iconSize,
       ),
     ),
     AnaMenuItem(
@@ -91,8 +93,8 @@ class Global {
         '',
         Icon(
           Icons.message,
-          color: Colors.white,
-          size: 30,
+          color: kMenuIconColor,
+          size: iconSize,
         )),
   ];
   static void setBildirimGunleri() async {

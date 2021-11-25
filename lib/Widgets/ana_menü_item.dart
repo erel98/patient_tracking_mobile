@@ -9,38 +9,41 @@ class AnaMenuItem extends StatelessWidget {
   AnaMenuItem(this.menuText, this.route, this.icon);
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {
-        Navigator.of(context).pushNamed(route);
-      },
-      splashColor: Colors.grey,
-      child: Container(
-        padding: EdgeInsets.all(5),
-        decoration: BoxDecoration(
-            color: kMenuItemColor,
-            borderRadius: BorderRadius.circular(10),
-            boxShadow: []),
+    return Container(
+      padding: EdgeInsets.all(5),
+      decoration: BoxDecoration(
+          color: kMenuItemColor,
+          borderRadius: BorderRadius.circular(10),
+          boxShadow: [
+            BoxShadow(
+                offset: Offset(-1, 1),
+                spreadRadius: 1,
+                blurRadius: 1,
+                color: Colors.black.withOpacity(0.4))
+          ]),
+      child: InkWell(
+        onTap: () {
+          Navigator.of(context).pushNamed(route);
+        },
+        splashColor: Colors.grey,
         child: Center(
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Container(
                 child: icon,
                 margin: EdgeInsets.only(bottom: 5),
               ),
-              SizedBox(
-                height: menuText.length > 10 ? 15 : 20,
-              ),
+              // SizedBox(
+              //   height: menuText.length > 10 ? 15 : 20,
+              // ),
               FittedBox(
                 fit: BoxFit.fitHeight,
-                child: BorderedText(
-                  strokeWidth: 1,
-                  strokeColor: Colors.black,
-                  child: Text(
-                    menuText,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold, color: Colors.white),
-                  ),
+                child: Text(
+                  menuText,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold, color: kMenuTextColor),
                 ),
               ),
             ],

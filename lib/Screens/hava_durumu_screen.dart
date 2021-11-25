@@ -54,6 +54,27 @@ class _HavaDurumuState extends State<HavaDurumu> {
   @override
   Widget build(BuildContext context) {
     final mq = MediaQuery.of(context).size;
+    void showAlertDialog(BuildContext context) {
+      Widget okButton = TextButton(
+        child: Text("OK"),
+        onPressed: () => Navigator.of(context).pop(),
+      );
+
+      AlertDialog alert = AlertDialog(
+        title: Text("Hata!"),
+        content: Text("Lütfen saat giriniz."),
+        actions: [
+          okButton,
+        ],
+      );
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return alert;
+        },
+      );
+    }
+
     return Scaffold(
       resizeToAvoidBottomInset: true,
       appBar: AppBar(),
@@ -181,17 +202,27 @@ class _HavaDurumuState extends State<HavaDurumu> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 bildirimlerAktif
-                    ? ElevatedButton(
-                        onPressed: () {
-                          setState(() {
-                            saatGirildi = true;
-                            _selectTime();
-                          });
-                        },
-                        child: Text('Saat'),
-                        style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all(
-                              Theme.of(context).colorScheme.secondary),
+                    ? Container(
+                        margin:
+                            EdgeInsets.symmetric(horizontal: mq.width * 0.075),
+                        width: mq.width * 0.35,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            setState(() {
+                              saatGirildi = true;
+                              _selectTime();
+                            });
+                          },
+                          child: Text(
+                            'Saat',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          style: ButtonStyle(
+                            backgroundColor:
+                                MaterialStateProperty.all(Colors.purple),
+                          ),
                         ),
                       )
                     : Container(),
@@ -199,66 +230,83 @@ class _HavaDurumuState extends State<HavaDurumu> {
                     ? Column(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          ElevatedButton(
-                            onPressed: () async {
-                              if (_time == null) {
-                                var prefs =
-                                    await SharedPreferences.getInstance();
-                                if (pztAktif)
-                                  Global.bildirimGunleri.add(DateTime.monday);
-                                if (saliAktif)
-                                  Global.bildirimGunleri.add(DateTime.tuesday);
-                                if (crsAktif)
-                                  Global.bildirimGunleri
-                                      .add(DateTime.wednesday);
-                                if (prsAktif)
-                                  Global.bildirimGunleri.add(DateTime.thursday);
-                                if (cumaAktif)
-                                  Global.bildirimGunleri.add(DateTime.friday);
-                                if (ctsAktif)
-                                  Global.bildirimGunleri.add(DateTime.saturday);
-                                if (pzrAktif)
-                                  Global.bildirimGunleri.add(DateTime.sunday);
-                                Global.setBildirimGunleri();
+                          Container(
+                            width: mq.width * 0.35,
+                            margin: EdgeInsets.symmetric(
+                                horizontal: mq.width * 0.075),
+                            child: ElevatedButton(
+                              onPressed: saatGirildi
+                                  ? () async {
+                                      if (_time == null) {
+                                        var prefs = await SharedPreferences
+                                            .getInstance();
+                                        if (pztAktif)
+                                          Global.bildirimGunleri
+                                              .add(DateTime.monday);
+                                        if (saliAktif)
+                                          Global.bildirimGunleri
+                                              .add(DateTime.tuesday);
+                                        if (crsAktif)
+                                          Global.bildirimGunleri
+                                              .add(DateTime.wednesday);
+                                        if (prsAktif)
+                                          Global.bildirimGunleri
+                                              .add(DateTime.thursday);
+                                        if (cumaAktif)
+                                          Global.bildirimGunleri
+                                              .add(DateTime.friday);
+                                        if (ctsAktif)
+                                          Global.bildirimGunleri
+                                              .add(DateTime.saturday);
+                                        if (pzrAktif)
+                                          Global.bildirimGunleri
+                                              .add(DateTime.sunday);
+                                        Global.setBildirimGunleri();
 
-                                var _bildirimSaati =
-                                    Time(_time.hour, _time.minute);
-                                Global.bildirimSaati = _bildirimSaati;
+                                        var _bildirimSaati =
+                                            Time(_time.hour, _time.minute);
+                                        Global.bildirimSaati = _bildirimSaati;
 
-                                print(
-                                    'prefs pazartesi: ${prefs.getBool('isPazartesi')}');
-                                print('prefs salı: ${prefs.getBool('isSali')}');
-                                print(
-                                    'prefs çarşamba: ${prefs.getBool('isCarsamba')}');
-                                print(
-                                    'prefs perşembe: ${prefs.getBool('isPersembe')}');
-                                print('prefs cuma: ${prefs.getBool('isCuma')}');
-                                print(
-                                    'prefs cumartesi: ${prefs.getBool('isCumartesi')}');
-                                print(
-                                    'prefs pazar: ${prefs.getBool('isPazar')}');
-                                print(
-                                    'prefs bildirim saati: ${prefs.getInt('bildirim-saat')}');
-                                print(
-                                    'prefs bildirim dakikası: ${prefs.getBool('bildirim-dakika')}');
-                              } else {
-                                setState(() {
-                                  hataText = true;
-                                });
-                              }
-                            },
-                            child: Text('Kaydet'),
-                            style: ButtonStyle(
-                              backgroundColor: MaterialStateProperty.all(
-                                  Theme.of(context).colorScheme.secondary),
+                                        print(
+                                            'prefs pazartesi: ${prefs.getBool('isPazartesi')}');
+                                        print(
+                                            'prefs salı: ${prefs.getBool('isSali')}');
+                                        print(
+                                            'prefs çarşamba: ${prefs.getBool('isCarsamba')}');
+                                        print(
+                                            'prefs perşembe: ${prefs.getBool('isPersembe')}');
+                                        print(
+                                            'prefs cuma: ${prefs.getBool('isCuma')}');
+                                        print(
+                                            'prefs cumartesi: ${prefs.getBool('isCumartesi')}');
+                                        print(
+                                            'prefs pazar: ${prefs.getBool('isPazar')}');
+                                        print(
+                                            'prefs bildirim saati: ${prefs.getInt('bildirim-saat')}');
+                                        print(
+                                            'prefs bildirim dakikası: ${prefs.getBool('bildirim-dakika')}');
+                                      } else {
+                                        setState(() {
+                                          hataText = true;
+                                        });
+                                      }
+                                    }
+                                  : () => showAlertDialog(context),
+                              child: Text(
+                                'Kaydet',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white),
+                              ),
+                              style: ButtonStyle(
+                                backgroundColor: MaterialStateProperty.all(
+                                  saatGirildi
+                                      ? Colors.purple
+                                      : Colors.purple.withOpacity(0.6),
+                                ),
+                              ),
                             ),
                           ),
-                          hataText
-                              ? Text(
-                                  'Lütfen saat giriniz',
-                                  style: TextStyle(color: Colors.red),
-                                )
-                              : Container()
                         ],
                       )
                     : Container()
