@@ -50,12 +50,7 @@ class _AnaMenuState extends State<AnaMenu> {
       backgroundColor: Colors.white,
       appBar: appBar,
       bottomNavigationBar: bottomNavBar(),
-      body: Column(
-        children: [
-          TopContainer(),
-          widgetOptions.elementAt(Global.initialState),
-        ],
-      ),
+      body: MainScreenTopContainer(widgetOptions: widgetOptions),
       floatingActionButton: Global.initialState == 1
           ? FloatingActionButton(
               backgroundColor: kPrimaryColor,
@@ -149,6 +144,49 @@ class _AnaMenuState extends State<AnaMenu> {
           ),
         ],
       ),
+    );
+  }
+}
+
+class MainScreenTopContainer extends StatelessWidget {
+  const MainScreenTopContainer({
+    Key key,
+    @required this.widgetOptions,
+  }) : super(key: key);
+
+  final List<Widget> widgetOptions;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Container(
+          padding: EdgeInsets.symmetric(horizontal: 20),
+          height: MediaQuery.of(context).size.height * 0.1,
+          decoration: BoxDecoration(
+            border: Border.all(width: 0, color: kPrimaryColor),
+            color: kPrimaryColor,
+            borderRadius: BorderRadius.only(
+              bottomLeft: Radius.circular(30),
+              bottomRight: Radius.circular(30),
+            ),
+          ),
+          child: Row(
+            children: [
+              Text(
+                'Hoşgeldiniz Adile Hanım',
+                style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20),
+              ),
+              Spacer(),
+              Icon(FontAwesome.smile_o)
+            ],
+          ),
+        ),
+        widgetOptions.elementAt(Global.initialState),
+      ],
     );
   }
 }

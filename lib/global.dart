@@ -10,6 +10,7 @@ import 'Screens/bugünkü_ilaçlarım_screen.dart';
 
 class Global {
   static var initialState = 0;
+  static int detailsState = 0;
   static List<int> bildirimGunleri = [];
   static Time bildirimSaati;
   static double iconSize = 50;
