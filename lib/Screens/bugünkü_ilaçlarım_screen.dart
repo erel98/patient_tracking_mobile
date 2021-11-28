@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 import 'package:patient_tracking/Models/calendarDay.dart';
 import 'package:patient_tracking/Models/calendarEvent.dart';
 import 'package:patient_tracking/Models/medicine.dart';
@@ -37,6 +38,16 @@ class _DailyMedsScreenState extends State<DailyMedsScreen>
     super.dispose();
   }
 
+  int calculateTotalNumberOfMeds(List<CalendarEvent> events) {
+    var dayNumber = 0;
+    events.forEach((element) {
+      element.medsToTake.forEach((element) {
+        dayNumber++;
+      });
+    });
+    return dayNumber;
+  }
+
   @override
   Widget build(BuildContext context) {
     final medsData = Provider.of<Medicines>(context);
@@ -49,7 +60,7 @@ class _DailyMedsScreenState extends State<DailyMedsScreen>
       CalendarEvent(4, 21, [meds[0]]),
     ];
     CalendarDay monday = CalendarDay(1, 1, mondayEvents);
-
+    var mondayNumber = calculateTotalNumberOfMeds(mondayEvents);
     List<CalendarEvent> tuesdayEvents = [
       CalendarEvent(5, 8, [meds[2], meds[3]]),
       CalendarEvent(7, 16, [meds[2]]),
@@ -57,29 +68,40 @@ class _DailyMedsScreenState extends State<DailyMedsScreen>
       CalendarEvent(9, 20, [meds[3]]),
     ];
     CalendarDay tuesday = CalendarDay(2, 2, tuesdayEvents);
-
-    return Scaffold(
-        appBar: AppBar(
-          backgroundColor: kPrimaryColor,
-          bottom: PreferredSize(
-            preferredSize: Size.fromHeight(30),
-            child: TabBar(
-              indicatorColor: Colors.black,
-              controller: _tabController,
-              tabs: _tabs,
-            ),
-          ),
-        ),
-        body: TabBarView(
+    var tuesdayNumber = calculateTotalNumberOfMeds(tuesdayEvents);
+    final height = MediaQuery.of(context).size.height;
+    final width = MediaQuery.of(context).size.width;
+    final appBar = AppBar(
+      elevation: 0,
+      backgroundColor: kPrimaryColor,
+      bottom: PreferredSize(
+        preferredSize: Size.fromHeight(30),
+        child: TabBar(
+          indicatorColor: Colors.black,
           controller: _tabController,
+          tabs: _tabs,
+        ),
+      ),
+    );
+    return Scaffold(
+        appBar: appBar,
+        body: Column(
           children: [
-            DailyMeds(monday),
-            DailyMeds(tuesday),
-            DailyMeds(tuesday),
-            DailyMeds(tuesday),
-            DailyMeds(tuesday),
-            DailyMeds(tuesday),
-            DailyMeds(tuesday),
+            TopContainer(mondayEvents.length),
+            Expanded(
+              child: TabBarView(
+                controller: _tabController,
+                children: [
+                  DailyMeds(monday),
+                  DailyMeds(tuesday),
+                  DailyMeds(tuesday),
+                  DailyMeds(tuesday),
+                  DailyMeds(tuesday),
+                  DailyMeds(tuesday),
+                  DailyMeds(tuesday),
+                ],
+              ),
+            ),
           ],
         ),
         floatingActionButton: FloatingActionButton(
@@ -157,5 +179,34 @@ class _DailyMedsScreenState extends State<DailyMedsScreen>
         ),
       ),
     ];
+  }
+}
+
+class TopContainer extends StatelessWidget {
+  final int quantity;
+  TopContainer(this.quantity);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 20),
+      height: MediaQuery.of(context).size.height * 0.1,
+      width: MediaQuery.of(context).size.width,
+      decoration: BoxDecoration(
+        border: Border.all(width: 0, color: kPrimaryColor),
+        color: kPrimaryColor,
+        borderRadius: BorderRadius.only(
+          bottomLeft: Radius.circular(30),
+          bottomRight: Radius.circular(30),
+        ),
+      ),
+      child: Center(
+        child: Text(
+          'Bugün toplam $quantity adet ilacınız var.',
+          style: TextStyle(
+              color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
+        ),
+      ),
+    );
   }
 }
