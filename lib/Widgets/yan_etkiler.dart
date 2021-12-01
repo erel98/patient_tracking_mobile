@@ -20,9 +20,6 @@ class _SideEffectsState extends State<SideEffects> {
     final mq = MediaQuery.of(context).size;
     final medsData = Provider.of<Medicines>(context);
     final meds = medsData.meds;
-    print('id: ${widget.medId}');
-    print('Total height: ${mq.height}');
-    print('Total width: ${mq.width}');
     return ListView.separated(
       separatorBuilder: (BuildContext ctx, int index) => SizedBox(
         height: 20,
@@ -37,10 +34,10 @@ class _SideEffectsState extends State<SideEffects> {
       ) {
         return Container(
           margin: EdgeInsets.symmetric(horizontal: 50),
-          height: 70,
+          height: 60,
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20),
-            color: Color(0xFFE88135),
+            borderRadius: BorderRadius.circular(10),
+            color: kPrimaryColor,
           ),
           child: Center(
             child: ListTile(
@@ -54,7 +51,7 @@ class _SideEffectsState extends State<SideEffects> {
                     .firstWhere((element) => element.id == widget.medId)
                     .sideEffects[index],
                 style: TextStyle(
-                  color: Colors.black,
+                  color: Colors.white,
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
                 ),

@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:patient_tracking/Providers/medicines.dart';
+import 'package:patient_tracking/constraints.dart';
 import 'package:provider/provider.dart';
 import '../Models/medicine.dart';
 
@@ -34,8 +35,8 @@ class _MedToMedInteractionState extends State<MedToMedInteraction> {
           margin: EdgeInsets.symmetric(horizontal: 50),
           height: 70,
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20),
-            color: Color(0xFFE88135),
+            borderRadius: BorderRadius.circular(10),
+            color: kPrimaryColor,
           ),
           child: Center(
             child: ListTile(
@@ -50,7 +51,7 @@ class _MedToMedInteractionState extends State<MedToMedInteraction> {
                     .forbiddenMeds[index]
                     .name,
                 style: TextStyle(
-                  color: Colors.black,
+                  color: Colors.white,
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
                 ),

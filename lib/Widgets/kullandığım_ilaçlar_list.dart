@@ -71,7 +71,7 @@ class _UsedMedsState extends State<UsedMeds> {
                     style: TextStyle(color: Colors.grey, fontSize: 17),
                   ),
                   trailing: Image.asset(
-                    'assets/icons/Clock-icon.png',
+                    'assets/icons/test-ilac.jpg',
                     width: 75,
                     height: 70,
                   ),

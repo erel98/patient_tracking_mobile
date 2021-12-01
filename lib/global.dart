@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:patient_tracking/Screens/dan%C4%B1%C5%9Fmanl%C4%B1k_screen.dart';
 import 'package:patient_tracking/constraints.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'Widgets/ana_menü_item.dart';
@@ -62,7 +63,7 @@ class Global {
     ),
     AnaMenuItem(
       'Danışmanlık',
-      '',
+      QuestionsScreen.routeName,
       Icon(
         FontAwesome.question,
         color: kMenuIconColor,

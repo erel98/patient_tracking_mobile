@@ -6,6 +6,7 @@ import 'package:patient_tracking/Providers/foods.dart';
 import 'package:patient_tracking/Providers/medicines.dart';
 import 'package:provider/provider.dart';
 import '../Models/food.dart';
+import '../constraints.dart';
 
 class MedToFoodInteraction extends StatefulWidget {
   final int medId;
@@ -36,8 +37,8 @@ class _MedToFoodInteractionState extends State<MedToFoodInteraction> {
           margin: EdgeInsets.symmetric(horizontal: 50),
           height: 70,
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20),
-            color: Color(0xFFE88135),
+            borderRadius: BorderRadius.circular(10),
+            color: kPrimaryColor,
           ),
           child: Center(
             child: ListTile(
@@ -52,7 +53,7 @@ class _MedToFoodInteractionState extends State<MedToFoodInteraction> {
                     .forbiddenFoods[index]
                     .name,
                 style: TextStyle(
-                  color: Colors.black,
+                  color: Colors.white,
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
                 ),
