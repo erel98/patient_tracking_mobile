@@ -38,6 +38,7 @@ dependencies:
   http: ^0.13.4
   bordered_text: ^2.0.0
   google_maps_webservice: ^0.0.20-nullsafety.5
+  modal_bottom_sheet: ^2.0.0
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -63,6 +64,7 @@ flutter:
   assets:
     - assets/icons/Clock-icon.png
     - assets/icons/test-ilac.jpg
+    - assets/icons/blood-pressure.png
     - assets/images/augmentin_test.jpg
     #- images/a_dot_ham.jpeg
 

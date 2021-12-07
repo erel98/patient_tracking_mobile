@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:patient_tracking/Screens/dan%C4%B1%C5%9Fmanl%C4%B1k_screen.dart';
+import 'package:patient_tracking/Screens/kan_basinci_screen.dart';
+import 'package:patient_tracking/Screens/yan_etkiler_screen.dart';
 import 'package:patient_tracking/constraints.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'Widgets/ana_menü_item.dart';
@@ -70,8 +72,24 @@ class Global {
         size: iconSize,
       ),
     ),
-    AnaMenuItem('Kan basıncı', '', null),
-    AnaMenuItem('Kan glikoz\ndeğeri', '', null),
+    AnaMenuItem(
+      'Kan basıncı',
+      BloodPressureScreen.routeName,
+      ImageIcon(
+        AssetImage('assets/icons/blood-pressure.png'),
+        color: kMenuIconColor,
+        size: iconSize,
+      ),
+    ),
+    AnaMenuItem(
+      'Kan glikoz\ndeğeri',
+      '',
+      Icon(
+        FontAwesome.tint,
+        color: kMenuIconColor,
+        size: iconSize,
+      ),
+    ),
     AnaMenuItem(
       'Kan ilaç\ndüzeyi',
       '',
@@ -83,7 +101,7 @@ class Global {
     ),
     AnaMenuItem(
       'Yan etkiler',
-      '',
+      SideEffectsScreen.routeName,
       Icon(
         FontAwesome5.sticky_note,
         color: kMenuIconColor,

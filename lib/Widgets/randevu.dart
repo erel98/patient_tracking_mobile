@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class RandevuMenu extends StatelessWidget {
+class Randevu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container();

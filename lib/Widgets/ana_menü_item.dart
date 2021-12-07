@@ -5,7 +5,7 @@ import 'package:bordered_text/bordered_text.dart';
 class AnaMenuItem extends StatelessWidget {
   String menuText;
   String route;
-  Icon icon;
+  var icon;
   AnaMenuItem(this.menuText, this.route, this.icon);
   @override
   Widget build(BuildContext context) {

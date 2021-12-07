@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:patient_tracking/constraints.dart';
-import '../Widgets/randevu_menu.dart';
+import '../Widgets/randevu.dart';
 
 class RandevuScreen extends StatefulWidget {
   static final String routeName = '/randevu-screen';
@@ -13,7 +13,7 @@ class _RandevuScreenState extends State<RandevuScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      body: RandevuMenu(),
+      body: Randevu(),
       floatingActionButton: FloatingActionButton(
         backgroundColor: kPrimaryColor,
         child: Icon(

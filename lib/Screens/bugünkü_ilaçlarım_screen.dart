@@ -84,33 +84,34 @@ class _DailyMedsScreenState extends State<DailyMedsScreen>
       ),
     );
     return Scaffold(
-        appBar: appBar,
-        body: Column(
-          children: [
-            TopContainer(mondayEvents.length),
-            Expanded(
-              child: TabBarView(
-                controller: _tabController,
-                children: [
-                  DailyMeds(monday),
-                  DailyMeds(tuesday),
-                  DailyMeds(tuesday),
-                  DailyMeds(tuesday),
-                  DailyMeds(tuesday),
-                  DailyMeds(tuesday),
-                  DailyMeds(tuesday),
-                ],
-              ),
+      appBar: appBar,
+      body: Column(
+        children: [
+          TopContainer(mondayEvents.length),
+          Expanded(
+            child: TabBarView(
+              controller: _tabController,
+              children: [
+                DailyMeds(monday),
+                DailyMeds(tuesday),
+                DailyMeds(tuesday),
+                DailyMeds(tuesday),
+                DailyMeds(tuesday),
+                DailyMeds(tuesday),
+                DailyMeds(tuesday),
+              ],
             ),
-          ],
-        ),
-        floatingActionButton: FloatingActionButton(
-          child: CircleAvatar(backgroundColor: kPrimaryColor),
-          onPressed: () async {
-            await BildirimAPI.showScheduledNotification(
-                title: 'denemece', body: 'denemece2');
-          },
-        ));
+          ),
+        ],
+      ),
+      /* floatingActionButton: FloatingActionButton(
+        child: CircleAvatar(backgroundColor: kPrimaryColor),
+        onPressed: () async {
+          await BildirimAPI.showScheduledNotification(
+              title: 'denemece', body: 'denemece2');
+        },
+      ), */
+    );
   }
 
   List<Widget> get _tabs {

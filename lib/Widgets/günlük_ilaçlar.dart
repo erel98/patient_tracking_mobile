@@ -128,22 +128,21 @@ class _DailyMedsState extends State<DailyMeds> {
               ),
             ),
             trailing: ElevatedButton(
-              child: Text(
-                'Aldım',
-                style: TextStyle(fontSize: 17),
-              ),
-              onPressed: () {
-                if (item.difference < 0) {
-                  null;
-                } else if (item.difference <= 30 && item.difference > 0) {
-                  setState(() {
-                    item.isTaken = true;
-                  });
-                } else {
-                  showAlertDialog(context);
-                }
-              },
-            ),
+                child: Text(
+                  'Aldım',
+                  style: TextStyle(fontSize: 17),
+                ),
+                onPressed: item.difference < 0
+                    ? null
+                    : () {
+                        if (item.difference <= 30 && item.difference > 0) {
+                          setState(() {
+                            item.isTaken = true;
+                          });
+                        } else if (item.difference > 30) {
+                          showAlertDialog(context);
+                        }
+                      }),
           ),
           isExpanded: item.isExpanded,
         );
