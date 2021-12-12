@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 import 'package:patient_tracking/Widgets/hava_durumu.dart';
 import 'package:patient_tracking/Widgets/randevu_widget.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
@@ -31,6 +32,8 @@ class _HatirlaticiState extends State<Hatirlatici>
     _tabController.dispose();
     super.dispose();
   }
+
+  void _showMaterialDialog() {}
 
   @override
   Widget build(BuildContext context) {
@@ -69,7 +72,7 @@ class _HatirlaticiState extends State<Hatirlatici>
           ? CircleAvatar(
               backgroundColor: kPrimaryColor,
               child: IconButton(
-                onPressed: () => null,
+                onPressed: () => _showMaterialDialog(),
                 icon: Icon(Icons.add, color: Colors.white),
               ),
             )

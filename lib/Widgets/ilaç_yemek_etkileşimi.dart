@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:patient_tracking/Providers/foods.dart';
-import 'package:patient_tracking/Providers/medicines.dart';
+import 'package:patient_tracking/Providers/medicine_provider.dart';
 import 'package:provider/provider.dart';
 import '../Models/food.dart';
 import '../constraints.dart';
@@ -19,14 +19,15 @@ class MedToFoodInteraction extends StatefulWidget {
 class _MedToFoodInteractionState extends State<MedToFoodInteraction> {
   @override
   Widget build(BuildContext context) {
-    final medsData = Provider.of<Medicines>(context);
-    final meds = medsData.meds;
+    final medsData = context.watch<MedicineProvider>();
+    final meds = medsData.medVariants;
     return ListView.separated(
       separatorBuilder: (BuildContext ctx, int index) => SizedBox(
         height: 20,
       ),
       itemCount: meds
           .firstWhere((element) => element.id == widget.medId)
+          .medication
           .forbiddenFoods
           .length,
       itemBuilder: (
@@ -50,6 +51,7 @@ class _MedToFoodInteractionState extends State<MedToFoodInteraction> {
               title: Text(
                 meds
                     .firstWhere((element) => element.id == widget.medId)
+                    .medication
                     .forbiddenFoods[index]
                     .name,
                 style: TextStyle(

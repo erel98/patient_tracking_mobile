@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
-import 'package:patient_tracking/Providers/medicines.dart';
+import 'package:patient_tracking/Providers/medicine_provider.dart';
 import 'package:patient_tracking/constraints.dart';
 import 'package:provider/provider.dart';
 import 'package:patient_tracking/Models/medicine.dart';
@@ -18,14 +18,15 @@ class _SideEffectsState extends State<SideEffects> {
   @override
   Widget build(BuildContext context) {
     final mq = MediaQuery.of(context).size;
-    final medsData = Provider.of<Medicines>(context);
-    final meds = medsData.meds;
+    final medsData = context.watch<MedicineProvider>();
+    final meds = medsData.medVariants;
     return ListView.separated(
       separatorBuilder: (BuildContext ctx, int index) => SizedBox(
         height: 20,
       ),
       itemCount: meds
           .firstWhere((element) => element.id == widget.medId)
+          .medication
           .sideEffects
           .length,
       itemBuilder: (
@@ -49,6 +50,7 @@ class _SideEffectsState extends State<SideEffects> {
               title: Text(
                 meds
                     .firstWhere((element) => element.id == widget.medId)
+                    .medication
                     .sideEffects[index],
                 style: TextStyle(
                   color: Colors.white,

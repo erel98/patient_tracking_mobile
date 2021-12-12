@@ -49,7 +49,7 @@ class HTTPService {
       return await http
           .post(uri, headers: headers, body: jsonEncode(body))
           .then((http.Response response) {
-        print('52 ${response.body}');
+        // print('52 ${response.body}');
         Map<String, dynamic> decodedResponse = jsonDecode(response.body);
         List<dynamic> data = decodedResponse['data'] ?? null;
         var apiResponse = API_Response(

@@ -1,14 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:patient_tracking/Models/food.dart';
+import 'package:patient_tracking/Models/medicationVariantUser.dart';
+import 'package:patient_tracking/Models/medicineVariant.dart';
 import '../Models/medicine.dart';
+import '../global.dart';
 import './foods.dart';
+import 'dart:convert';
 
-class Medicines with ChangeNotifier {
+import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:http/http.dart';
+import 'package:http/http.dart' as http;
+import 'package:patient_tracking/Models/patient.dart';
+import 'package:patient_tracking/Responses/API_Response.dart';
+import 'package:patient_tracking/Responses/loginResponse.dart';
+import 'package:patient_tracking/Services/http_service.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+
+class MedicineProvider extends ChangeNotifier {
   static var aspirin = Medicine(
       id: 1,
       name: 'Aspirin',
       sideEffects: [''],
-      stomach: 'Aç karna',
+      stomach: true,
       quantity: 1,
       forbiddenFoods: [
         Food(1, 'Greyfurt', null),
@@ -22,7 +37,7 @@ class Medicines with ChangeNotifier {
     id: 2,
     name: 'Minoset',
     sideEffects: ['Uyku', 'Baş dönmesi', 'Yorgunluk'],
-    stomach: 'Tok karna',
+    stomach: false,
     quantity: 1,
     forbiddenFoods: [
       Food(1, 'Greyfurt', null),
@@ -36,7 +51,7 @@ class Medicines with ChangeNotifier {
     id: 3,
     name: 'Novaljin',
     sideEffects: ['İştahsızlık', 'Kaşıntı'],
-    stomach: 'Aç karna',
+    stomach: true,
     quantity: 2,
     forbiddenFoods: [
       Food(3, 'Muz', null),
@@ -49,7 +64,7 @@ class Medicines with ChangeNotifier {
     id: 4,
     name: 'Arveles',
     sideEffects: ['Baş ağrısı', 'Bulantı'],
-    stomach: 'Tok karna',
+    stomach: false,
     quantity: 1,
     forbiddenFoods: [
       Food(1, 'Greyfurt', null),
@@ -59,15 +74,24 @@ class Medicines with ChangeNotifier {
     isNotificationActive: false,
     unit: 'Tablet',
   );
-  //burayı http get ile nasıl çekeceğiz?
   List<Medicine> _meds = [aspirin, minoset, novaljin, arveles];
+  final List<MedicationVariant> _medVariants = [];
 
-  List<Medicine> get meds {
-    return [..._meds];
+  List<MedicationVariant> get medVariants {
+    return _medVariants;
   }
 
-  void addMedicine() {
-    //_meds.add(value);
+  void addMedicineVariant(MedicationVariant mv) {
+    _medVariants.add(mv);
     notifyListeners();
+  }
+
+  void update(MedicationVariant mv) {
+    _medVariants[_medVariants.indexWhere((m) => m.id == mv.id)] = mv;
+    notifyListeners();
+  }
+
+  void empty() {
+    _medVariants.clear();
   }
 }

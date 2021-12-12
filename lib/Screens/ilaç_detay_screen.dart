@@ -2,11 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:patient_tracking/Models/food.dart';
+import 'package:patient_tracking/Models/medicineVariant.dart';
 import 'package:patient_tracking/Widgets/ila%C3%A7_yemek_etkile%C5%9Fimi.dart';
 import 'package:patient_tracking/Widgets/topContainer.dart';
 import '../Models/medicine.dart';
 import '../Widgets/ilaç_ilaç_etkileşimi.dart';
-import 'package:patient_tracking/Providers/medicines.dart';
+import 'package:patient_tracking/Providers/medicine_provider.dart';
 import 'package:provider/provider.dart';
 import '../Widgets/yan_etkiler.dart';
 import '../constraints.dart';
@@ -47,18 +48,18 @@ class _IlacDetayState extends State<IlacDetay>
 
   @override
   Widget build(BuildContext context) {
-    final medsData = Provider.of<Medicines>(context);
-    final meds = medsData.meds;
+    final medsData = context.watch<MedicineProvider>();
+    final meds = medsData.medVariants;
     final routeArgs =
         ModalRoute.of(context).settings.arguments as Map<String, int>;
     medId = routeArgs['medId'] as int;
-    print('medId from detay: $medId');
-    for (Medicine med in meds) {
+    // print('medId from detay: $medId');
+    for (MedicationVariant med in meds) {
       if (med.id == medId) {
         medName = med.name;
-        sideEffects = med.sideEffects;
-        forbiddenFoods = med.forbiddenFoods;
-        forbiddenMeds = med.forbiddenMeds;
+        sideEffects = med.medication.sideEffects;
+        forbiddenFoods = med.medication.forbiddenFoods;
+        forbiddenMeds = med.medication.forbiddenMeds;
       }
     }
     AppBar appBar = AppBar(

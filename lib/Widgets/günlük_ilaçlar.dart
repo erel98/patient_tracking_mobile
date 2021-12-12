@@ -3,6 +3,7 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:intl/intl.dart';
 import 'package:patient_tracking/Models/calendarDay.dart';
 import 'package:patient_tracking/Models/medicine.dart';
+import 'package:patient_tracking/Models/medicineVariant.dart';
 import 'package:patient_tracking/constraints.dart';
 import 'package:timezone/timezone.dart';
 
@@ -60,7 +61,7 @@ class _DailyMedsState extends State<DailyMeds> {
 
   @override
   Widget build(BuildContext context) {
-    print('62: ${DateTime.now()}');
+    // print('62: ${DateTime.now()}');
     return SingleChildScrollView(child: _buildPanel());
   }
 
@@ -181,18 +182,18 @@ class Item {
   }
 }
 
-Item generateItem(Medicine med, CalendarDay calendarDay, int i) {
+Item generateItem(MedicationVariant med, CalendarDay calendarDay, int i) {
   DateTime medDate;
   var now = DateTime.now();
   medDate = DateTime(
       now.year, now.month, now.day, calendarDay.calendarEvents[i].saat.toInt());
-  print('188 $medDate');
+  // print('188 $medDate');
   var difference = medDate.difference(now).inMinutes;
-  print('190 $difference');
+  // print('190 $difference');
   return Item(
       headerTitle:
           '${calendarDay.calendarEvents[i].saat == 23.99 ? 00 : calendarDay.calendarEvents[i].saat.toInt()}:00 ${med.name}',
-      headerSubtitle: '${med.quantity} ${med.unit}',
+      headerSubtitle: '${med.id} adet',
       bodyImage: Image.asset(
         'assets/icons/test-ilac.jpg',
         scale: 0.5,

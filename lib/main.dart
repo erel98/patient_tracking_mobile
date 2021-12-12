@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:patient_tracking/constraints.dart';
 import 'Providers/bloodPressures.dart';
+import 'Providers/loadingProvider.dart';
 import 'Screens/login_screen.dart';
 import 'Screens/ana_menü_screen.dart';
 import 'Screens/kullandığım_ilaçlar_screen.dart';
@@ -16,7 +17,7 @@ import 'Screens/danışmanlık_screen.dart';
 import 'Screens/kan_basinci_screen.dart';
 import 'BildirimAPI.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import './Providers/medicines.dart';
+import 'Providers/medicine_provider.dart';
 import './Providers/randevus.dart';
 import 'package:provider/provider.dart';
 import 'package:android_alarm_manager_plus/android_alarm_manager_plus.dart';
@@ -37,7 +38,7 @@ void main() async {
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(
-        create: (_) => Medicines(),
+        create: (_) => MedicineProvider(),
       ),
       ChangeNotifierProvider(
         create: (_) => BloodPressures(),
@@ -45,6 +46,7 @@ void main() async {
       ChangeNotifierProvider(
         create: (_) => Randevus(),
       ),
+      ChangeNotifierProvider(create: (_) => LoadingProvider()),
     ],
     child: MyApp(),
   ));
@@ -88,6 +90,8 @@ class _MyAppState extends State<MyApp> {
     const secondaryColor = const Color(0xFF17BEBB); //appbar-navbar
     */
     final ThemeData theme = ThemeData();
+
+    var loadingProvider = context.read<LoadingProvider>();
 
     return MaterialApp(
       title: 'Flutter Demo',

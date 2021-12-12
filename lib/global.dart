@@ -12,6 +12,8 @@ import 'Screens/hatırlatıcı_screen.dart';
 import 'Screens/bugünkü_ilaçlarım_screen.dart';
 
 class Global {
+  static List<int> successList = [200, 201, 202, 203, 204, 205, 206];
+  static bool isLoading = false;
   static var initialState = 0;
   static int detailsState = 0;
   static List<int> bildirimGunleri = [];

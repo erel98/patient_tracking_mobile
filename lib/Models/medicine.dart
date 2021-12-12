@@ -3,8 +3,9 @@ import 'food.dart';
 class Medicine {
   int id;
   String name;
+  String imageUrl;
   List<String> sideEffects;
-  String stomach;
+  bool stomach;
   int quantity;
   List<Food> forbiddenFoods;
   List<Medicine> forbiddenMeds;
@@ -14,8 +15,9 @@ class Medicine {
   Medicine(
       {int id,
       String name,
+      String imageUrl,
       List<String> sideEffects,
-      String stomach,
+      bool stomach,
       int quantity,
       List<Food> forbiddenFoods,
       List<Medicine> forbiddenMeds,
@@ -23,6 +25,7 @@ class Medicine {
       String unit}) {
     this.id = id;
     this.name = name;
+    this.imageUrl = imageUrl;
     this.sideEffects = sideEffects;
     this.stomach = stomach;
     this.quantity = quantity;
@@ -32,6 +35,15 @@ class Medicine {
     this.unit = unit;
   }
   void display() {
-    print('id: $id\nName: $name\nSide Effect: $sideEffects');
+    // print('id: $id\nName: $name\nSide Effect: $sideEffects');
+  }
+
+  factory Medicine.fromJson(Map<String, dynamic> json) {
+    return Medicine(
+      id: json['id'],
+      name: json['name'],
+      imageUrl: json['photo'],
+      stomach: json['empty_stomach'],
+    );
   }
 }

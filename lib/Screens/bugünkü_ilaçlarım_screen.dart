@@ -3,7 +3,7 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:patient_tracking/Models/calendarDay.dart';
 import 'package:patient_tracking/Models/calendarEvent.dart';
 import 'package:patient_tracking/Models/medicine.dart';
-import 'package:patient_tracking/Providers/medicines.dart';
+import 'package:patient_tracking/Providers/medicine_provider.dart';
 import 'package:patient_tracking/Widgets/g%C3%BCnl%C3%BCk_ila%C3%A7lar.dart';
 import 'package:patient_tracking/constraints.dart';
 import 'package:provider/provider.dart';
@@ -50,8 +50,8 @@ class _DailyMedsScreenState extends State<DailyMedsScreen>
 
   @override
   Widget build(BuildContext context) {
-    final medsData = Provider.of<Medicines>(context);
-    final meds = medsData.meds;
+    final medsData = context.watch<MedicineProvider>();
+    final meds = medsData.medVariants;
 
     List<CalendarEvent> mondayEvents = [
       CalendarEvent(1, 7, [meds[1]]),

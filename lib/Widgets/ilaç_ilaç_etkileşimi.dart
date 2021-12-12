@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
-import 'package:patient_tracking/Providers/medicines.dart';
+import 'package:patient_tracking/Providers/medicine_provider.dart';
 import 'package:patient_tracking/constraints.dart';
 import 'package:provider/provider.dart';
 import '../Models/medicine.dart';
@@ -17,14 +17,15 @@ class MedToMedInteraction extends StatefulWidget {
 class _MedToMedInteractionState extends State<MedToMedInteraction> {
   @override
   Widget build(BuildContext context) {
-    final medsData = Provider.of<Medicines>(context);
-    final meds = medsData.meds;
+    final medsData = context.watch<MedicineProvider>();
+    final meds = medsData.medVariants;
     return ListView.separated(
       separatorBuilder: (BuildContext ctx, int index) => SizedBox(
         height: 20,
       ),
       itemCount: meds
           .firstWhere((element) => element.id == widget.medId)
+          .medication
           .forbiddenMeds
           .length,
       itemBuilder: (
@@ -48,6 +49,7 @@ class _MedToMedInteractionState extends State<MedToMedInteraction> {
               title: Text(
                 meds
                     .firstWhere((element) => element.id == widget.medId)
+                    .medication
                     .forbiddenMeds[index]
                     .name,
                 style: TextStyle(

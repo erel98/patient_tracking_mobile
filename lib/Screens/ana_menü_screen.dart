@@ -3,8 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:patient_tracking/Models/medicineVariant.dart';
+import 'package:patient_tracking/Providers/medicine_provider.dart';
+import 'package:patient_tracking/Providers/patient_provider.dart';
+import 'package:patient_tracking/Services/medication_service.dart';
 import 'package:patient_tracking/Widgets/topContainer.dart';
 import 'package:patient_tracking/constraints.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../global.dart';
 import '../Widgets/ana_menü.dart';
 import '../Widgets/accountMenu.dart';
@@ -174,7 +180,7 @@ class MainScreenTopContainer extends StatelessWidget {
           child: Row(
             children: [
               Text(
-                'Hoşgeldiniz Adile Hanım',
+                'Hoşgeldiniz, ${PatientProvider.currentPatient.fullName}',
                 style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
