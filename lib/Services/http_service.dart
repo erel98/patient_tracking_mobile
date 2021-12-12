@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:http/http.dart';
 import 'package:http/http.dart' as http;
 import 'package:patient_tracking/Responses/API_Response.dart';
@@ -7,6 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class HTTPService {
   static Future<Response> httpGET(String url,
       {bool appendToken = false}) async {
+    EasyLoading.show(status: 'yükleniyor...');
     var uri = Uri.parse(url);
     String token;
     var prefs = await SharedPreferences.getInstance();
@@ -23,9 +25,11 @@ class HTTPService {
     try {
       response =
           await http.get(uri, headers: headers).then((http.Response response) {
+        EasyLoading.dismiss();
         return response;
       });
     } catch (error) {
+      EasyLoading.dismiss();
       throw (error);
     }
 
@@ -34,6 +38,7 @@ class HTTPService {
 
   static Future<API_Response> httpPOST(String url, Object body,
       {bool appendToken = false}) async {
+    EasyLoading.show(status: 'yükleniyor...');
     var prefs = await SharedPreferences.getInstance();
     var uri = Uri.parse(url);
     String token;
@@ -46,7 +51,7 @@ class HTTPService {
       headers.putIfAbsent('Authorization', () => 'Bearer ' + token);
     }
     try {
-      return await http
+      var response = await http
           .post(uri, headers: headers, body: jsonEncode(body))
           .then((http.Response response) {
         // print('52 ${response.body}');
@@ -59,13 +64,18 @@ class HTTPService {
             status: response.statusCode);
         return apiResponse;
       });
+      EasyLoading.dismiss();
+      return response;
     } catch (error) {
+      EasyLoading.dismiss();
       throw (error);
     }
   }
 
   static Future<Response> httpUPDATE(String url, Object body,
       {bool appendToken = false}) async {
+    EasyLoading.show(status: 'yükleniyor...');
+
     var uri = Uri.parse(url);
     String token;
     var prefs = await SharedPreferences.getInstance();
@@ -82,9 +92,11 @@ class HTTPService {
       return await http
           .put(uri, headers: headers, body: jsonEncode(body))
           .then((http.Response response) {
+        EasyLoading.dismiss();
         return response;
       });
     } catch (error) {
+      EasyLoading.dismiss();
       throw (error);
     }
   }

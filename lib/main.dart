@@ -21,6 +21,7 @@ import 'Providers/medicine_provider.dart';
 import './Providers/randevus.dart';
 import 'package:provider/provider.dart';
 import 'package:android_alarm_manager_plus/android_alarm_manager_plus.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 void main() async {
   await dotenv.load();
@@ -109,6 +110,7 @@ class _MyAppState extends State<MyApp> {
         ),
         scaffoldBackgroundColor: Colors.white,
       ),
+      builder: EasyLoading.init(),
       home: LoginScreen(),
       routes: {
         AnaMenu.routeName: (ctx) => AnaMenu(),

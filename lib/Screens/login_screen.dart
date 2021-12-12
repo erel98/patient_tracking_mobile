@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart';
 import 'package:patient_tracking/Providers/patient_provider.dart';
@@ -146,9 +147,10 @@ class _LoginScreenState extends State<LoginScreen> {
                       backgroundColor: MaterialStateProperty.all(kPrimaryColor),
                     ),
                     onPressed: () async {
-                      setState(() {
-                        Global.isLoading = true;
-                      });
+                      // setState(() {
+                      //   Global.isLoading = true;
+                      // });
+                      //EasyLoading.show(status: 'loading...');
                       var phoneNumber = phoneController.text;
                       var password = passwordController.text;
                       if (phoneNumber.isNotEmpty && password.isNotEmpty) {
@@ -157,7 +159,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           var prefs = await SharedPreferences.getInstance();
                           if (await PatientProvider.sendMe(
                               prefs.getString('token'))) {
-                            Global.isLoading = false;
+                            //EasyLoading.dismiss();
                             Navigator.of(context).pushNamed('/ana-menu');
                           } else {
                             Fluttertoast.showToast(
