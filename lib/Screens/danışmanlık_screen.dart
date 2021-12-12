@@ -42,7 +42,7 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
                 floatingLabelBehavior: FloatingLabelBehavior.auto,
                 hintText: 'Sorunuz ne hakkında?',
                 hintStyle: TextStyle(
-                  color: Colors.grey.withOpacity(0.5),
+                  color: Colors.grey.withOpacity(0.8),
                 ),
                 enabledBorder: InputBorder.none,
                 focusedBorder: InputBorder.none,
@@ -74,7 +74,7 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
                 floatingLabelBehavior: FloatingLabelBehavior.auto,
                 hintText: 'Lütfen sorunuzu tanımlayınız.',
                 hintStyle: TextStyle(
-                  color: Colors.grey.withOpacity(0.5),
+                  color: Colors.grey.withOpacity(0.8),
                 ),
                 enabledBorder: InputBorder.none,
                 focusedBorder: InputBorder.none,

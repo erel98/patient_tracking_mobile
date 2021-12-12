@@ -11,6 +11,7 @@ class Patient {
   Patient(
       [int id,
       int age,
+      String fullName,
       double weight,
       String mobileNumber,
       List<Randevu> randevuList]) {
@@ -21,4 +22,13 @@ class Patient {
     this.mobileNumber = mobileNumber;
     this.randevuList = randevuList;
   }
+
+  factory Patient.fromJson(Map<String, dynamic> json) => Patient(
+        json['id'],
+        json['fullName'],
+        json['age'],
+        json['weight'],
+        json['mobileNumber'],
+        json['randevuList'],
+      );
 }

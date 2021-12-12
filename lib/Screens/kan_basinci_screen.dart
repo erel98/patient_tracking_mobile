@@ -16,15 +16,107 @@ class BloodPressureScreen extends StatefulWidget {
 }
 
 class _BloodPressureScreenState extends State<BloodPressureScreen> {
-  final appBar = AppBar(
-    elevation: 0,
-  );
+  AppBar getAppbar(BuildContext context) {
+    final appBar = AppBar(
+      elevation: 0,
+      actions: [
+        IconButton(
+            onPressed: () => showMaterialModalBottomSheet(
+                  context: context,
+                  builder: (context) => Container(
+                    height: 200,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Container(
+                      margin: EdgeInsets.only(left: 100),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Row(
+                            children: [
+                              Container(
+                                  margin: EdgeInsets.only(right: 10),
+                                  child: Text('Küçük tansiyon:')),
+                              Card(
+                                elevation: 20,
+                                child: Container(
+                                  padding: EdgeInsets.only(
+                                      right: 3, left: 3, top: 5, bottom: 1),
+                                  height: 25,
+                                  width: 50,
+                                  child: TextField(
+                                    keyboardType: TextInputType.number,
+                                    decoration: InputDecoration(
+                                      floatingLabelBehavior:
+                                          FloatingLabelBehavior.auto,
+                                      enabledBorder: InputBorder.none,
+                                      focusedBorder: InputBorder.none,
+                                    ),
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Row(
+                            children: [
+                              Container(
+                                  margin: EdgeInsets.only(right: 10),
+                                  child: Text('Büyük tansiyon:')),
+                              Card(
+                                elevation: 20,
+                                child: Container(
+                                  padding: EdgeInsets.only(
+                                      right: 3, left: 3, top: 5, bottom: 1),
+                                  height: 25,
+                                  width: 50,
+                                  child: TextField(
+                                    keyboardType: TextInputType.number,
+                                    decoration: InputDecoration(
+                                      floatingLabelBehavior:
+                                          FloatingLabelBehavior.auto,
+                                      enabledBorder: InputBorder.none,
+                                      focusedBorder: InputBorder.none,
+                                    ),
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                          Align(
+                            alignment: Alignment.bottomRight,
+                            child: Container(
+                              margin: EdgeInsets.only(right: 10),
+                              child: ElevatedButton(
+                                onPressed: () => Navigator.of(context).pop(),
+                                child: Text('Kaydet'),
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+            icon: Icon(
+              Icons.add,
+              color: Colors.white,
+            ))
+      ],
+    );
+    return appBar;
+  }
+
   @override
   Widget build(BuildContext context) {
     var width = MediaQuery.of(context).size.width;
     var height = MediaQuery.of(context).size.height;
     return Scaffold(
-      appBar: appBar,
+      appBar: getAppbar(context),
       body: Column(
         children: [
           TopContainer(),
@@ -40,107 +132,45 @@ class _BloodPressureScreenState extends State<BloodPressureScreen> {
                 color: Color(0xff232d37),
               ),
               child: Graph()),
+          Padding(
+            padding: const EdgeInsets.only(right: 50, left: 75),
+            child: Row(
+              children: [
+                Text(
+                  'Tansiyon',
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                      decoration: TextDecoration.underline,
+                      fontSize: 18),
+                ),
+                Spacer(),
+                Text(
+                  'Ölçüm tarihi',
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                      decoration: TextDecoration.underline,
+                      fontSize: 18),
+                ),
+              ],
+            ),
+          ),
           Container(
             height: height -
-                (appBar.preferredSize.height +
+                (getAppbar(context).preferredSize.height +
                     width * 0.1 +
                     20 +
                     300 +
                     20 +
-                    66),
-            /* child: Consumer<BloodPressures>(
+                    66 +
+                    21),
+            child: Consumer<BloodPressures>(
               builder: (_, bps, child) => BloodPressureList(),
-            ), */
+            ),
           )
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-          backgroundColor: kPrimaryColor,
-          child: Icon(
-            Icons.add,
-            size: 30,
-          ),
-          onPressed: () => showMaterialModalBottomSheet(
-                context: context,
-                builder: (context) => Container(
-                  height: 200,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Container(
-                    margin: EdgeInsets.only(left: 100),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Row(
-                          children: [
-                            Container(
-                                margin: EdgeInsets.only(right: 10),
-                                child: Text('Küçük tansiyon:')),
-                            Card(
-                              elevation: 20,
-                              child: Container(
-                                padding: EdgeInsets.only(
-                                    right: 3, left: 3, top: 5, bottom: 1),
-                                height: 25,
-                                width: 50,
-                                child: TextField(
-                                  keyboardType: TextInputType.number,
-                                  decoration: InputDecoration(
-                                    floatingLabelBehavior:
-                                        FloatingLabelBehavior.auto,
-                                    enabledBorder: InputBorder.none,
-                                    focusedBorder: InputBorder.none,
-                                  ),
-                                ),
-                              ),
-                            )
-                          ],
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Row(
-                          children: [
-                            Container(
-                                margin: EdgeInsets.only(right: 10),
-                                child: Text('Büyük tansiyon:')),
-                            Card(
-                              elevation: 20,
-                              child: Container(
-                                padding: EdgeInsets.only(
-                                    right: 3, left: 3, top: 5, bottom: 1),
-                                height: 25,
-                                width: 50,
-                                child: TextField(
-                                  keyboardType: TextInputType.number,
-                                  decoration: InputDecoration(
-                                    floatingLabelBehavior:
-                                        FloatingLabelBehavior.auto,
-                                    enabledBorder: InputBorder.none,
-                                    focusedBorder: InputBorder.none,
-                                  ),
-                                ),
-                              ),
-                            )
-                          ],
-                        ),
-                        Align(
-                          alignment: Alignment.bottomRight,
-                          child: Container(
-                            margin: EdgeInsets.only(right: 10),
-                            child: ElevatedButton(
-                              onPressed: () => Navigator.of(context).pop(),
-                              child: Text('Kaydet'),
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-              )),
     );
   }
 }

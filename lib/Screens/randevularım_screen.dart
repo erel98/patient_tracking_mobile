@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:patient_tracking/constraints.dart';
-import '../Widgets/randevu.dart';
+import '../Widgets/randevu_widget.dart';
 
 class RandevuScreen extends StatefulWidget {
   static final String routeName = '/randevu-screen';
@@ -13,7 +14,7 @@ class _RandevuScreenState extends State<RandevuScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      body: Randevu(),
+      body: RandevuWidget(),
       floatingActionButton: FloatingActionButton(
         backgroundColor: kPrimaryColor,
         child: Icon(
@@ -21,7 +22,11 @@ class _RandevuScreenState extends State<RandevuScreen> {
           color: Colors.white,
           size: 35,
         ),
-        onPressed: () => null,
+        onPressed: () => showModalBottomSheet(
+            context: context,
+            builder: (context) => Container(
+                  height: 200,
+                )),
       ),
     );
   }

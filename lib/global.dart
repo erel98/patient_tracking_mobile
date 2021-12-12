@@ -17,6 +17,12 @@ class Global {
   static List<int> bildirimGunleri = [];
   static Time bildirimSaati;
   static double iconSize = 50;
+
+  static Future<String> getUrl() async {
+    var prefs = await SharedPreferences.getInstance();
+    return prefs.getString('URL');
+  }
+
   static var mainMenuItemList = <Widget>[
     AnaMenuItem(
       'İlaçlarım',
