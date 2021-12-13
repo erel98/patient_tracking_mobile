@@ -46,6 +46,9 @@ dependencies:
   loading_overlay: ^0.3.0
   universal_widget: ^1.2.5
   flutter_easyloading: ^3.0.3
+  rflutter_alert: ^2.0.4
+  flutter_localizations:
+    sdk: flutter
 
 
   # The following adds the Cupertino Icons font to your application.

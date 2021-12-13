@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:patient_tracking/constraints.dart';
 import 'Providers/bloodPressures.dart';
 import 'Providers/loadingProvider.dart';
@@ -95,7 +96,12 @@ class _MyAppState extends State<MyApp> {
     var loadingProvider = context.read<LoadingProvider>();
 
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Hasta Takip Sistemi',
+      localizationsDelegates: [GlobalMaterialLocalizations.delegate],
+      supportedLocales: [
+        //const Locale('en'),
+        const Locale('tr'),
+      ],
       theme: theme.copyWith(
         buttonTheme: ButtonThemeData(splashColor: Colors.transparent),
         visualDensity: VisualDensity.adaptivePlatformDensity,
@@ -110,7 +116,11 @@ class _MyAppState extends State<MyApp> {
         ),
         scaffoldBackgroundColor: Colors.white,
       ),
-      builder: EasyLoading.init(),
+      builder: EasyLoading.init(
+        builder: (context, child) => MediaQuery(
+            data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
+            child: child),
+      ),
       home: LoginScreen(),
       routes: {
         AnaMenu.routeName: (ctx) => AnaMenu(),

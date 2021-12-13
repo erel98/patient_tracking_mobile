@@ -4,6 +4,7 @@ import 'package:patient_tracking/Widgets/hava_durumu.dart';
 import 'package:patient_tracking/Widgets/randevu_widget.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import '../constraints.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 class Hatirlatici extends StatefulWidget {
   static var routeName = '/hatirlatici';
@@ -13,8 +14,13 @@ class Hatirlatici extends StatefulWidget {
 
 class _HatirlaticiState extends State<Hatirlatici>
     with SingleTickerProviderStateMixin {
+  var titleController = TextEditingController();
+  var dateController = TextEditingController();
+  var hourController = TextEditingController();
   int _currentIndex = 0;
   TabController _tabController;
+  DateTime randevuTarih;
+  TimeOfDay randevuSaat;
   void _handleTabSelection() async {
     setState(() {
       _currentIndex = _tabController.index;
@@ -33,7 +39,116 @@ class _HatirlaticiState extends State<Hatirlatici>
     super.dispose();
   }
 
-  void _showMaterialDialog() {}
+  void _showDatePicker() async {
+    var now = DateTime.now();
+    randevuTarih = await showDatePicker(
+        context: context,
+        initialDate: DateTime.now(),
+        firstDate: DateTime.now(),
+        lastDate: DateTime(now.year, now.month + 3),
+        cancelText: 'İptal',
+        confirmText: 'Onay',
+        errorFormatText: 'Lütfen GG.AA.YYYY şeklinde giriniz!',
+        errorInvalidText: 'Lütfen bir tarih giriniz',
+        helpText: '',
+        builder: (BuildContext context, Widget child) {
+          return Theme(
+            data: ThemeData(
+              primaryColor: kPrimaryColor,
+            ),
+            child: child,
+          );
+        });
+    dateController.text =
+        '${randevuTarih.day}.${randevuTarih.month}.${randevuTarih.year}';
+  }
+
+  void _showTimePicker() async {
+    var now = DateTime.now();
+    randevuSaat = await showTimePicker(
+      context: context,
+      initialTime: TimeOfDay(hour: now.hour, minute: now.minute),
+      initialEntryMode: TimePickerEntryMode.input,
+      cancelText: 'İptal',
+      confirmText: 'Onay',
+      errorInvalidText: 'Lütfen geçerli bir saat giriniz!',
+      helpText: '',
+    );
+    hourController.text = '${randevuSaat.hour}:${randevuSaat.minute}';
+  }
+
+  void _warnUser() {
+    AlertDialog alert = AlertDialog(
+      title: Text("Dikkat!"),
+      content: Text("Lütfen tarih ve saat alanlarını doldurunuz."),
+      actions: [
+        ElevatedButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: Text('Anladım')),
+      ],
+    );
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+  void _addNewRandevu() {
+    Alert(
+        context: context,
+        content: Column(
+          children: [
+            TextField(
+              controller: titleController,
+              decoration: InputDecoration(
+                labelText: 'randevu adı',
+              ),
+            ),
+            TextField(
+              controller: dateController,
+              readOnly: true,
+              showCursor: true,
+              decoration: InputDecoration(
+                  icon: Icon(
+                FontAwesome5.calendar_alt,
+                color: Colors.black,
+              )),
+              onTap: _showDatePicker,
+            ),
+            TextField(
+              controller: hourController,
+              readOnly: true,
+              showCursor: true,
+              decoration: InputDecoration(
+                  icon: Icon(
+                FontAwesome5.clock,
+                color: Colors.black,
+              )),
+              onTap: _showTimePicker,
+            ),
+          ],
+        ),
+        buttons: [
+          DialogButton(
+            color: kPrimaryColor,
+            onPressed: () {
+              if (dateController.text.isNotEmpty &&
+                  hourController.text.isNotEmpty) {
+                //api call
+                Navigator.pop(context);
+              } else {
+                _warnUser();
+              }
+            },
+            child: Text(
+              "KAYDET",
+              style: TextStyle(color: Colors.white, fontSize: 20),
+            ),
+          )
+        ]).show();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +165,7 @@ class _HatirlaticiState extends State<Hatirlatici>
     );
     var mq = MediaQuery.of(context).size;
     return Scaffold(
-      //resizeToAvoidBottomInset: false
+      resizeToAvoidBottomInset: false,
       appBar: appBar,
       body: Column(
         children: [
@@ -72,7 +187,7 @@ class _HatirlaticiState extends State<Hatirlatici>
           ? CircleAvatar(
               backgroundColor: kPrimaryColor,
               child: IconButton(
-                onPressed: () => _showMaterialDialog(),
+                onPressed: () => _addNewRandevu(),
                 icon: Icon(Icons.add, color: Colors.white),
               ),
             )
