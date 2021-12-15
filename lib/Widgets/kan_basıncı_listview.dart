@@ -15,10 +15,10 @@ class BloodPressureList extends StatelessWidget {
         itemCount: bps.length,
         itemBuilder: (context, int index) {
           return ListTile(
-            leading: Icon(
+            /* leading: Icon(
               FontAwesome.heartbeat,
               color: Colors.red,
-            ),
+            ), */
             title: Text(
               '${bps[index].bValue}/${bps[index].kValue}',
               style: TextStyle(
@@ -31,7 +31,7 @@ class BloodPressureList extends StatelessWidget {
               style: TextStyle(
                   color: Colors.black,
                   fontWeight: FontWeight.bold,
-                  fontSize: 18),
+                  fontSize: 16),
             ),
           );
         });

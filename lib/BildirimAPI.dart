@@ -82,13 +82,18 @@ class BildirimAPI {
     DateTime scheduledDate,
   }) async {
     final tz.TZDateTime now = tz.TZDateTime.now(tz.local);
-    tz.TZDateTime scheduledDate =
-        tz.TZDateTime(tz.local, now.year, now.month, now.day, 1, 11);
+    tz.TZDateTime scheduledTZDateTime = tz.TZDateTime(
+        tz.local,
+        scheduledDate.year,
+        scheduledDate.month,
+        scheduledDate.day,
+        scheduledDate.hour,
+        scheduledDate.minute);
     await _notifications.zonedSchedule(
         id,
         title,
         body,
-        scheduledDate,
+        scheduledTZDateTime,
         // _scheduleWeekly(await initNotificationTime(),
         //     days: await initNotificationDays()),
         //_scheduleDaily(Time(8)),

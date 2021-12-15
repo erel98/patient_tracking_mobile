@@ -1,8 +1,12 @@
+import 'dart:math';
+
+import 'package:android_alarm_manager_plus/android_alarm_manager_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:patient_tracking/Widgets/hava_durumu.dart';
 import 'package:patient_tracking/Widgets/randevu_widget.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import '../BildirimAPI.dart';
 import '../constraints.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
@@ -133,10 +137,29 @@ class _HatirlaticiState extends State<Hatirlatici>
         buttons: [
           DialogButton(
             color: kPrimaryColor,
-            onPressed: () {
+            onPressed: () async {
               if (dateController.text.isNotEmpty &&
                   hourController.text.isNotEmpty) {
                 //api call
+                final DateTime notificationDate = DateTime(
+                    randevuTarih.year,
+                    randevuTarih.month,
+                    randevuTarih.day,
+                    randevuSaat.hour,
+                    randevuSaat.minute);
+                BildirimAPI.showScheduledNotification(
+                  id: Random().nextInt(999999),
+                  title: titleController.text,
+                  body: 'Hastane randevunuz yaklaşıyor!',
+                  scheduledDate: notificationDate,
+                );
+                dateController.clear();
+                hourController.clear();
+                titleController.clear();
+
+                await BildirimAPI.showScheduledNotification(
+                    title: 'denemece', body: 'denemece2');
+
                 Navigator.pop(context);
               } else {
                 _warnUser();

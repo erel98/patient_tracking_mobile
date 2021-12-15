@@ -5,6 +5,7 @@ import 'package:patient_tracking/Widgets/grafik.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:patient_tracking/Widgets/kan_bas%C4%B1nc%C4%B1_listview.dart';
 import 'package:provider/provider.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 import '../constraints.dart';
 
@@ -16,92 +17,60 @@ class BloodPressureScreen extends StatefulWidget {
 }
 
 class _BloodPressureScreenState extends State<BloodPressureScreen> {
+  var kController = TextEditingController();
+  var bController = TextEditingController();
+  Future<bool> addNewBp(BuildContext context) {
+    kController.clear();
+    bController.clear();
+    //API call
+    Navigator.of(context).pop();
+  }
+
+  Alert addBpPopup(BuildContext context) {
+    return Alert(
+      context: context,
+      content: Column(
+        children: [
+          TextField(
+            controller: kController,
+            keyboardType: TextInputType.number,
+            decoration: InputDecoration(
+              labelText: 'küçük tansiyon',
+              floatingLabelBehavior: FloatingLabelBehavior.auto,
+            ),
+          ),
+          TextField(
+            controller: bController,
+            keyboardType: TextInputType.number,
+            decoration: InputDecoration(
+              labelText: 'büyük tansiyon',
+              floatingLabelBehavior: FloatingLabelBehavior.auto,
+            ),
+          ),
+        ],
+      ),
+      buttons: [
+        DialogButton(
+            color: kPrimaryColor,
+            child: Text(
+              'Kaydet',
+              style: TextStyle(color: Colors.white),
+            ),
+            onPressed: () {
+              if (kController.text.isNotEmpty && bController.text.isNotEmpty) {
+                addNewBp(context);
+              }
+            })
+      ],
+    );
+  }
+
   AppBar getAppbar(BuildContext context) {
     final appBar = AppBar(
       elevation: 0,
       actions: [
         IconButton(
-            onPressed: () => showMaterialModalBottomSheet(
-                  context: context,
-                  builder: (context) => Container(
-                    height: 200,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Container(
-                      margin: EdgeInsets.only(left: 100),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Row(
-                            children: [
-                              Container(
-                                  margin: EdgeInsets.only(right: 10),
-                                  child: Text('Küçük tansiyon:')),
-                              Card(
-                                elevation: 20,
-                                child: Container(
-                                  padding: EdgeInsets.only(
-                                      right: 3, left: 3, top: 5, bottom: 1),
-                                  height: 25,
-                                  width: 50,
-                                  child: TextField(
-                                    keyboardType: TextInputType.number,
-                                    decoration: InputDecoration(
-                                      floatingLabelBehavior:
-                                          FloatingLabelBehavior.auto,
-                                      enabledBorder: InputBorder.none,
-                                      focusedBorder: InputBorder.none,
-                                    ),
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          Row(
-                            children: [
-                              Container(
-                                  margin: EdgeInsets.only(right: 10),
-                                  child: Text('Büyük tansiyon:')),
-                              Card(
-                                elevation: 20,
-                                child: Container(
-                                  padding: EdgeInsets.only(
-                                      right: 3, left: 3, top: 5, bottom: 1),
-                                  height: 25,
-                                  width: 50,
-                                  child: TextField(
-                                    keyboardType: TextInputType.number,
-                                    decoration: InputDecoration(
-                                      floatingLabelBehavior:
-                                          FloatingLabelBehavior.auto,
-                                      enabledBorder: InputBorder.none,
-                                      focusedBorder: InputBorder.none,
-                                    ),
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
-                          Align(
-                            alignment: Alignment.bottomRight,
-                            child: Container(
-                              margin: EdgeInsets.only(right: 10),
-                              child: ElevatedButton(
-                                onPressed: () => Navigator.of(context).pop(),
-                                child: Text('Kaydet'),
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
+            onPressed: () => addBpPopup(context).show(),
             icon: Icon(
               Icons.add,
               color: Colors.white,
@@ -116,6 +85,7 @@ class _BloodPressureScreenState extends State<BloodPressureScreen> {
     var width = MediaQuery.of(context).size.width;
     var height = MediaQuery.of(context).size.height;
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: getAppbar(context),
       body: Column(
         children: [
@@ -133,11 +103,20 @@ class _BloodPressureScreenState extends State<BloodPressureScreen> {
               ),
               child: Graph()),
           Padding(
-            padding: const EdgeInsets.only(right: 50, left: 75),
+            padding: const EdgeInsets.only(right: 40, left: 10),
             child: Row(
               children: [
                 Text(
                   'Tansiyon',
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                      decoration: TextDecoration.underline,
+                      fontSize: 18),
+                ),
+                Spacer(),
+                Text(
+                  'Nabız',
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
                       color: Colors.black,

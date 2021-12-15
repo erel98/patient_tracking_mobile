@@ -21,7 +21,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'Providers/medicine_provider.dart';
 import './Providers/randevus.dart';
 import 'package:provider/provider.dart';
-import 'package:android_alarm_manager_plus/android_alarm_manager_plus.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 void main() async {
@@ -36,7 +35,6 @@ void main() async {
     (instance) => PreferecesController.sharedPreferencesInstance = instance);
   */
   WidgetsFlutterBinding.ensureInitialized();
-  await AndroidAlarmManager.initialize();
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(
@@ -60,15 +58,16 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  /*
   void initUrl() async {
     var prefs = await SharedPreferences.getInstance();
     prefs.setString('URL', '192.168.1.225:8080');
   }
-
+  */
   @override
   void initState() {
     super.initState();
-    initUrl();
+    //initUrl();
     BildirimAPI.init(initScheduled: true);
     listenNotifications();
   }
