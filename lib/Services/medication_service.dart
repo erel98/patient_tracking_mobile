@@ -11,7 +11,7 @@ import 'package:http/http.dart' as http;
 import 'http_service.dart';
 
 class MedicationService {
-  static Future<List<MedicationVariant>> getMyMedications(String token) async {
+  static Future<List<MedicationVariant>> getMyMedications() async {
     String url = dotenv.env['API_URL'] + '/my-medications';
     List<MedicationVariant> medicationVariants = [];
     await HTTPService.httpGET(url, appendToken: true)

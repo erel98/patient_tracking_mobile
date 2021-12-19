@@ -1,8 +1,9 @@
 class BloodPressure {
   final int id;
-  final int bValue;
-  final int kValue;
+  final double bValue;
+  final double kValue;
+  final int heartBeat;
   final DateTime time;
 
-  BloodPressure({this.id, this.bValue, this.kValue, this.time});
+  BloodPressure({this.id, this.bValue, this.kValue, this.heartBeat, this.time});
 }

@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
-import 'package:patient_tracking/Providers/bloodPressures.dart';
-import 'package:patient_tracking/Widgets/grafik.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:patient_tracking/Models/bloodPressure.dart';
+import 'package:patient_tracking/Providers/bloodPressure_provider.dart';
+import 'package:patient_tracking/Services/bp_service.dart';
+import 'package:patient_tracking/Widgets/Graphs/bp_g%C3%BCnl%C3%BCk_grafik.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:patient_tracking/Widgets/kan_bas%C4%B1nc%C4%B1_listview.dart';
 import 'package:provider/provider.dart';
@@ -19,11 +22,23 @@ class BloodPressureScreen extends StatefulWidget {
 class _BloodPressureScreenState extends State<BloodPressureScreen> {
   var kController = TextEditingController();
   var bController = TextEditingController();
-  Future<bool> addNewBp(BuildContext context) {
+  var hbController = TextEditingController();
+  Future<bool> addNewBp(BuildContext context) async {
+    var success = await BloodPressureService.postBloodPressure(
+        kController.text, bController.text, hbController.text);
     kController.clear();
     bController.clear();
-    //API call
     Navigator.of(context).pop();
+    return success;
+  }
+
+  void fetchBloodPressures(BuildContext context) async {
+    var bpProvider = context.read<BloodPressureProvider>();
+    bpProvider.empty();
+    List<BloodPressure> list = await BloodPressureService.getBloodPressures();
+    list.forEach((element) {
+      bpProvider.addBloodPressure(element);
+    });
   }
 
   Alert addBpPopup(BuildContext context) {
@@ -47,6 +62,14 @@ class _BloodPressureScreenState extends State<BloodPressureScreen> {
               floatingLabelBehavior: FloatingLabelBehavior.auto,
             ),
           ),
+          TextField(
+            controller: hbController,
+            keyboardType: TextInputType.number,
+            decoration: InputDecoration(
+              labelText: 'nabız',
+              floatingLabelBehavior: FloatingLabelBehavior.auto,
+            ),
+          ),
         ],
       ),
       buttons: [
@@ -56,9 +79,15 @@ class _BloodPressureScreenState extends State<BloodPressureScreen> {
               'Kaydet',
               style: TextStyle(color: Colors.white),
             ),
-            onPressed: () {
+            onPressed: () async {
               if (kController.text.isNotEmpty && bController.text.isNotEmpty) {
-                addNewBp(context);
+                var success = await addNewBp(context);
+                if (success) {
+                  Fluttertoast.showToast(msg: 'Tansiyonunuz başarıyla eklendi');
+                } else {
+                  Fluttertoast.showToast(
+                      msg: 'Hay aksi! Bir şeyler ters gitti');
+                }
               }
             })
       ],
@@ -80,16 +109,49 @@ class _BloodPressureScreenState extends State<BloodPressureScreen> {
     return appBar;
   }
 
+  bool isDaily = true;
+  bool isWeekly = false;
   @override
   Widget build(BuildContext context) {
     var width = MediaQuery.of(context).size.width;
     var height = MediaQuery.of(context).size.height;
+
+    fetchBloodPressures(context);
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: getAppbar(context),
       body: Column(
         children: [
           TopContainer(),
+          Container(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ElevatedButton(
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all<Color>(
+                        isDaily ? kPrimaryColor : Colors.grey),
+                  ),
+                  onPressed: () {
+                    isDaily = true;
+                    isWeekly = false;
+                  },
+                  child: Text('Günlük'),
+                ),
+                ElevatedButton(
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all<Color>(
+                        isWeekly ? kPrimaryColor : Colors.grey),
+                  ),
+                  onPressed: () {
+                    isDaily = false;
+                    isWeekly = true;
+                  },
+                  child: Text('Haftalık'),
+                ),
+              ],
+            ),
+          ),
           Container(
               margin: EdgeInsets.all(20),
               padding: EdgeInsets.only(right: 20, left: 20, top: 10, bottom: 1),
@@ -101,40 +163,7 @@ class _BloodPressureScreenState extends State<BloodPressureScreen> {
                 ),
                 color: Color(0xff232d37),
               ),
-              child: Graph()),
-          Padding(
-            padding: const EdgeInsets.only(right: 40, left: 10),
-            child: Row(
-              children: [
-                Text(
-                  'Tansiyon',
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
-                      decoration: TextDecoration.underline,
-                      fontSize: 18),
-                ),
-                Spacer(),
-                Text(
-                  'Nabız',
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
-                      decoration: TextDecoration.underline,
-                      fontSize: 18),
-                ),
-                Spacer(),
-                Text(
-                  'Ölçüm tarihi',
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
-                      decoration: TextDecoration.underline,
-                      fontSize: 18),
-                ),
-              ],
-            ),
-          ),
+              child: BloodPressureGraphDaily()),
           Container(
             height: height -
                 (getAppbar(context).preferredSize.height +
@@ -143,8 +172,9 @@ class _BloodPressureScreenState extends State<BloodPressureScreen> {
                     300 +
                     20 +
                     66 +
-                    21),
-            child: Consumer<BloodPressures>(
+                    21 +
+                    27),
+            child: Consumer<BloodPressureProvider>(
               builder: (_, bps, child) => BloodPressureList(),
             ),
           )

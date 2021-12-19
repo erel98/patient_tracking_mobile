@@ -20,11 +20,9 @@ class _KullandigimIlaclarState extends State<KullandigimIlaclar> {
   );
 
   void fetchMedications(BuildContext context) async {
-    var prefs = await SharedPreferences.getInstance();
     var medicationProvider = context.read<MedicineProvider>();
     medicationProvider.empty();
-    List<MedicationVariant> list =
-        await MedicationService.getMyMedications(prefs.getString('token'));
+    List<MedicationVariant> list = await MedicationService.getMyMedications();
     list.forEach((element) {
       medicationProvider.addMedicineVariant(element);
     });
