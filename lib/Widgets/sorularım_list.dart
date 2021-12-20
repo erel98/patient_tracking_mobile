@@ -20,14 +20,17 @@ class _MyQuestionsListState extends State<MyQuestionsList> {
   @override
   void initState() {
     super.initState();
+    final questionProvider =
+        Provider.of<QuestionProvider>(context, listen: false);
+    questionProvider.getQuestions(context);
   }
 
   void mapQuestionsToData(List<Question> questions) {
     _data.clear();
     questions.forEach((element) {
       _data.add(Item(
-        subjectText: element.title,
-        contentText: element.body,
+        subjectText: element.subject,
+        contentText: element.question,
         answer: element.answer,
         isAnswered: element.answer != null,
       ));
@@ -36,7 +39,7 @@ class _MyQuestionsListState extends State<MyQuestionsList> {
 
   @override
   Widget build(BuildContext context) {
-    final questionsData = context.watch<QuestionProvider>();
+    final questionsData = Provider.of<QuestionProvider>(context);
     final questions = questionsData.questions;
 
     mapQuestionsToData(questions);
@@ -64,7 +67,7 @@ class _MyQuestionsListState extends State<MyQuestionsList> {
                     color: item.answer != null ? Colors.green : Colors.black,
                   ),
                   title: Text(
-                    item.title,
+                    item.subject,
                     style: TextStyle(color: Colors.black, fontSize: 18),
                   ),
                   subtitle: Text(item.answer == null
@@ -81,7 +84,7 @@ class _MyQuestionsListState extends State<MyQuestionsList> {
                 return ListTile(
                   title: Text(item.answer != null
                       ? 'Yanıt: ${item.answer}'
-                      : 'Soru: ${item.body}'),
+                      : 'Soru: ${item.question}'),
                 );
               },
             ),
@@ -116,8 +119,8 @@ class Item extends ChangeNotifier {
 
 Item generateItem(List<Question> questions, int i) {
   return Item(
-      subjectText: questions[i].title,
-      contentText: questions[i].body,
+      subjectText: questions[i].subject,
+      contentText: questions[i].question,
       isAnswered: false,
       isExpanded: false,
       answer: questions[i].answer);

@@ -5,7 +5,6 @@ import 'package:patient_tracking/Providers/question_provider.dart';
 import 'package:patient_tracking/Services/question_service.dart';
 import 'package:patient_tracking/Widgets/sorular%C4%B1m_list.dart';
 import 'package:provider/src/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../constraints.dart';
 
@@ -16,24 +15,8 @@ class MyQuestionsScreen extends StatefulWidget {
 }
 
 class _MyQuestionsScreenState extends State<MyQuestionsScreen> {
-  void fetchQuestions(BuildContext context) async {
-    var questionsProvider = context.read<QuestionProvider>();
-    questionsProvider.empty();
-    List<Question> list = await QuestionService.getMyQuestions();
-    list.forEach((element) {
-      questionsProvider.addQuestion(element);
-    });
-  }
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
-    fetchQuestions(context);
-
     final appBar = AppBar(
       elevation: 0,
     );

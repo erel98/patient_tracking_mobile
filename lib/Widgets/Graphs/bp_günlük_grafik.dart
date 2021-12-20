@@ -50,14 +50,23 @@ class _BloodPressureGraphDailyState extends State<BloodPressureGraphDaily> {
   List<Color> bgradientColors = [Colors.grey];
   List<FlSpot> systoleList = [];
   List<FlSpot> diastoleList = [];
+
+  @override
+  void initState() {
+    super.initState();
+    final bpProvider =
+        Provider.of<BloodPressureProvider>(context, listen: false);
+    bpProvider.getBloodPressures(context);
+  }
+
   @override
   Widget build(BuildContext context) {
-    final bpsData = context.watch<BloodPressureProvider>();
-    final bps = bpsData.bloodPressures;
+    final bpsData = Provider.of<BloodPressureProvider>(context);
+    final bps = bpsData.bps;
     bps.forEach((element) {
       double time = element.time.hour + element.time.minute / 60;
-      systoleList.add(FlSpot(time, element.bValue));
-      diastoleList.add(FlSpot(time, element.kValue));
+      systoleList.add(FlSpot(time, element.systole));
+      diastoleList.add(FlSpot(time, element.diastole));
     });
     return LineChart(
       LineChartData(

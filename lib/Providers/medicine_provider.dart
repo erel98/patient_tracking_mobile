@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:patient_tracking/Models/food.dart';
 import 'package:patient_tracking/Models/medicationVariantUser.dart';
 import 'package:patient_tracking/Models/medicineVariant.dart';
+import 'package:patient_tracking/Services/medication_service.dart';
 import '../Models/medicine.dart';
 import '../global.dart';
 import 'food_provider.dart';
@@ -19,23 +20,24 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class MedicineProvider extends ChangeNotifier {
-  List<MedicationVariant> _medVariants = [];
+  List<MedicationVariant> medVariants = [];
 
-  List<MedicationVariant> get medVariants {
-    return _medVariants;
+  void getMedVariants(context) async {
+    medVariants = await MedicationService.getMyMedications();
+    notifyListeners();
   }
 
   void addMedicineVariant(MedicationVariant mv) {
-    _medVariants.add(mv);
+    medVariants.add(mv);
     notifyListeners();
   }
 
   void update(MedicationVariant mv) {
-    _medVariants[_medVariants.indexWhere((m) => m.id == mv.id)] = mv;
+    medVariants[medVariants.indexWhere((m) => m.id == mv.id)] = mv;
     notifyListeners();
   }
 
   void empty() {
-    _medVariants.clear();
+    medVariants.clear();
   }
 }

@@ -1,35 +1,39 @@
 import 'dart:convert';
-
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:patient_tracking/Models/medicationVariantUser.dart';
-import 'package:patient_tracking/Models/medicineVariant.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:patient_tracking/Models/question.dart';
-import 'package:patient_tracking/Providers/question_provider.dart';
 import 'package:patient_tracking/Responses/API_Response.dart';
-
-import '../Models/medicine.dart';
 import '../global.dart';
 import 'package:http/http.dart' as http;
-
 import 'http_service.dart';
 
 class QuestionService {
   static String url = dotenv.env['API_URL'] + '/my-questions';
 
-  static Future<bool> postQuestion(String title, String body) async {
-    var success = false;
+  static Future<Question> postQuestion(Question question) async {
+    var newQuestion;
+    var title = question.subject;
+    var body = question.question;
     Map<String, String> postBody = {};
     postBody['subject'] = title;
     postBody['question'] = body;
     await HTTPService.httpPOST(url, postBody, appendToken: true)
         .then((API_Response response) {
       print('21: ${response.status}');
-      print('22: ${response.message}');
+      print('22: ${response.data}');
+      print('23: ${response.message}');
+      var data = response.data;
+      newQuestion = Question(
+          id: data['id'], title: data['subject'], body: data['question']);
       if (Global.successList.contains(response.status)) {
-        success = true;
+        newQuestion = Question(
+            id: data['id'], title: data['subject'], body: data['question']);
+        Fluttertoast.showToast(msg: 'Sorunuz başarıyla gönderildi.');
+      } else {
+        Fluttertoast.showToast(msg: 'Hay aksi! Bir şeyler ters gitti');
       }
     });
-    return success;
+    return newQuestion;
   }
 
   static Future<List<Question>> getMyQuestions() async {

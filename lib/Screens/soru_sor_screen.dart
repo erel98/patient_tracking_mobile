@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:patient_tracking/Models/question.dart';
+import 'package:patient_tracking/Providers/question_provider.dart';
 import 'package:patient_tracking/Services/question_service.dart';
 import 'package:patient_tracking/constraints.dart';
+import 'package:provider/provider.dart';
 
 class AskQuestionScreen extends StatefulWidget {
   static final routeName = '/ask-question';
@@ -90,22 +93,14 @@ class _AskQuestionScreenState extends State<AskQuestionScreen> {
               child: ElevatedButton(
                 onPressed: () async {
                   if (content.text.isNotEmpty && subject.text.isNotEmpty) {
-                    EasyLoading.show(status: 'Yükleniyor');
-                    var success = await QuestionService.postQuestion(
-                        subject.text, content.text);
-
-                    if (success) {
-                      EasyLoading.dismiss();
-                      Fluttertoast.showToast(
-                          msg: 'Sorunuz başarıyla gönderildi.');
-                      content.clear();
-                      subject.clear();
-                      Navigator.of(context).popAndPushNamed('/my-questions');
-                    } else {
-                      EasyLoading.dismiss();
-                      Fluttertoast.showToast(
-                          msg: 'Hay aksi! Bir şeyler ters gitti.');
-                    }
+                    Question question =
+                        Question(body: content.text, title: subject.text);
+                    var questionProvider =
+                        Provider.of<QuestionProvider>(context, listen: false);
+                    questionProvider.addQuestion(question);
+                    content.clear();
+                    subject.clear();
+                    Navigator.of(context).popAndPushNamed('/my-questions');
                   } else {
                     Fluttertoast.showToast(
                         msg:

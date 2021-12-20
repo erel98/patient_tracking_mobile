@@ -92,7 +92,7 @@ class Global {
     ),
     AnaMenuItem(
       'Kan glikoz\ndeğeri',
-      '',
+      '/blood-glucose',
       Icon(
         FontAwesome.tint,
         color: kMenuIconColor,

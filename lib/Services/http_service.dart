@@ -56,7 +56,7 @@ class HTTPService {
           .then((http.Response response) {
         // print('52 ${response.body}');
         Map<String, dynamic> decodedResponse = jsonDecode(response.body);
-        List<dynamic> data = decodedResponse['data'] ?? null;
+        Map<String, dynamic> data = decodedResponse['data'] ?? null;
         var apiResponse = API_Response(
             data: data,
             error: decodedResponse['error'] ?? null,
@@ -66,8 +66,9 @@ class HTTPService {
       });
       EasyLoading.dismiss();
       return response;
-    } catch (error) {
+    } catch (error, stacktrace) {
       EasyLoading.dismiss();
+      print(stacktrace);
       throw (error);
     }
   }
@@ -95,6 +96,44 @@ class HTTPService {
         EasyLoading.dismiss();
         return response;
       });
+    } catch (error) {
+      EasyLoading.dismiss();
+      throw (error);
+    }
+  }
+
+  static Future<API_Response> httpDELETE(String url,
+      {bool appendToken = false}) async {
+    EasyLoading.show(status: 'yükleniyor...');
+    var uri = Uri.parse(url);
+    String token;
+    var prefs = await SharedPreferences.getInstance();
+    var headers = {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'
+    };
+
+    if (appendToken) {
+      token = prefs.getString('token');
+      headers.putIfAbsent('Authorization', () => 'Bearer ' + token);
+    }
+
+    try {
+      var response = await http
+          .delete(uri, headers: headers)
+          .then((http.Response response) {
+        Map<String, dynamic> decodedResponse = jsonDecode(response.body);
+        Map<String, dynamic> data = decodedResponse['data'] ?? null;
+        var apiResponse = API_Response(
+            data: data,
+            error: decodedResponse['error'] ?? null,
+            message: decodedResponse['message'],
+            status: response.statusCode);
+        EasyLoading.dismiss();
+        return apiResponse;
+      });
+      EasyLoading.dismiss();
+      return response;
     } catch (error) {
       EasyLoading.dismiss();
       throw (error);

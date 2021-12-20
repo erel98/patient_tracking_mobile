@@ -1,13 +1,10 @@
 import 'dart:convert';
-
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:patient_tracking/Models/medicationVariantUser.dart';
 import 'package:patient_tracking/Models/medicineVariant.dart';
-
 import '../Models/medicine.dart';
 import '../global.dart';
 import 'package:http/http.dart' as http;
-
 import 'http_service.dart';
 
 class MedicationService {

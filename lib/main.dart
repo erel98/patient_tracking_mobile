@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:patient_tracking/Providers/bloodGlucose_provider.dart';
 import 'package:patient_tracking/Providers/question_provider.dart';
 import 'package:patient_tracking/constraints.dart';
 import 'Providers/bloodPressure_provider.dart';
@@ -11,12 +12,12 @@ import 'Screens/kullandığım_ilaçlar_screen.dart';
 import 'Screens/ilaç_detay_screen.dart';
 import 'Screens/hatırlatıcı_screen.dart';
 import 'Screens/hava_durumu_screen.dart';
-import 'Screens/randevularım_screen.dart';
 import 'Screens/bugünkü_ilaçlarım_screen.dart';
 import 'Screens/yan_etkiler_screen.dart';
 import 'Screens/soru_sor_screen.dart';
 import 'Screens/kan_basinci_screen.dart';
 import 'Screens/sorularım_screen.dart';
+import 'Screens/kan_glikoz_screen.dart';
 import 'BildirimAPI.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'Providers/medicine_provider.dart';
@@ -43,6 +44,9 @@ void main() async {
       ),
       ChangeNotifierProvider(
         create: (_) => BloodPressureProvider(),
+      ),
+      ChangeNotifierProvider(
+        create: (_) => BloodGlucoseProvider(),
       ),
       ChangeNotifierProvider(
         create: (_) => RandevuProvider(),
@@ -121,7 +125,7 @@ class _MyAppState extends State<MyApp> {
             data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
             child: child),
       ),
-      home: LoginScreen(),
+      home: AnaMenu(), //LoginScreen(),
       routes: {
         AnaMenu.routeName: (ctx) => AnaMenu(),
         KullandigimIlaclar.routeName: (ctx) => KullandigimIlaclar(),
@@ -129,11 +133,11 @@ class _MyAppState extends State<MyApp> {
         Hatirlatici.routeName: (ctx) => Hatirlatici(),
         HavaDurumu.routeName: (ctx) => HavaDurumu(),
         DailyMedsScreen.routeName: (ctx) => DailyMedsScreen(),
-        RandevuScreen.routeName: (ctx) => RandevuScreen(),
         AskQuestionScreen.routeName: (ctx) => AskQuestionScreen(),
         MyQuestionsScreen.routeName: (ctx) => MyQuestionsScreen(),
         SideEffectsScreen.routeName: (ctx) => SideEffectsScreen(),
         BloodPressureScreen.routeName: (ctx) => BloodPressureScreen(),
+        BloodGlucoseScreen.routeName: (ctx) => BloodGlucoseScreen(),
       },
     );
   }

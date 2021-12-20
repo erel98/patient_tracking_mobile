@@ -6,7 +6,12 @@ import 'package:patient_tracking/Services/bp_service.dart';
 import 'package:provider/provider.dart';
 import '../Models/bloodPressure.dart';
 
-class BloodPressureList extends StatelessWidget {
+class BloodPressureList extends StatefulWidget {
+  @override
+  State<BloodPressureList> createState() => _BloodPressureListState();
+}
+
+class _BloodPressureListState extends State<BloodPressureList> {
   String printTansiyon(double tansiyon) {
     String retVal = tansiyon.toString();
     retVal = retVal.replaceAll('.0', '');
@@ -14,9 +19,17 @@ class BloodPressureList extends StatelessWidget {
   }
 
   @override
+  void initState() {
+    super.initState();
+    final bpProvider =
+        Provider.of<BloodPressureProvider>(context, listen: false);
+    bpProvider.getBloodPressures(context);
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final bpsData = context.watch<BloodPressureProvider>();
-    final bps = bpsData.bloodPressures;
+    final bpsData = Provider.of<BloodPressureProvider>(context);
+    final bps = bpsData.bps;
     bps.forEach((element) {
       print(element.heartBeat);
     });
@@ -40,7 +53,7 @@ class BloodPressureList extends StatelessWidget {
             trailing: Column(
               children: [
                 Text(
-                  '${printTansiyon(bps[index].bValue)}/${printTansiyon(bps[index].kValue)}',
+                  '${printTansiyon(bps[index].systole)}/${printTansiyon(bps[index].diastole)}',
                   style: TextStyle(
                       color: Colors.black,
                       fontWeight: FontWeight.bold,

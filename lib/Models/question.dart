@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 class Question extends ChangeNotifier {
   int id;
-  String title;
-  String body;
+  String subject;
+  String question;
   String answer;
   bool isExpanded;
 
@@ -14,8 +14,8 @@ class Question extends ChangeNotifier {
       String answer,
       bool isExpanded = false}) {
     this.id = id;
-    this.title = title;
-    this.body = body;
+    this.subject = title;
+    this.question = body;
     this.answer = answer;
     this.isExpanded = isExpanded;
   }

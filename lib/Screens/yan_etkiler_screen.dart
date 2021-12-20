@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:patient_tracking/preferencesController.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -81,7 +82,12 @@ class _SideEffectsScreenState extends State<SideEffectsScreen> {
             ),
           ),
           ElevatedButton(
-            onPressed: () => save,
+            onPressed: () {
+              EasyLoading.show(status: 'Yükleniyor...');
+              save(controller.text);
+              Navigator.of(context).pop();
+              EasyLoading.dismiss();
+            },
             style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all(kPrimaryColor)),
             child: Text(
