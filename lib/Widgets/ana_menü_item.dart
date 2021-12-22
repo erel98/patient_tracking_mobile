@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:patient_tracking/constraints.dart';
-import 'package:bordered_text/bordered_text.dart';
 
 class AnaMenuItem extends StatelessWidget {
   String menuText;

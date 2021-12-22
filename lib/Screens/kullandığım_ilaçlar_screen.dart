@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
 import 'package:patient_tracking/Models/medicineVariant.dart';
 import 'package:patient_tracking/Providers/medicine_provider.dart';
 import 'package:patient_tracking/Services/medication_service.dart';
+// ignore: implementation_imports
 import 'package:provider/src/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import '../Widgets/kullandığım_ilaçlar_list.dart';
 import '../constraints.dart';
 

@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:patient_tracking/Models/bloodPressure.dart';
 import 'package:patient_tracking/Providers/bloodPressure_provider.dart';
-import 'package:patient_tracking/Services/bp_service.dart';
-import 'package:patient_tracking/Widgets/Graphs/bp_g%C3%BCnl%C3%BCk_grafik.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import 'package:patient_tracking/Widgets/Graphs/bp_haftal%C4%B1k_grafik.dart';
+import '../Widgets/Graphs/bp_günlük_grafik.dart';
+import '../Widgets/Graphs/bp_haftalık_grafik.dart';
 import 'package:patient_tracking/Widgets/kan_bas%C4%B1nc%C4%B1_listview.dart';
 import 'package:provider/provider.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';

@@ -1,13 +1,7 @@
 import 'dart:convert';
-
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:patient_tracking/Models/medicationVariantUser.dart';
-import 'package:patient_tracking/Models/medicineVariant.dart';
 import 'package:patient_tracking/Models/randevu.dart';
-import 'package:patient_tracking/Providers/question_provider.dart';
 import 'package:patient_tracking/Responses/API_Response.dart';
-
-import '../Models/medicine.dart';
 import '../global.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';

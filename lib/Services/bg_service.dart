@@ -1,10 +1,7 @@
-import 'package:flutter/material.dart';
 import 'dart:convert';
-
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:intl/intl.dart';
 import 'package:patient_tracking/Models/bloodGlucose.dart';
-import 'package:patient_tracking/Models/bloodPressure.dart';
 import 'package:patient_tracking/Responses/API_Response.dart';
 import '../global.dart';
 import 'package:http/http.dart' as http;
@@ -32,7 +29,6 @@ class BloodGlucoseService {
 
   static Future<List<BloodGlucose>> getBloodGlucoses() async {
     List<BloodGlucose> bgs = [];
-    final DateFormat formatter = DateFormat('yyyy-MM-dd hh:m:ss');
 
     await HTTPService.httpGET(url, appendToken: true)
         .then((http.Response response) {

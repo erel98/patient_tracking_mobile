@@ -4,7 +4,6 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:patient_tracking/Providers/medicine_provider.dart';
 import 'package:patient_tracking/constraints.dart';
 import 'package:provider/provider.dart';
-import 'package:patient_tracking/Models/medicine.dart';
 
 class SideEffects extends StatefulWidget {
   final int medId;

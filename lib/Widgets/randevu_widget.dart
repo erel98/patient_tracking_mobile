@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
-import 'package:patient_tracking/Models/randevu.dart';
 import 'package:patient_tracking/Providers/randevu_provider.dart';
 import 'package:provider/provider.dart';
 

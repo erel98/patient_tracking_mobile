@@ -1,11 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
-import 'package:patient_tracking/Models/question.dart';
-import 'package:patient_tracking/Providers/question_provider.dart';
-import 'package:patient_tracking/Services/question_service.dart';
 import 'package:patient_tracking/Widgets/sorular%C4%B1m_list.dart';
-import 'package:provider/src/provider.dart';
-
 import '../constraints.dart';
 
 class MyQuestionsScreen extends StatefulWidget {

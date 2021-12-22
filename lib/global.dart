@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:patient_tracking/Screens/soru_sor_screen.dart';
 import 'package:patient_tracking/Screens/kan_basinci_screen.dart';
 import 'package:patient_tracking/Screens/sorular%C4%B1m_screen.dart';
 import 'package:patient_tracking/Screens/yan_etkiler_screen.dart';

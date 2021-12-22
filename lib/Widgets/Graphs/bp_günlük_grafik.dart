@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
-import 'package:patient_tracking/Models/bloodPressure.dart';
 import 'package:patient_tracking/Providers/bloodPressure_provider.dart';
 import 'package:provider/src/provider.dart';
 

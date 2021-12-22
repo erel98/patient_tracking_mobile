@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:patient_tracking/Services/question_service.dart';
 import '../Models/question.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:http/http.dart';
-import 'package:http/http.dart' as http;
 
 class QuestionProvider extends ChangeNotifier {
   List<Question> questions = [];

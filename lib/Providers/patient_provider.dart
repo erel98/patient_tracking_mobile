@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:http/http.dart';
 import 'package:http/http.dart' as http;
 import 'package:patient_tracking/Models/patient.dart';
 import 'package:patient_tracking/Responses/API_Response.dart';

@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:patient_tracking/Models/bloodGlucose.dart';
-import 'package:patient_tracking/Models/bloodPressure.dart';
 import 'package:patient_tracking/Providers/bloodGlucose_provider.dart';
-import 'package:patient_tracking/Widgets/Graphs/bg_g%C3%BCnl%C3%BCk_grafik.dart';
-import 'package:patient_tracking/Widgets/Graphs/bg_haftal%C4%B1k_grafik.dart';
+import '../Widgets/Graphs/bg_günlük_grafik.dart';
+import '../Widgets/Graphs/bg_haftalık_grafik.dart';
 import 'package:patient_tracking/Widgets/blood_glucose_listview.dart';
 import 'package:provider/provider.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';

@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
 import 'package:intl/intl.dart';
 import 'package:patient_tracking/Providers/bloodPressure_provider.dart';
-import 'package:patient_tracking/Services/bp_service.dart';
 import 'package:provider/provider.dart';
-import '../Models/bloodPressure.dart';
 
 class BloodPressureList extends StatefulWidget {
   @override

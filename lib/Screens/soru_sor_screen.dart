@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:flutter_icons/flutter_icons.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:patient_tracking/Models/question.dart';
 import 'package:patient_tracking/Providers/question_provider.dart';
-import 'package:patient_tracking/Services/question_service.dart';
 import 'package:patient_tracking/constraints.dart';
 import 'package:provider/provider.dart';
 

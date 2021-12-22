@@ -6,8 +6,7 @@ import 'package:patient_tracking/Providers/medicine_provider.dart';
 import 'package:patient_tracking/Services/medication_service.dart';
 import 'package:patient_tracking/constraints.dart';
 import 'package:provider/provider.dart';
-import 'package:patient_tracking/Screens/ila%C3%A7_detay_screen.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import '../Screens/ilaç_detay_screen.dart';
 import 'package:loading_overlay/loading_overlay.dart';
 
 import '../global.dart';

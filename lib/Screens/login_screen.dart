@@ -1,14 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:http/http.dart';
 import 'package:patient_tracking/Providers/patient_provider.dart';
-import 'package:patient_tracking/Services/http_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../constraints.dart';
-import '../Services/patient_service.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
-
 import '../global.dart';
 
 class LoginScreen extends StatefulWidget {

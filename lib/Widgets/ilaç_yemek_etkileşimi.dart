@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
-import 'package:patient_tracking/Providers/food_provider.dart';
 import 'package:patient_tracking/Providers/medicine_provider.dart';
 import 'package:provider/provider.dart';
-import '../Models/food.dart';
 import '../constraints.dart';
 
 class MedToFoodInteraction extends StatefulWidget {

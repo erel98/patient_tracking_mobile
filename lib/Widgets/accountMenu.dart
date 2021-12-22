@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:patient_tracking/Providers/patient_provider.dart';
-import 'package:patient_tracking/constraints.dart';
 
 import 'myTextField.dart';
 

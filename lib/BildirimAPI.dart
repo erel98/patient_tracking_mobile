@@ -5,7 +5,6 @@ import 'package:timezone/timezone.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 import 'package:flutter_native_timezone/flutter_native_timezone.dart';
-import './global.dart';
 
 class BildirimAPI {
   static final _notifications = FlutterLocalNotificationsPlugin();

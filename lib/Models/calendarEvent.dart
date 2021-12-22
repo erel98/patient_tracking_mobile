@@ -1,7 +1,5 @@
 import 'package:patient_tracking/Models/medicineVariant.dart';
 
-import 'medicine.dart';
-
 class CalendarEvent {
   int id;
   double saat; //0-48
