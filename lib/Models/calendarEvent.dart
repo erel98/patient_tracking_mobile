@@ -1,13 +1,10 @@
-import 'package:patient_tracking/Models/medicineVariant.dart';
+import 'package:patient_tracking/Models/dailyMedication.dart';
+import 'package:patient_tracking/Models/medicationVariant.dart';
 
 class CalendarEvent {
   int id;
-  double saat; //0-48
-  List<MedicationVariant> medsToTake; //aynı saatte alınabilecek ilaçlar
+  int saat; //0-48
+  DailyMedication dailyMedication; //aynı saatte alınabilecek ilaçlar
 
-  CalendarEvent(int id, double saat, List<MedicationVariant> medsToTake) {
-    this.id = id;
-    this.saat = saat;
-    this.medsToTake = medsToTake;
-  }
+  CalendarEvent({this.id, this.saat, this.dailyMedication});
 }

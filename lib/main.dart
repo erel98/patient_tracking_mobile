@@ -11,6 +11,7 @@ import 'package:patient_tracking/Screens/organ_transplant_screen.dart';
 import 'package:patient_tracking/constraints.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'Providers/bloodPressure_provider.dart';
+import 'Providers/dailyMeds_provider.dart';
 import 'Screens/ana_menü_screen.dart';
 import 'Screens/kullandığım_ilaçlar_screen.dart';
 import 'Screens/ilaç_detay_screen.dart';
@@ -102,6 +103,9 @@ void main() async {
       ),
       ChangeNotifierProvider(
         create: (_) => QuestionProvider(),
+      ),
+      ChangeNotifierProvider(
+        create: (_) => DailyMedsProvider(),
       ),
     ],
     child: MyApp(),

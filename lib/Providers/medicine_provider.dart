@@ -1,27 +1,28 @@
 import 'package:flutter/material.dart';
-import 'package:patient_tracking/Models/medicineVariant.dart';
+import 'package:patient_tracking/Models/calendarDay.dart';
+import 'package:patient_tracking/Models/medicationVariant.dart';
+import 'package:patient_tracking/Models/medicationVariantUser.dart';
 import 'package:patient_tracking/Services/medication_service.dart';
 
 class MedicineProvider extends ChangeNotifier {
-  List<MedicationVariant> medVariants = [];
+  List<MedicationUser> medUsers = [];
   bool isLoading = true;
-  void getMedVariants(context) async {
-    medVariants = await MedicationService.getMyMedications();
+  void getMedicationUsers(context) async {
+    medUsers = await MedicationService.getMyMedications();
     isLoading = false;
     notifyListeners();
   }
 
-  void addMedicineVariant(MedicationVariant mv) {
-    medVariants.add(mv);
-    notifyListeners();
+  void getDailyMeds(context, CalendarDay day, int dayValue) async {
+    day = await MedicationService.getDailyMeds(dayValue);
   }
 
-  void update(MedicationVariant mv) {
-    medVariants[medVariants.indexWhere((m) => m.id == mv.id)] = mv;
+  void update(MedicationUser mu) {
+    medUsers[medUsers.indexWhere((m) => m.id == mu.id)] = mu;
     notifyListeners();
   }
 
   void empty() {
-    medVariants.clear();
+    medUsers.clear();
   }
 }

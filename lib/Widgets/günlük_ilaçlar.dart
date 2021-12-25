@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:patient_tracking/Models/calendarDay.dart';
-import 'package:patient_tracking/Models/medicineVariant.dart';
+import 'package:patient_tracking/Models/dailyMedication.dart';
+import 'package:patient_tracking/Models/medicationVariantUser.dart';
 import 'package:patient_tracking/constraints.dart';
 
 class DailyMeds extends StatefulWidget {
@@ -21,17 +22,12 @@ class _DailyMedsState extends State<DailyMeds> {
     super.initState();
     var currentEvents = widget.calendarDay.calendarEvents;
     for (int i = 0; i < currentEvents.length; i++) {
-      if (currentEvents[i].saat == 0) {
-        currentEvents[i].saat = 23.99;
-        currentEvents.sort((a, b) => a.saat.compareTo(b.saat));
-      }
+      currentEvents.sort((a, b) => a.saat.compareTo(b.saat));
     }
 
     for (int i = 0; i < currentEvents.length; i++) {
-      for (int j = 0; j < currentEvents[i].medsToTake.length; j++) {
-        _data.add(generateItem(
-            currentEvents[i].medsToTake[j], widget.calendarDay, i));
-      }
+      _data.add(generateItem(
+          currentEvents[i].dailyMedication, widget.calendarDay, i));
     }
   }
 
@@ -175,7 +171,7 @@ class Item {
   }
 }
 
-Item generateItem(MedicationVariant med, CalendarDay calendarDay, int i) {
+Item generateItem(DailyMedication med, CalendarDay calendarDay, int i) {
   DateTime medDate;
   var now = DateTime.now();
   medDate = DateTime(
@@ -185,10 +181,10 @@ Item generateItem(MedicationVariant med, CalendarDay calendarDay, int i) {
   // print('190 $difference');
   return Item(
       headerTitle:
-          '${calendarDay.calendarEvents[i].saat == 23.99 ? 00 : calendarDay.calendarEvents[i].saat.toInt()}:00 ${med.name}',
-      headerSubtitle: '${med.id} adet',
-      bodyImage: Image.asset(
-        'assets/icons/test-ilac.jpg',
+          '${calendarDay.calendarEvents[i].saat == 23.99 ? 00 : calendarDay.calendarEvents[i].saat.toInt()}:00 ${med.medicationName}',
+      headerSubtitle: '${med.quantity}',
+      bodyImage: Image.network(
+        med.imageUrl,
         scale: 0.5,
       ),
       bodyApproximation: difference >= 60

@@ -1,7 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:patient_tracking/Models/medicineVariant.dart';
+import 'package:patient_tracking/Models/medicationVariant.dart';
+import 'package:patient_tracking/Models/medicationVariantUser.dart';
 import 'package:patient_tracking/Providers/medicine_provider.dart';
 import 'package:patient_tracking/Services/medication_service.dart';
 import 'package:patient_tracking/Widgets/no_data.dart';
@@ -18,8 +19,8 @@ class UsedMeds extends StatefulWidget {
 }
 
 class _UsedMedsState extends State<UsedMeds> {
-  Future<bool> updateIsNotify(MedicationVariant mv) async {
-    bool isSuccess = await MedicationService.updateMedication(mv);
+  Future<bool> updateIsNotify(MedicationUser mu) async {
+    bool isSuccess = await MedicationService.updateMedication(mu);
     return isSuccess;
   }
 
@@ -31,13 +32,14 @@ class _UsedMedsState extends State<UsedMeds> {
   void initState() {
     super.initState();
     final medProvider = Provider.of<MedicineProvider>(context, listen: false);
-    medProvider.getMedVariants(context);
+    medProvider.getMedicationUsers(context);
   }
 
   @override
   Widget build(BuildContext context) {
     final medsData = Provider.of<MedicineProvider>(context);
-    final meds = medsData.medVariants;
+    final meds = medsData.medUsers;
+    print('42: ${meds.length}');
     return meds.isNotEmpty
         ? Container(
             margin: EdgeInsets.only(top: 10),
@@ -70,15 +72,12 @@ class _UsedMedsState extends State<UsedMeds> {
                       child: ListTile(
                         leading: CircleAvatar(
                           backgroundColor:
-                              meds[index].medicationVariantUser.isNotify
-                                  ? Colors.green
-                                  : Colors.grey,
+                              meds[index].isNotify ? Colors.green : Colors.grey,
                           child: IconButton(
                             icon: Icon(Icons.notifications),
                             onPressed: () async {
                               Global.isLoading = true;
-                              meds[index].medicationVariantUser.isNotify =
-                                  !meds[index].medicationVariantUser.isNotify;
+                              meds[index].isNotify = !meds[index].isNotify;
                               var isSuccess = await updateIsNotify(meds[index]);
 
                               if (isSuccess) {
@@ -103,8 +102,8 @@ class _UsedMedsState extends State<UsedMeds> {
                           '${parseStomach(meds[index].medication.stomach)}',
                           style: TextStyle(color: Colors.grey, fontSize: 17),
                         ),
-                        trailing: Image.asset(
-                          'assets/icons/test-ilac.jpg',
+                        trailing: Image.network(
+                          meds[index].medication.imageUrl,
                           width: 75,
                           height: 70,
                         ),

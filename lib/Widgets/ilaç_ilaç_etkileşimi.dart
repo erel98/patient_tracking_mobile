@@ -17,7 +17,7 @@ class _MedToMedInteractionState extends State<MedToMedInteraction> {
   @override
   Widget build(BuildContext context) {
     final medsData = context.watch<MedicineProvider>();
-    final meds = medsData.medVariants;
+    final meds = medsData.medUsers;
     return ListView.separated(
       separatorBuilder: (BuildContext ctx, int index) => SizedBox(
         height: 20,

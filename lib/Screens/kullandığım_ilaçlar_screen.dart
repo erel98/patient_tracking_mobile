@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:patient_tracking/Models/medicineVariant.dart';
+import 'package:patient_tracking/Models/medicationVariant.dart';
+import 'package:patient_tracking/Models/medicationVariantUser.dart';
 import 'package:patient_tracking/Providers/medicine_provider.dart';
 import 'package:patient_tracking/Services/medication_service.dart';
 // ignore: implementation_imports
@@ -18,18 +19,8 @@ class _KullandigimIlaclarState extends State<KullandigimIlaclar> {
     elevation: 0,
   );
 
-  void fetchMedications(BuildContext context) async {
-    var medicationProvider = context.read<MedicineProvider>();
-    medicationProvider.empty();
-    List<MedicationVariant> list = await MedicationService.getMyMedications();
-    list.forEach((element) {
-      medicationProvider.addMedicineVariant(element);
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
-    fetchMedications(context);
     return Scaffold(
       //backgroundColor: Colors.white,
       appBar: appbar,

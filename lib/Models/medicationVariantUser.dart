@@ -1,6 +1,19 @@
-class MedicationVariantUser {
+import 'package:patient_tracking/Models/medicationVariant.dart';
+
+import 'medication.dart';
+
+class MedicationUser {
   int id;
   bool isNotify;
+  String quantity;
+  MedicationVariant variant;
+  Medication medication;
 
-  MedicationVariantUser({this.id, this.isNotify});
+  MedicationUser({
+    this.id,
+    this.isNotify,
+    this.quantity,
+    this.variant,
+    this.medication,
+  });
 }

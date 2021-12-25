@@ -18,7 +18,7 @@ class _SideEffectsState extends State<SideEffects> {
   Widget build(BuildContext context) {
     final mq = MediaQuery.of(context).size;
     final medsData = context.watch<MedicineProvider>();
-    final meds = medsData.medVariants;
+    final meds = medsData.medUsers;
     return ListView.separated(
       separatorBuilder: (BuildContext ctx, int index) => SizedBox(
         height: 20,

@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:patient_tracking/Models/calendarDay.dart';
 import 'package:patient_tracking/Models/calendarEvent.dart';
-import 'package:patient_tracking/Models/medicine.dart';
+import 'package:patient_tracking/Models/dailyMedication.dart';
+import 'package:patient_tracking/Models/medication.dart';
+import 'package:patient_tracking/Providers/dailyMeds_provider.dart';
 import 'package:patient_tracking/Providers/medicine_provider.dart';
+import 'package:patient_tracking/Services/medication_service.dart';
 import 'package:patient_tracking/Widgets/g%C3%BCnl%C3%BCk_ila%C3%A7lar.dart';
 import 'package:patient_tracking/constraints.dart';
 import 'package:provider/provider.dart';
@@ -20,16 +23,26 @@ class _DailyMedsScreenState extends State<DailyMedsScreen>
     with SingleTickerProviderStateMixin {
   int _currentIndex = 0;
   TabController _tabController;
+
   void _handleTabSelection() async {
     setState(() {
       _currentIndex = _tabController.index;
     });
   }
 
+  Future<void> getDailyMeds() async {
+    var dailymedsprovider =
+        Provider.of<DailyMedsProvider>(context, listen: false);
+    dailymedsprovider.getDailyMeds();
+  }
+
   void initState() {
     super.initState();
     _tabController = TabController(length: 7, vsync: this);
     _tabController.addListener(_handleTabSelection);
+    var dailymedsprovider =
+        Provider.of<DailyMedsProvider>(context, listen: false);
+    dailymedsprovider.getDailyMeds();
   }
 
   @override
@@ -38,39 +51,10 @@ class _DailyMedsScreenState extends State<DailyMedsScreen>
     super.dispose();
   }
 
-  int calculateTotalNumberOfMeds(List<CalendarEvent> events) {
-    var dayNumber = 0;
-    events.forEach((element) {
-      element.medsToTake.forEach((element) {
-        dayNumber++;
-      });
-    });
-    return dayNumber;
-  }
-
   @override
   Widget build(BuildContext context) {
-    final medsData = context.watch<MedicineProvider>();
-    final meds = medsData.medVariants;
+    final dailyMedsData = context.watch<DailyMedsProvider>();
 
-    List<CalendarEvent> mondayEvents = [
-      CalendarEvent(1, 7, [meds[1]]),
-      CalendarEvent(2, 9, [meds[0]]),
-      CalendarEvent(3, 19, [meds[1]]),
-      CalendarEvent(4, 21, [meds[0]]),
-    ];
-    CalendarDay monday = CalendarDay(1, 1, mondayEvents);
-    var mondayNumber = calculateTotalNumberOfMeds(mondayEvents);
-    List<CalendarEvent> tuesdayEvents = [
-      CalendarEvent(5, 8, [meds[2], meds[3]]),
-      CalendarEvent(7, 16, [meds[2]]),
-      CalendarEvent(8, 0, [meds[2]]),
-      CalendarEvent(9, 20, [meds[3]]),
-    ];
-    CalendarDay tuesday = CalendarDay(2, 2, tuesdayEvents);
-    var tuesdayNumber = calculateTotalNumberOfMeds(tuesdayEvents);
-    final height = MediaQuery.of(context).size.height;
-    final width = MediaQuery.of(context).size.width;
     final appBar = AppBar(
       elevation: 0,
       backgroundColor: kPrimaryColor,
@@ -87,18 +71,18 @@ class _DailyMedsScreenState extends State<DailyMedsScreen>
       appBar: appBar,
       body: Column(
         children: [
-          TopContainer(mondayEvents.length),
+          TopContainer(),
           Expanded(
             child: TabBarView(
               controller: _tabController,
               children: [
-                DailyMeds(monday),
-                DailyMeds(tuesday),
-                DailyMeds(tuesday),
-                DailyMeds(tuesday),
-                DailyMeds(tuesday),
-                DailyMeds(tuesday),
-                DailyMeds(tuesday),
+                DailyMeds(dailyMedsData.monday),
+                DailyMeds(dailyMedsData.tuesday),
+                DailyMeds(dailyMedsData.wednesday),
+                DailyMeds(dailyMedsData.thursday),
+                DailyMeds(dailyMedsData.friday),
+                DailyMeds(dailyMedsData.saturday),
+                DailyMeds(dailyMedsData.sunday),
               ],
             ),
           ),
@@ -184,9 +168,6 @@ class _DailyMedsScreenState extends State<DailyMedsScreen>
 }
 
 class TopContainer extends StatelessWidget {
-  final int quantity;
-  TopContainer(this.quantity);
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -199,13 +180,6 @@ class TopContainer extends StatelessWidget {
         borderRadius: BorderRadius.only(
           bottomLeft: Radius.circular(30),
           bottomRight: Radius.circular(30),
-        ),
-      ),
-      child: Center(
-        child: Text(
-          'Bugün toplam $quantity adet ilacınız var.',
-          style: TextStyle(
-              color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
         ),
       ),
     );
