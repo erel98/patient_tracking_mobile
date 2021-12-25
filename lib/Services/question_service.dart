@@ -49,6 +49,7 @@ class QuestionService {
         Question currentQuestion = new Question(
           id: element['id'],
           title: element['subject'],
+          answer: element['answer'] ?? null,
           body: element['question'],
         );
         questions.add(currentQuestion);

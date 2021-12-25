@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:patient_tracking/Providers/bloodPressure_provider.dart';
+import 'package:patient_tracking/Widgets/no_data.dart';
 import 'package:provider/provider.dart';
 
 class BloodPressureList extends StatefulWidget {
@@ -31,41 +32,45 @@ class _BloodPressureListState extends State<BloodPressureList> {
       print(element.heartBeat);
     });
     Locale myLocale = Localizations.localeOf(context);
-    return ListView.separated(
-        separatorBuilder: (BuildContext context, int index) {
-          return Divider(
-            color: Colors.black,
-          );
-        },
-        itemCount: bps.length,
-        itemBuilder: (BuildContext context, int index) {
-          return ListTile(
-            leading: Text(
-              '${DateFormat.yMMMEd(myLocale.toString()).format(bps[index].time)} ${bps[index].time.hour}:${bps[index].time.minute.toString().padLeft(2, '0')}',
-              style: TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20),
-            ),
-            trailing: Column(
-              children: [
-                Text(
-                  '${printTansiyon(bps[index].systole)}/${printTansiyon(bps[index].diastole)}',
+    return bps.isNotEmpty
+        ? ListView.separated(
+            separatorBuilder: (BuildContext context, int index) {
+              return Divider(
+                color: Colors.black,
+              );
+            },
+            itemCount: bps.length,
+            itemBuilder: (BuildContext context, int index) {
+              return ListTile(
+                leading: Text(
+                  '${DateFormat.yMMMEd(myLocale.toString()).format(bps[index].time)} ${bps[index].time.hour}:${bps[index].time.minute.toString().padLeft(2, '0')}',
                   style: TextStyle(
                       color: Colors.black,
                       fontWeight: FontWeight.bold,
-                      fontSize: 18),
+                      fontSize: 20),
                 ),
-                Text(
-                  '${bps[index].heartBeat}',
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18),
-                )
-              ],
-            ),
-          );
-        });
+                trailing: Column(
+                  children: [
+                    Text(
+                      '${printTansiyon(bps[index].systole)}/${printTansiyon(bps[index].diastole)}',
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18),
+                    ),
+                    Text(
+                      '${bps[index].heartBeat}',
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18),
+                    )
+                  ],
+                ),
+              );
+            })
+        : !bpsData.isLoading
+            ? NoDataFound('Kan basıncı veriniz')
+            : Container();
   }
 }

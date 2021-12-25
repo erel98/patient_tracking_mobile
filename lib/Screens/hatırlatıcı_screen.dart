@@ -2,8 +2,10 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:intl/intl.dart';
+import 'package:patient_tracking/Models/place.dart';
 import 'package:patient_tracking/Models/randevu.dart';
 import 'package:patient_tracking/Providers/randevu_provider.dart';
+import 'package:patient_tracking/Services/places_service.dart';
 import 'package:patient_tracking/Widgets/hava_durumu.dart';
 import 'package:patient_tracking/Widgets/randevu_widget.dart';
 import 'package:provider/provider.dart';
@@ -32,10 +34,22 @@ class _HatirlaticiState extends State<Hatirlatici>
     });
   }
 
+  List<Place> places = [];
+  List<String> placeNames = [];
+  void fetchPlaces() async {
+    places = await PlaceService.getPlaces();
+    places.forEach((element) {
+      placeNames.add(element.name);
+    });
+  }
+
   void initState() {
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
     _tabController.addListener(_handleTabSelection);
+    fetchPlaces();
+    print('73: ${places.length}');
+    print('73: ${placeNames.length}');
   }
 
   @override
@@ -144,7 +158,6 @@ class _HatirlaticiState extends State<Hatirlatici>
                   '144: ${DateFormat.yMMMEd(myLocale.toString()).format(DateTime.now())}');
               if (dateController.text.isNotEmpty &&
                   hourController.text.isNotEmpty) {
-                //api call
                 final DateTime notificationDate = DateTime(
                     randevuTarih.year,
                     randevuTarih.month,
@@ -153,14 +166,13 @@ class _HatirlaticiState extends State<Hatirlatici>
                     randevuSaat.minute);
 
                 BildirimAPI.showScheduledNotification(
-                  id: Random().nextInt(999999),
-                  title: '${titleController.text} - randevunuz yaklaşıyor!',
-                  body:
-                      '${DateFormat.yMMMEd(myLocale.toString()).format(notificationDate)} tarihli hastane randevunuz yarın',
-                  scheduledDate: notificationDate.subtract(
-                    Duration(days: 1),
-                  ),
-                );
+                    id: Random().nextInt(999999),
+                    payload: 'Unutmayın!',
+                    title: '${titleController.text} - randevunuz yaklaşıyor!',
+                    body:
+                        '${DateFormat.yMMMEd(myLocale.toString()).format(notificationDate)} tarihli hastane randevunuz yarın',
+                    scheduledDate: notificationDate //daha sonra değişecek
+                    );
                 var currentRandevu = Randevu(
                     date: notificationDate, reminderText: titleController.text);
                 final randevuProvider =
@@ -196,14 +208,32 @@ class _HatirlaticiState extends State<Hatirlatici>
         ),
       ),
       actions: [
-        IconButton(
-          icon: Icon(
-            Icons.add,
-            color: Colors.white,
+        FittedBox(
+          fit: BoxFit.fitHeight,
+          child: IconButton(
+            icon: Icon(
+              FontAwesome5.question_circle,
+              color: Colors.white,
+            ),
+            onPressed: () => Alert(
+                context: context,
+                content: Column(
+                  children: [
+                    Text(_tabController.index == 1
+                        ? havaDurumuInfo
+                        : randevuInfo)
+                  ],
+                ),
+                buttons: [
+                  DialogButton(
+                      color: kPrimaryColor,
+                      child: Text(
+                        'Anladım',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      onPressed: () => Navigator.of(context).pop())
+                ]).show(),
           ),
-          onPressed: () {
-            setState(() {});
-          },
         )
       ],
     );
@@ -221,7 +251,7 @@ class _HatirlaticiState extends State<Hatirlatici>
               controller: _tabController,
               children: [
                 RandevuWidget(),
-                Weather(),
+                Weather(placeNames),
               ],
             ),
           ),
@@ -260,7 +290,7 @@ class TopContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 20),
-      height: MediaQuery.of(context).size.height * 0.1,
+      height: MediaQuery.of(context).size.height * 0.05,
       decoration: BoxDecoration(
         border: Border.all(width: 0, color: kPrimaryColor),
         color: kPrimaryColor,

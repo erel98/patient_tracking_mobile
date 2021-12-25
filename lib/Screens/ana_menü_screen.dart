@@ -51,16 +51,6 @@ class _AnaMenuState extends State<AnaMenu> {
       appBar: appBar,
       bottomNavigationBar: bottomNavBar(),
       body: MainScreenTopContainer(widgetOptions: widgetOptions),
-      floatingActionButton: Global.initialState == 1
-          ? FloatingActionButton(
-              backgroundColor: kPrimaryColor,
-              onPressed: () => null,
-              child: Padding(
-                padding: const EdgeInsets.all(3.0),
-                child: FittedBox(fit: BoxFit.fitWidth, child: Text('Kaydet')),
-              ),
-            )
-          : null,
     );
   }
 

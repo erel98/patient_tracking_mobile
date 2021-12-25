@@ -4,9 +4,10 @@ import 'package:patient_tracking/Services/medication_service.dart';
 
 class MedicineProvider extends ChangeNotifier {
   List<MedicationVariant> medVariants = [];
-
+  bool isLoading = true;
   void getMedVariants(context) async {
     medVariants = await MedicationService.getMyMedications();
+    isLoading = false;
     notifyListeners();
   }
 

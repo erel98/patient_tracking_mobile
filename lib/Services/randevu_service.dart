@@ -24,10 +24,9 @@ class RandevuService {
       var data = response.data;
       print('28: ${response.message}');
       if (Global.successList.contains(response.status)) {
-        newRandevu = Randevu(
-            id: data['id'],
-            date: data['reminder_time'],
-            reminderText: data['reminder']);
+        DateTime date = DateTime.parse(data['reminder_time']);
+        newRandevu =
+            Randevu(id: data['id'], date: date, reminderText: data['reminder']);
       }
     });
     return newRandevu;
@@ -64,7 +63,7 @@ class RandevuService {
     await HTTPService.httpDELETE(deleteUrl, appendToken: true)
         .then((API_Response response) {
       print('65: ${response.status}');
-      if (Global.successList.contains(response)) {
+      if (Global.successList.contains(response.status)) {
         success = true;
       }
     });

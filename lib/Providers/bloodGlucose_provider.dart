@@ -4,9 +4,11 @@ import 'package:patient_tracking/Services/bg_service.dart';
 
 class BloodGlucoseProvider with ChangeNotifier {
   List<BloodGlucose> bgs = [];
+  bool isLoading = true;
 
   void getBloodGlucoses() async {
     bgs = await BloodGlucoseService.getBloodGlucoses();
+    isLoading = false;
     notifyListeners();
   }
 

@@ -4,9 +4,10 @@ import '../Models/question.dart';
 
 class QuestionProvider extends ChangeNotifier {
   List<Question> questions = [];
-
+  bool isLoading = true;
   void getQuestions(context) async {
     questions = await QuestionService.getMyQuestions();
+    isLoading = false;
     notifyListeners();
   }
 

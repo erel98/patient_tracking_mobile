@@ -124,9 +124,8 @@ class BildirimAPI {
         : scheduledDate;
   }
 
-  static TZDateTime _scheduleWeekly(Time time, {List<int> days}) {
+  static TZDateTime scheduleWeekly(Time time, {List<int> days}) {
     TZDateTime scheduleDate = _scheduleDaily(time);
-
     while (!days.contains(scheduleDate.weekday)) {
       scheduleDate = scheduleDate.add(Duration(days: 1));
     }

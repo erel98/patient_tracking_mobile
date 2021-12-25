@@ -4,15 +4,16 @@ import '../Models/randevu.dart';
 
 class RandevuProvider with ChangeNotifier {
   List<Randevu> randevuList = [];
-
+  var isLoading = true;
   void getRandevusList(context) async {
     randevuList = await RandevuService.getRandevus();
-
+    isLoading = false;
     notifyListeners();
   }
 
   void addRandevu(Randevu randevu) async {
     Randevu newRandevu = await RandevuService.postRandevu(randevu);
+    print('16 id: ${newRandevu.id} name: ${newRandevu.reminderText}');
     if (newRandevu.id != null) {
       randevuList.add(newRandevu);
       notifyListeners();
@@ -21,8 +22,10 @@ class RandevuProvider with ChangeNotifier {
 
   Future<bool> removeRandevu(int id) async {
     var success = await RandevuService.deleteRandevu(id);
-    randevuList.removeWhere((element) => element.id == id);
-    notifyListeners();
+    if (success) {
+      randevuList.removeWhere((element) => element.id == id);
+      notifyListeners();
+    }
     return success;
   }
 

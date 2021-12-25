@@ -17,11 +17,13 @@ class PatientProvider with ChangeNotifier {
 
   static Future<bool> login(String phone, String password) async {
     bool success = false;
-
+    var prefs = await SharedPreferences.getInstance();
+    String fcmToken = prefs.getString('fcm_token');
     String url = dotenv.env['API_URL'] + '/login';
     Map<String, String> body = {};
     body['phone_number'] = phone;
     body['password'] = password;
+    body['fcm_token'] = fcmToken;
 
     await HTTPService.httpPOST(url, body).then((API_Response response) async {
       LoginResponse loginResponse =

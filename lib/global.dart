@@ -64,7 +64,7 @@ class Global {
     ),
     AnaMenuItem(
       'Organ\nTransplant',
-      '',
+      '/organ-transplant',
       Icon(
         FontAwesome.heart,
         color: kMenuIconColor,

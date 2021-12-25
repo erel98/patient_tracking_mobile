@@ -1,10 +1,14 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:patient_tracking/Providers/bloodGlucose_provider.dart';
 import 'package:patient_tracking/Providers/question_provider.dart';
+import 'package:patient_tracking/Screens/organ_transplant_screen.dart';
 import 'package:patient_tracking/constraints.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'Providers/bloodPressure_provider.dart';
 import 'Screens/ana_menü_screen.dart';
 import 'Screens/kullandığım_ilaçlar_screen.dart';
@@ -12,6 +16,7 @@ import 'Screens/ilaç_detay_screen.dart';
 import 'Screens/hatırlatıcı_screen.dart';
 import 'Screens/hava_durumu_screen.dart';
 import 'Screens/bugünkü_ilaçlarım_screen.dart';
+import 'Screens/login_screen.dart';
 import 'Screens/yan_etkiler_screen.dart';
 import 'Screens/soru_sor_screen.dart';
 import 'Screens/kan_basinci_screen.dart';
@@ -22,6 +27,8 @@ import 'Providers/medicine_provider.dart';
 import 'Providers/randevu_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
 void main() async {
   await dotenv.load();
@@ -35,6 +42,9 @@ void main() async {
     (instance) => PreferecesController.sharedPreferencesInstance = instance);
   */
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(
@@ -63,16 +73,47 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  /*
-  void initUrl() async {
+  Future<void> initToken() async {
+    String token = await FirebaseMessaging.instance.getToken();
+    print('73 $token');
     var prefs = await SharedPreferences.getInstance();
-    prefs.setString('URL', '192.168.1.225:8080');
+    prefs.setString('fcm_token', token);
   }
-  */
+
+  Future<void> setupInteractedMessage() async {
+    // Get any messages which caused the application to open from
+    // a terminated state.
+    RemoteMessage initialMessage =
+        await FirebaseMessaging.instance.getInitialMessage();
+    print('101: $initialMessage');
+    // If the message also contains a data property with a "type" of "chat",
+    // navigate to a chat screen
+    if (initialMessage != null) {
+      _handleMessage(initialMessage);
+      print('101: ${initialMessage.data}');
+      print('101: ${initialMessage.mutableContent}');
+      print('101: ${initialMessage.from}');
+      print('101: ${initialMessage.data}');
+    }
+
+    // Also handle any interaction when the app is in the background via a
+    // Stream listener
+    FirebaseMessaging.onMessageOpenedApp.listen(_handleMessage);
+  }
+
+  void _handleMessage(RemoteMessage message) {
+    if (message.data['type'] == 'chat') {
+      //open a page
+    }
+  }
+
   @override
   void initState() {
     super.initState();
-    //initUrl();
+    FirebaseAnalytics anal = FirebaseAnalytics.instance;
+
+    initToken();
+    setupInteractedMessage();
     BildirimAPI.init(initScheduled: true);
     listenNotifications();
   }
@@ -123,7 +164,7 @@ class _MyAppState extends State<MyApp> {
             data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
             child: child),
       ),
-      home: AnaMenu(), //LoginScreen(),
+      home: LoginScreen(), //LoginScreen(),
       routes: {
         AnaMenu.routeName: (ctx) => AnaMenu(),
         KullandigimIlaclar.routeName: (ctx) => KullandigimIlaclar(),
@@ -136,6 +177,7 @@ class _MyAppState extends State<MyApp> {
         SideEffectsScreen.routeName: (ctx) => SideEffectsScreen(),
         BloodPressureScreen.routeName: (ctx) => BloodPressureScreen(),
         BloodGlucoseScreen.routeName: (ctx) => BloodGlucoseScreen(),
+        OrganTransplantScreen.routeName: (ctx) => OrganTransplantScreen(),
       },
     );
   }

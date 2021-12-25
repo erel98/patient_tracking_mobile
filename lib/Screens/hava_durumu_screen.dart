@@ -5,7 +5,6 @@ import 'package:patient_tracking/constraints.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../global.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:google_maps_webservice/places.dart';
 
 class HavaDurumu extends StatefulWidget {
   static const routeName = '/hava-durumu';
@@ -15,9 +14,6 @@ class HavaDurumu extends StatefulWidget {
 }
 
 class _HavaDurumuState extends State<HavaDurumu> {
-  final places =
-      new GoogleMapsPlaces(apiKey: 'AIzaSyAcWPqNNsZZXc_8r9XiMYGSe7LWSK2Qi-k');
-
   TimeOfDay _time;
   void _selectTime() async {
     _time = TimeOfDay(hour: 7, minute: 0);

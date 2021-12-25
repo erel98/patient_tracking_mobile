@@ -4,9 +4,11 @@ import '../Models/bloodPressure.dart';
 
 class BloodPressureProvider with ChangeNotifier {
   List<BloodPressure> bps = [];
+  bool isLoading = true;
 
   void getBloodPressures(context) async {
     bps = await BloodPressureService.getBloodPressures();
+    isLoading = false;
     notifyListeners();
   }
 
