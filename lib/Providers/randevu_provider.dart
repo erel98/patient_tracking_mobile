@@ -1,0 +1,37 @@
+import 'package:flutter/material.dart';
+import 'package:patient_tracking/Services/randevu_service.dart';
+import '../Models/randevu.dart';
+
+class RandevuProvider with ChangeNotifier {
+  List<Randevu> randevuList = [];
+
+  void getRandevusList(context) async {
+    randevuList = await RandevuService.getRandevus();
+
+    notifyListeners();
+  }
+
+  void addRandevu(Randevu randevu) async {
+    Randevu newRandevu = await RandevuService.postRandevu(randevu);
+    if (newRandevu.id != null) {
+      randevuList.add(newRandevu);
+      notifyListeners();
+    }
+  }
+
+  Future<bool> removeRandevu(int id) async {
+    var success = await RandevuService.deleteRandevu(id);
+    randevuList.removeWhere((element) => element.id == id);
+    notifyListeners();
+    return success;
+  }
+
+  void update(Randevu randevu) {
+    randevuList[randevuList.indexWhere((m) => m.id == randevu.id)] = randevu;
+    notifyListeners();
+  }
+
+  void empty() {
+    randevuList.clear();
+  }
+}

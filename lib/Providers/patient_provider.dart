@@ -26,7 +26,7 @@ class PatientProvider with ChangeNotifier {
 
     await HTTPService.httpPOST(url, body).then((API_Response response) async {
       LoginResponse loginResponse =
-          LoginResponse(token: response.data.first['token']);
+          LoginResponse(token: response.data['token']);
       // print('15 ${loginResponse}');
       // print('16 ${response}');
       // print('17 ${response.status}');

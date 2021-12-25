@@ -1,15 +1,9 @@
-class Randevu {
-  String id;
+import 'package:flutter/material.dart';
+
+class Randevu extends ChangeNotifier {
+  int id;
   DateTime date;
   String reminderText;
 
-  Randevu(
-    String id,
-    DateTime date,
-    String reminderText,
-  ) {
-    this.id = id;
-    this.date = date;
-    this.reminderText = reminderText;
-  }
+  Randevu({this.id, this.date, this.reminderText});
 }

@@ -1,16 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:patient_tracking/Models/bloodPressure.dart';
+import 'package:patient_tracking/Providers/bloodPressure_provider.dart';
+import 'package:provider/src/provider.dart';
 
-class Graph extends StatefulWidget {
+class BloodPressureGraphDaily extends StatefulWidget {
   @override
-  _GraphState createState() => _GraphState();
+  _BloodPressureGraphDailyState createState() =>
+      _BloodPressureGraphDailyState();
 }
 
-class _GraphState extends State<Graph> {
-  final kTansiyon = [80, 70, 63, 76, 82, 90];
-  final kTimes = [7, 13.6, 15.8, 17, 20, 22];
-  final bTansiyon = [121, 136, 117, 120, 110, 112];
-  final bTimes = [10, 11, 12, 20, 21, 22];
+class _BloodPressureGraphDailyState extends State<BloodPressureGraphDaily> {
+  List<Color> redColors = [
+    Colors.red,
+  ];
+
+  List<Color> blueColors = [
+    Colors.blue,
+  ];
+  List<Color> orangeColors = [
+    Colors.orange,
+  ];
+
+  List<Color> get kLineColors =>
+      diastoleList.last.y <= 100 && diastoleList.last.y >= 60
+          ? blueColors
+          : redColors;
+  List<Color> get bLineColors =>
+      systoleList.last.y <= 140 && systoleList.last.y >= 100
+          ? orangeColors
+          : redColors;
 
   List<FlSpot> createSpots(List<int> tansiyon, List<int> times) {
     List<FlSpot> retVal = [];
@@ -28,16 +47,33 @@ class _GraphState extends State<Graph> {
   List<Color> kgradientColors = [
     const Color(0xff23b6e6),
   ];
-
   List<Color> bgradientColors = [Colors.grey];
+  List<FlSpot> systoleList = [];
+  List<FlSpot> diastoleList = [];
+
+  @override
+  void initState() {
+    super.initState();
+    final bpProvider =
+        Provider.of<BloodPressureProvider>(context, listen: false);
+    bpProvider.getBloodPressures(context);
+  }
+
   @override
   Widget build(BuildContext context) {
+    final bpsData = Provider.of<BloodPressureProvider>(context);
+    final bps = bpsData.bps;
+    bps.forEach((element) {
+      double time = element.time.hour + element.time.minute / 60;
+      systoleList.add(FlSpot(time, element.systole));
+      diastoleList.add(FlSpot(time, element.diastole));
+    });
     return LineChart(
       LineChartData(
           minX: 0,
           minY: 0,
           maxX: 24,
-          maxY: 150,
+          maxY: 15,
           titlesData: FlTitlesData(
             show: true,
             bottomTitles: SideTitles(
@@ -77,7 +113,7 @@ class _GraphState extends State<Graph> {
                   fontWeight: FontWeight.bold,
                   fontSize: 10),
               getTitles: (value) {
-                if (value % 10 == 0) {
+                if (value % 1 == 0) {
                   return '${value.toInt()}';
                 }
                 return '';
@@ -106,64 +142,94 @@ class _GraphState extends State<Graph> {
           ),
           lineBarsData: [
             LineChartBarData(
-              spots: [
-                FlSpot(9, 80),
-                FlSpot(12, 77),
-                FlSpot(15, 80),
-                FlSpot(18, 90),
-                FlSpot(21, 62),
-              ],
+              spots: systoleList,
               isCurved: true,
               colors: kgradientColors,
-              barWidth: 5,
+              barWidth: 3,
               isStrokeCapRound: true,
               dotData: FlDotData(
                 show: false,
               ),
-              belowBarData: BarAreaData(
+              /* belowBarData: BarAreaData(
                 show: true,
-                colors: kgradientColors
-                    .map((color) => color.withOpacity(0.3))
-                    .toList(),
+                colors:
+                    kLineColors.map((color) => color.withOpacity(0.3)).toList(),
+              ) */
+            ),
+            LineChartBarData(
+              spots: diastoleList,
+              isCurved: true,
+              colors: bLineColors,
+              barWidth: 3,
+              isStrokeCapRound: true,
+              dotData: FlDotData(
+                show: false,
               ),
+              /* belowBarData: BarAreaData(
+                show: true,
+                colors:
+                    bLineColors.map((color) => color.withOpacity(0.3)).toList(),
+              ), */
             ),
             LineChartBarData(
               spots: [
-                FlSpot(7, 120),
-                FlSpot(9, 130),
-                FlSpot(11, 116),
-                FlSpot(22, 128),
-                FlSpot(23, 123),
+                FlSpot(0, 10),
+                FlSpot(24, 10),
               ],
+              dashArray: [2],
               isCurved: true,
-              colors: bgradientColors,
-              barWidth: 5,
+              colors: [Colors.blue],
+              barWidth: 1,
               isStrokeCapRound: true,
               dotData: FlDotData(
                 show: false,
               ),
-              belowBarData: BarAreaData(
+              /* belowBarData: BarAreaData(
                 show: true,
                 colors: bgradientColors
                     .map((color) => color.withOpacity(0.3))
                     .toList(),
-              ),
+              ), */
             ),
             LineChartBarData(
-              spots: [],
+              spots: [
+                FlSpot(0, 6),
+                FlSpot(24, 6),
+              ],
+              dashArray: [2],
               isCurved: true,
-              colors: bgradientColors,
-              barWidth: 5,
+              colors: [Colors.blue],
+              barWidth: 1,
               isStrokeCapRound: true,
               dotData: FlDotData(
                 show: false,
               ),
-              belowBarData: BarAreaData(
+              /* belowBarData: BarAreaData(
                 show: true,
                 colors: bgradientColors
                     .map((color) => color.withOpacity(0.3))
                     .toList(),
+              ), */
+            ),
+            LineChartBarData(
+              spots: [
+                FlSpot(0, 14),
+                FlSpot(24, 14),
+              ],
+              dashArray: [2],
+              isCurved: true,
+              colors: [Colors.red],
+              barWidth: 1,
+              isStrokeCapRound: true,
+              dotData: FlDotData(
+                show: false,
               ),
+              /* belowBarData: BarAreaData(
+                show: true,
+                colors: bgradientColors
+                    .map((color) => color.withOpacity(0.3))
+                    .toList(),
+              ), */
             )
           ]),
     );

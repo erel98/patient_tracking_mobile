@@ -73,10 +73,6 @@ class _DailyMedsState extends State<DailyMeds> {
         });
       },
       children: _data.map<ExpansionPanel>((Item item) {
-        print('75 ${item.headerTitle} ${item.difference}');
-        print(
-            '76 ${DateTime.now().difference(DateTime(2021, 11, 28, 15)).inMinutes}');
-        print('78 ${DateTime.now()}');
         return ExpansionPanel(
           headerBuilder: (BuildContext context, bool isExpanded) {
             return ListTile(

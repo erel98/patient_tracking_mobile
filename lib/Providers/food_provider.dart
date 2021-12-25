@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../Models/food.dart';
 
-class Foods with ChangeNotifier {
+class FoodProvider with ChangeNotifier {
   List<Food> _foods = [
     Food(1, 'Greyfurt', null),
     Food(2, 'Portakal', null),

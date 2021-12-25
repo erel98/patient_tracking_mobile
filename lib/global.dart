@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:patient_tracking/Screens/dan%C4%B1%C5%9Fmanl%C4%B1k_screen.dart';
+import 'package:patient_tracking/Screens/soru_sor_screen.dart';
 import 'package:patient_tracking/Screens/kan_basinci_screen.dart';
+import 'package:patient_tracking/Screens/sorular%C4%B1m_screen.dart';
 import 'package:patient_tracking/Screens/yan_etkiler_screen.dart';
 import 'package:patient_tracking/constraints.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -73,7 +74,7 @@ class Global {
     ),
     AnaMenuItem(
       'Danışmanlık',
-      QuestionsScreen.routeName,
+      MyQuestionsScreen.routeName,
       Icon(
         FontAwesome.question,
         color: kMenuIconColor,
@@ -91,7 +92,7 @@ class Global {
     ),
     AnaMenuItem(
       'Kan glikoz\ndeğeri',
-      '',
+      '/blood-glucose',
       Icon(
         FontAwesome.tint,
         color: kMenuIconColor,

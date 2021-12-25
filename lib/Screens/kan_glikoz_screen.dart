@@ -1,40 +1,31 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:patient_tracking/Models/bloodGlucose.dart';
 import 'package:patient_tracking/Models/bloodPressure.dart';
-import 'package:patient_tracking/Providers/bloodPressure_provider.dart';
-import 'package:patient_tracking/Services/bp_service.dart';
-import 'package:patient_tracking/Widgets/Graphs/bp_g%C3%BCnl%C3%BCk_grafik.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import 'package:patient_tracking/Widgets/Graphs/bp_haftal%C4%B1k_grafik.dart';
-import 'package:patient_tracking/Widgets/kan_bas%C4%B1nc%C4%B1_listview.dart';
+import 'package:patient_tracking/Providers/bloodGlucose_provider.dart';
+import 'package:patient_tracking/Widgets/Graphs/bg_g%C3%BCnl%C3%BCk_grafik.dart';
+import 'package:patient_tracking/Widgets/Graphs/bg_haftal%C4%B1k_grafik.dart';
+import 'package:patient_tracking/Widgets/blood_glucose_listview.dart';
 import 'package:provider/provider.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
 import '../constraints.dart';
 
-class BloodPressureScreen extends StatefulWidget {
-  static final routeName = '/blood-pressure';
+class BloodGlucoseScreen extends StatefulWidget {
+  static final routeName = '/blood-glucose';
 
   @override
-  _BloodPressureScreenState createState() => _BloodPressureScreenState();
+  _BloodGlucoseScreenState createState() => _BloodGlucoseScreenState();
 }
 
-class _BloodPressureScreenState extends State<BloodPressureScreen> {
-  var kController = TextEditingController();
-  var bController = TextEditingController();
-  var hbController = TextEditingController();
+class _BloodGlucoseScreenState extends State<BloodGlucoseScreen> {
+  var controller = TextEditingController();
+
   void addNewBp(BuildContext context) async {
-    final bpProvider =
-        Provider.of<BloodPressureProvider>(context, listen: false);
-    BloodPressure bp = new BloodPressure(
-        diastole: double.parse(kController.text),
-        systole: double.parse(bController.text),
-        heartBeat: int.parse(hbController.text));
-    bpProvider.addBloodPressure(bp);
-    kController.clear();
-    bController.clear();
-    hbController.clear();
+    final bgProvider =
+        Provider.of<BloodGlucoseProvider>(context, listen: false);
+    BloodGlucose bg = new BloodGlucose(value: int.parse(controller.text));
+    bgProvider.addBloodGlucose(bg);
+    controller.clear();
     Navigator.of(context).pop();
   }
 
@@ -44,26 +35,10 @@ class _BloodPressureScreenState extends State<BloodPressureScreen> {
       content: Column(
         children: [
           TextField(
-            controller: kController,
+            controller: controller,
             keyboardType: TextInputType.number,
             decoration: InputDecoration(
-              labelText: 'küçük tansiyon',
-              floatingLabelBehavior: FloatingLabelBehavior.auto,
-            ),
-          ),
-          TextField(
-            controller: bController,
-            keyboardType: TextInputType.number,
-            decoration: InputDecoration(
-              labelText: 'büyük tansiyon',
-              floatingLabelBehavior: FloatingLabelBehavior.auto,
-            ),
-          ),
-          TextField(
-            controller: hbController,
-            keyboardType: TextInputType.number,
-            decoration: InputDecoration(
-              labelText: 'nabız',
+              labelText: 'şeker değeri',
               floatingLabelBehavior: FloatingLabelBehavior.auto,
             ),
           ),
@@ -77,7 +52,7 @@ class _BloodPressureScreenState extends State<BloodPressureScreen> {
               style: TextStyle(color: Colors.white),
             ),
             onPressed: () async {
-              if (kController.text.isNotEmpty && bController.text.isNotEmpty) {
+              if (controller.text.isNotEmpty) {
                 addNewBp(context);
               }
             })
@@ -162,8 +137,8 @@ class _BloodPressureScreenState extends State<BloodPressureScreen> {
                 color: Color(0xff232d37),
               ),
               child: isDaily
-                  ? BloodPressureGraphDaily()
-                  : BloodPressureWeeklyGraph()),
+                  ? BloodGlucoseDailyGraph()
+                  : BloodGlucoseWeeklyGraph()),
           Container(
             height: height -
                 (getAppbar(context).preferredSize.height +
@@ -174,8 +149,8 @@ class _BloodPressureScreenState extends State<BloodPressureScreen> {
                     66 +
                     21 +
                     27),
-            child: Consumer<BloodPressureProvider>(
-              builder: (_, bps, child) => BloodPressureList(),
+            child: Consumer<BloodGlucoseProvider>(
+              builder: (_, bps, child) => BloodGlucoseList(),
             ),
           )
         ],

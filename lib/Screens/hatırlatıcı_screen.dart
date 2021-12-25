@@ -1,8 +1,17 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:intl/intl.dart';
+import 'package:patient_tracking/Models/randevu.dart';
+import 'package:patient_tracking/Providers/randevu_provider.dart';
+import 'package:patient_tracking/Services/randevu_service.dart';
 import 'package:patient_tracking/Widgets/hava_durumu.dart';
 import 'package:patient_tracking/Widgets/randevu_widget.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:provider/provider.dart';
+import '../BildirimAPI.dart';
 import '../constraints.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
@@ -133,10 +142,38 @@ class _HatirlaticiState extends State<Hatirlatici>
         buttons: [
           DialogButton(
             color: kPrimaryColor,
-            onPressed: () {
+            onPressed: () async {
+              Locale myLocale = Localizations.localeOf(context);
+              print(
+                  '144: ${DateFormat.yMMMEd(myLocale.toString()).format(DateTime.now())}');
               if (dateController.text.isNotEmpty &&
                   hourController.text.isNotEmpty) {
                 //api call
+                final DateTime notificationDate = DateTime(
+                    randevuTarih.year,
+                    randevuTarih.month,
+                    randevuTarih.day,
+                    randevuSaat.hour,
+                    randevuSaat.minute);
+
+                BildirimAPI.showScheduledNotification(
+                  id: Random().nextInt(999999),
+                  title: '${titleController.text} - randevunuz yaklaşıyor!',
+                  body:
+                      '${DateFormat.yMMMEd(myLocale.toString()).format(notificationDate)} tarihli hastane randevunuz yarın',
+                  scheduledDate: notificationDate.subtract(
+                    Duration(days: 1),
+                  ),
+                );
+                var currentRandevu = Randevu(
+                    date: notificationDate, reminderText: titleController.text);
+                final randevuProvider =
+                    Provider.of<RandevuProvider>(context, listen: false);
+                randevuProvider.addRandevu(currentRandevu);
+                dateController.clear();
+                hourController.clear();
+                titleController.clear();
+
                 Navigator.pop(context);
               } else {
                 _warnUser();
@@ -162,6 +199,17 @@ class _HatirlaticiState extends State<Hatirlatici>
           tabs: _tabs,
         ),
       ),
+      actions: [
+        IconButton(
+          icon: Icon(
+            Icons.add,
+            color: Colors.white,
+          ),
+          onPressed: () {
+            setState(() {});
+          },
+        )
+      ],
     );
     var mq = MediaQuery.of(context).size;
     return Scaffold(

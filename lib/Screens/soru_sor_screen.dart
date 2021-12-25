@@ -1,20 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:patient_tracking/Models/question.dart';
+import 'package:patient_tracking/Providers/question_provider.dart';
+import 'package:patient_tracking/Services/question_service.dart';
 import 'package:patient_tracking/constraints.dart';
+import 'package:provider/provider.dart';
 
-class QuestionsScreen extends StatefulWidget {
-  static final routeName = '/questions';
+class AskQuestionScreen extends StatefulWidget {
+  static final routeName = '/ask-question';
   @override
-  _QuestionsScreenState createState() => _QuestionsScreenState();
+  _AskQuestionScreenState createState() => _AskQuestionScreenState();
 }
 
-class _QuestionsScreenState extends State<QuestionsScreen> {
+class _AskQuestionScreenState extends State<AskQuestionScreen> {
   final appBar = AppBar(backgroundColor: kPrimaryColor, elevation: 0);
   final subject = TextEditingController();
   final content = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: appBar,
       body: Column(
         children: [
@@ -84,7 +91,22 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
           Align(
               alignment: Alignment.bottomCenter,
               child: ElevatedButton(
-                onPressed: () => null,
+                onPressed: () async {
+                  if (content.text.isNotEmpty && subject.text.isNotEmpty) {
+                    Question question =
+                        Question(body: content.text, title: subject.text);
+                    var questionProvider =
+                        Provider.of<QuestionProvider>(context, listen: false);
+                    questionProvider.addQuestion(question);
+                    content.clear();
+                    subject.clear();
+                    Navigator.of(context).popAndPushNamed('/my-questions');
+                  } else {
+                    Fluttertoast.showToast(
+                        msg:
+                            'Lütfen sizden istenen alanları eksiksiz doldurunuz.');
+                  }
+                },
                 style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all(kPrimaryColor)),
                 child: Text(

@@ -2,26 +2,27 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:patient_tracking/Providers/bloodGlucose_provider.dart';
+import 'package:patient_tracking/Providers/question_provider.dart';
 import 'package:patient_tracking/constraints.dart';
-import 'Providers/bloodPressures.dart';
-import 'Providers/loadingProvider.dart';
+import 'Providers/bloodPressure_provider.dart';
 import 'Screens/login_screen.dart';
 import 'Screens/ana_menü_screen.dart';
 import 'Screens/kullandığım_ilaçlar_screen.dart';
 import 'Screens/ilaç_detay_screen.dart';
 import 'Screens/hatırlatıcı_screen.dart';
 import 'Screens/hava_durumu_screen.dart';
-import 'Screens/randevularım_screen.dart';
 import 'Screens/bugünkü_ilaçlarım_screen.dart';
 import 'Screens/yan_etkiler_screen.dart';
-import 'Screens/danışmanlık_screen.dart';
+import 'Screens/soru_sor_screen.dart';
 import 'Screens/kan_basinci_screen.dart';
+import 'Screens/sorularım_screen.dart';
+import 'Screens/kan_glikoz_screen.dart';
 import 'BildirimAPI.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'Providers/medicine_provider.dart';
-import './Providers/randevus.dart';
+import 'Providers/randevu_provider.dart';
 import 'package:provider/provider.dart';
-import 'package:android_alarm_manager_plus/android_alarm_manager_plus.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 void main() async {
@@ -36,19 +37,23 @@ void main() async {
     (instance) => PreferecesController.sharedPreferencesInstance = instance);
   */
   WidgetsFlutterBinding.ensureInitialized();
-  await AndroidAlarmManager.initialize();
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(
         create: (_) => MedicineProvider(),
       ),
       ChangeNotifierProvider(
-        create: (_) => BloodPressures(),
+        create: (_) => BloodPressureProvider(),
       ),
       ChangeNotifierProvider(
-        create: (_) => Randevus(),
+        create: (_) => BloodGlucoseProvider(),
       ),
-      ChangeNotifierProvider(create: (_) => LoadingProvider()),
+      ChangeNotifierProvider(
+        create: (_) => RandevuProvider(),
+      ),
+      ChangeNotifierProvider(
+        create: (_) => QuestionProvider(),
+      ),
     ],
     child: MyApp(),
   ));
@@ -60,15 +65,16 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  /*
   void initUrl() async {
     var prefs = await SharedPreferences.getInstance();
     prefs.setString('URL', '192.168.1.225:8080');
   }
-
+  */
   @override
   void initState() {
     super.initState();
-    initUrl();
+    //initUrl();
     BildirimAPI.init(initScheduled: true);
     listenNotifications();
   }
@@ -92,8 +98,6 @@ class _MyAppState extends State<MyApp> {
     const secondaryColor = const Color(0xFF17BEBB); //appbar-navbar
     */
     final ThemeData theme = ThemeData();
-
-    var loadingProvider = context.read<LoadingProvider>();
 
     return MaterialApp(
       title: 'Hasta Takip Sistemi',
@@ -121,7 +125,7 @@ class _MyAppState extends State<MyApp> {
             data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
             child: child),
       ),
-      home: LoginScreen(),
+      home: AnaMenu(), //LoginScreen(),
       routes: {
         AnaMenu.routeName: (ctx) => AnaMenu(),
         KullandigimIlaclar.routeName: (ctx) => KullandigimIlaclar(),
@@ -129,10 +133,11 @@ class _MyAppState extends State<MyApp> {
         Hatirlatici.routeName: (ctx) => Hatirlatici(),
         HavaDurumu.routeName: (ctx) => HavaDurumu(),
         DailyMedsScreen.routeName: (ctx) => DailyMedsScreen(),
-        RandevuScreen.routeName: (ctx) => RandevuScreen(),
-        QuestionsScreen.routeName: (ctx) => QuestionsScreen(),
+        AskQuestionScreen.routeName: (ctx) => AskQuestionScreen(),
+        MyQuestionsScreen.routeName: (ctx) => MyQuestionsScreen(),
         SideEffectsScreen.routeName: (ctx) => SideEffectsScreen(),
         BloodPressureScreen.routeName: (ctx) => BloodPressureScreen(),
+        BloodGlucoseScreen.routeName: (ctx) => BloodGlucoseScreen(),
       },
     );
   }

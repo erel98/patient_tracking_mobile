@@ -28,11 +28,16 @@ class _UsedMedsState extends State<UsedMeds> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    final medProvider = Provider.of<MedicineProvider>(context, listen: false);
+    medProvider.getMedVariants(context);
+  }
+
+  @override
   Widget build(BuildContext context) {
-    //Main.dart'ta oluşturduğumuz provider'a listener ekliyoruz.
-    final medsData = context.watch<MedicineProvider>();
+    final medsData = Provider.of<MedicineProvider>(context);
     final meds = medsData.medVariants;
-    // print('kil 190 ${meds.first.name}');
     return LoadingOverlay(
       isLoading: Global.isLoading,
       child: Container(
