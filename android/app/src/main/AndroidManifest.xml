@@ -8,7 +8,7 @@
    <application
         android:allowBackup="false"
         android:label="Hasta Takip"
-        android:icon="@mipmap/notification_icon">
+        
         <meta-data
           android:name="com.google.firebase.messaging.default_notification_icon"
           android:resource="@drawable/notification_icon" />
