@@ -28,9 +28,6 @@ class PatientProvider with ChangeNotifier {
     await HTTPService.httpPOST(url, body).then((API_Response response) async {
       LoginResponse loginResponse =
           LoginResponse(token: response.data['token']);
-      // print('15 ${loginResponse}');
-      // print('16 ${response}');
-      // print('17 ${response.status}');
       if (Global.successList.contains(response.status)) {
         success = true;
         // // print('24 ${loginResponse.}');
@@ -60,6 +57,7 @@ class PatientProvider with ChangeNotifier {
   static Future<bool> sendMe(String token) async {
     bool success = false;
     String url = dotenv.env['API_URL'] + '/me';
+    var prefs = await SharedPreferences.getInstance();
 
     await HTTPService.httpGET(url, appendToken: true)
         .then((http.Response response) {
@@ -67,6 +65,9 @@ class PatientProvider with ChangeNotifier {
         success = true;
         var jsonResponse = jsonDecode(response.body);
         currentPatient = Patient.fromJson(jsonResponse['data']);
+        prefs.setString('name', currentPatient.fullName);
+        prefs.setDouble('weight', currentPatient.weight);
+        prefs.setInt('height', currentPatient.height);
       }
     });
     return success;

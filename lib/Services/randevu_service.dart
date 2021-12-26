@@ -13,7 +13,7 @@ class RandevuService {
     Randevu newRandevu;
     var randevuDate = randevu.date;
     var reminderText = randevu.reminderText;
-    final DateFormat formatter = DateFormat('yyyy-MM-dd hh:m:ss');
+    final DateFormat formatter = DateFormat('yyyy-MM-dd HH:m:ss');
     final String formatted = formatter.format(randevuDate);
     print(formatted);
     Map<String, dynamic> body = {};

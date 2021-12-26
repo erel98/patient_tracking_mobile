@@ -5,16 +5,15 @@ class Patient {
   String fullName;
   int age;
   double weight;
-  double height;
+  int height;
   String mobileNumber;
-  List<Randevu> randevuList;
 
   Patient(
       {int id,
       int age,
       String fullName,
       double weight,
-      double height,
+      int height,
       String mobileNumber,
       List<Randevu> randevuList}) {
     this.id = id;
@@ -23,7 +22,6 @@ class Patient {
     this.weight = weight;
     this.height = height;
     this.mobileNumber = mobileNumber;
-    this.randevuList = randevuList;
   }
 
   factory Patient.fromJson(Map<String, dynamic> json) {
@@ -31,7 +29,7 @@ class Patient {
       id: json['id'],
       fullName: json['name'],
       weight: (json['weight'] as int).toDouble(),
-      height: (json['height'] as int).toDouble(),
+      height: json['height'],
       mobileNumber: json['phone_number'],
     );
   }

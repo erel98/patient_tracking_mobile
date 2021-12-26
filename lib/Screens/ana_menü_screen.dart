@@ -5,9 +5,11 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:patient_tracking/Providers/patient_provider.dart';
 import 'package:patient_tracking/constraints.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../global.dart';
 import '../Widgets/ana_menü.dart';
 import '../Widgets/accountMenu.dart';
+import '../preferencesController.dart';
 
 class AnaMenu extends StatefulWidget {
   static const routeName = '/ana-menu';
@@ -145,6 +147,9 @@ class MainScreenTopContainer extends StatelessWidget {
   }) : super(key: key);
 
   final List<Widget> widgetOptions;
+  String getName() {
+    return PreferecesController.sharedPreferencesInstance.getString('name');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -164,7 +169,7 @@ class MainScreenTopContainer extends StatelessWidget {
           child: Row(
             children: [
               Text(
-                'Hoşgeldiniz, ${PatientProvider.currentPatient.fullName}',
+                'Hoşgeldiniz, ${getName()}',
                 style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,

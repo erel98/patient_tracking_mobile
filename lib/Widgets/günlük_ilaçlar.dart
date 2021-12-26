@@ -22,7 +22,8 @@ class _DailyMedsState extends State<DailyMeds> {
     super.initState();
     var currentEvents = widget.calendarDay.calendarEvents;
     for (int i = 0; i < currentEvents.length; i++) {
-      currentEvents.sort((a, b) => a.saat.compareTo(b.saat));
+      currentEvents
+          .sort((a, b) => a.saat.toString().compareTo(b.saat.toString()));
     }
 
     for (int i = 0; i < currentEvents.length; i++) {
@@ -81,7 +82,7 @@ class _DailyMedsState extends State<DailyMeds> {
                       size: 40,
                       color: kPrimaryColor,
                     )
-                  : item.difference < 0
+                  : item.difference < 0 && item.isFuture
                       ? Icon(
                           FontAwesome5.frown,
                           size: 40,
@@ -150,6 +151,7 @@ class Item {
   bool isExpanded;
   double difference;
   bool isTaken;
+  bool isFuture;
 
   Item(
       {String headerTitle,
@@ -159,7 +161,8 @@ class Item {
       String bodyApproximation,
       bool isExpanded = false,
       double difference,
-      bool isTaken = false}) {
+      bool isTaken = false,
+      bool isFuture}) {
     this.headerTitle = headerTitle;
     this.headerSubtitle = headerSubtitle;
     this.headerEmoji = headerEmoji;
@@ -168,6 +171,7 @@ class Item {
     this.isExpanded = isExpanded;
     this.difference = difference;
     this.isTaken = isTaken;
+    this.isFuture = isFuture;
   }
 }
 
@@ -175,24 +179,33 @@ Item generateItem(DailyMedication med, CalendarDay calendarDay, int i) {
   DateTime medDate;
   var now = DateTime.now();
   medDate = DateTime(
-      now.year, now.month, now.day, calendarDay.calendarEvents[i].saat.toInt());
-  // print('188 $medDate');
+      now.year,
+      now.month,
+      now.day,
+      calendarDay.calendarEvents[i].saat.hour,
+      calendarDay.calendarEvents[i].saat.minute);
   var difference = medDate.difference(now).inMinutes;
-  // print('190 $difference');
+  bool isFuture = medDate.isAfter(DateTime.now());
+  bool isTaken = false;
   return Item(
       headerTitle:
-          '${calendarDay.calendarEvents[i].saat == 23.99 ? 00 : calendarDay.calendarEvents[i].saat.toInt()}:00 ${med.medicationName}',
+          '${calendarDay.calendarEvents[i].saat.hour.toString().padLeft(2, '0')}:${calendarDay.calendarEvents[i].saat.minute.toString().padLeft(2, '0')} ${med.medicationName}',
       headerSubtitle: '${med.quantity}',
       bodyImage: Image.network(
         med.imageUrl,
         scale: 0.5,
       ),
-      bodyApproximation: difference >= 60
+      bodyApproximation: difference >= 60 && !isFuture
           ? 'Yaklaşık ${round(difference / 60)} saat kaldı'
-          : difference >= 0
-              ? '$difference dakika kaldı'
-              : 'Bu ilacın saati geçti',
-      difference: difference.toDouble());
+          : isFuture
+              ? ''
+              : difference >= 0
+                  ? '$difference dakika kaldı'
+                  : !isTaken
+                      ? 'Bu ilacın saati geçti'
+                      : 'İlacınızı vaktinde aldınız',
+      difference: difference.toDouble(),
+      isFuture: isFuture);
 }
 
 int round(double number) {

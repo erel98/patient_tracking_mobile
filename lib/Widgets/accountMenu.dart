@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:patient_tracking/Providers/patient_provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+import '../preferencesController.dart';
 import 'myTextField.dart';
 
 class AccountMenu extends StatefulWidget {
@@ -16,9 +18,18 @@ class _AccountMenuState extends State<AccountMenu> {
   @override
   void initState() {
     super.initState();
-    nameController.text = PatientProvider.currentPatient.fullName;
-    heightController.text = PatientProvider.currentPatient.height.toString();
-    weightController.text = PatientProvider.currentPatient.weight.toString();
+    initControllers();
+  }
+
+  void initControllers() {
+    nameController.text =
+        PreferecesController.sharedPreferencesInstance.getString('name');
+    heightController.text = PreferecesController.sharedPreferencesInstance
+        .getInt('height')
+        .toString();
+    weightController.text = PreferecesController.sharedPreferencesInstance
+        .getDouble('weight')
+        .toString();
   }
 
   @override

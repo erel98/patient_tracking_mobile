@@ -2,22 +2,23 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:patient_tracking/Models/place.dart';
-import 'package:patient_tracking/Services/places_service.dart';
+import 'package:patient_tracking/Services/weather_service.dart';
 import 'package:patient_tracking/constraints.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../BildirimAPI.dart';
 import '../global.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 class Weather extends StatefulWidget {
-  final List<String> placeNames;
-  Weather(this.placeNames);
+  final List<Place> places;
+  Weather(this.places);
   @override
   _WeatherState createState() => _WeatherState();
 }
 
 class _WeatherState extends State<Weather> {
+  List<String> placeNames = [];
   TimeOfDay _time;
   List<int> weatherDays = [];
   final saatController = TextEditingController();
@@ -80,6 +81,9 @@ class _WeatherState extends State<Weather> {
   void initState() {
     super.initState();
     initWeatherData();
+    widget.places.forEach((element) {
+      placeNames.add(element.name);
+    });
   }
 
   void initWeatherData() async {
@@ -96,7 +100,7 @@ class _WeatherState extends State<Weather> {
         prefs.getInt('bildirim-minute') ?? DateTime.now().minute);
     saatController.text =
         '${bildirimSaati.hour.toString().padLeft(2, '0')}:${bildirimSaati.minute.toString().padLeft(2, '0')}';
-    dropdownValue = prefs.getString('city') ?? widget.placeNames.first;
+    dropdownValue = prefs.getString('city') ?? placeNames.first;
   }
 
   @override
@@ -121,8 +125,7 @@ class _WeatherState extends State<Weather> {
                     dropdownValue = newVal;
                   });
                 },
-                items: widget.placeNames
-                    .map<DropdownMenuItem<String>>((String value) {
+                items: placeNames.map<DropdownMenuItem<String>>((String value) {
                   return DropdownMenuItem<String>(
                       value: value, child: Text(value));
                 }).toList(),
@@ -208,7 +211,7 @@ class _WeatherState extends State<Weather> {
           ),
         ),
         Container(
-          margin: EdgeInsets.only(top: 30, bottom: 30),
+          margin: EdgeInsets.only(top: 20, bottom: 20),
           width: mq.width * 0.5,
           child: TextField(
             controller: saatController,
@@ -233,6 +236,7 @@ class _WeatherState extends State<Weather> {
           child: ElevatedButton(
             onPressed: saatGirildi
                 ? () async {
+                    weatherDays.clear();
                     if (_time != null) {
                       //print('başladı');
                       var prefs = await SharedPreferences.getInstance();
@@ -241,7 +245,6 @@ class _WeatherState extends State<Weather> {
                         weatherDays.add(1);
                         //print('pzt ekledi');
                       }
-
                       if (saliAktif) {
                         Global.bildirimGunleri.add(DateTime.tuesday);
                         weatherDays.add(2);
@@ -277,24 +280,26 @@ class _WeatherState extends State<Weather> {
                         //print('pzr ekledi');
                       }
                       Global.setBildirimGunleri();
-                      BildirimAPI.scheduleWeekly(Time(_time.hour, _time.minute),
-                          days: weatherDays);
                       prefs.setString('city', dropdownValue);
-                      /* //print(
-                                    'prefs pazartesi: ${prefs.getBool('isPazartesi')}');
-                                //print('prefs salı: ${prefs.getBool('isSali')}');
-                                //print(
-                                    'prefs çarşamba: ${prefs.getBool('isCarsamba')}');
-                                //print(
-                                    'prefs perşembe: ${prefs.getBool('isPersembe')}');
-                                //print('prefs cuma: ${prefs.getBool('isCuma')}');
-                                //print(
-                                    'prefs cumartesi: ${prefs.getBool('isCumartesi')}');
-                                //print('prefs pazar: ${prefs.getBool('isPazar')}');
-                                //print(
-                                    'prefs bildirim saati: ${prefs.getInt('bildirim-saat')}');
-                                //print(
-                                    'prefs bildirim dakikası: ${prefs.getBool('bildirim-dakika')}'); */
+                      int districtId;
+                      widget.places.forEach((element) {
+                        if (element.name == dropdownValue) {
+                          districtId = element.id;
+                        }
+                      });
+
+                      bool success = await WeatherService.putWeather(
+                          weatherDays,
+                          districtId,
+                          '${_time.hour}:${_time.minute}');
+                      if (success) {
+                        Fluttertoast.showToast(
+                            msg:
+                                'Hava durumu bilgileriniz başarıyla güncellendi');
+                      } else {
+                        Fluttertoast.showToast(
+                            msg: 'Hay aksi! Bir şeyler ters gitti');
+                      }
                     } else {
                       //print('time null dedi');
                       setState(() {

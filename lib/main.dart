@@ -9,9 +9,11 @@ import 'package:patient_tracking/Providers/bloodGlucose_provider.dart';
 import 'package:patient_tracking/Providers/question_provider.dart';
 import 'package:patient_tracking/Screens/organ_transplant_screen.dart';
 import 'package:patient_tracking/constraints.dart';
+import 'package:patient_tracking/preferencesController.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'Providers/bloodPressure_provider.dart';
 import 'Providers/dailyMeds_provider.dart';
+import 'Providers/places_provider.dart';
 import 'Screens/ana_menü_screen.dart';
 import 'Screens/kullandığım_ilaçlar_screen.dart';
 import 'Screens/ilaç_detay_screen.dart';
@@ -44,15 +46,8 @@ FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
 
 void main() async {
   await dotenv.load();
-  /*
-  await SystemChrome.setPreferredOrientations([
-    DeviceOrientation.portraitUp,
-    DeviceOrientation.portraitDown,
-  ]);
-  final prefs = await SharedPreferences.getInstance();
   await SharedPreferences.getInstance().then(
-    (instance) => PreferecesController.sharedPreferencesInstance = instance);
-  */
+      (instance) => PreferecesController.sharedPreferencesInstance = instance);
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
@@ -69,18 +64,17 @@ void main() async {
   );
 
   flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+  final android = AndroidInitializationSettings('ic_notification');
+  final settings = InitializationSettings(
+    android: android,
+  );
 
-  /// Create an Android Notification Channel.
-  ///
-  /// We use this channel in the `AndroidManifest.xml` file to override the
-  /// default FCM channel to enable heads up notifications.
+  await flutterLocalNotificationsPlugin.initialize(settings);
+
   await flutterLocalNotificationsPlugin
       .resolvePlatformSpecificImplementation<
           AndroidFlutterLocalNotificationsPlugin>()
       ?.createNotificationChannel(channel);
-
-  /// Update the iOS foreground notification presentation options to allow
-  /// heads up notifications.
   await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
     alert: true,
     badge: true,
@@ -107,6 +101,9 @@ void main() async {
       ChangeNotifierProvider(
         create: (_) => DailyMedsProvider(),
       ),
+      ChangeNotifierProvider(
+        create: (_) => PlacesProvider(),
+      ),
     ],
     child: MyApp(),
   ));
@@ -125,26 +122,29 @@ class _MyAppState extends State<MyApp> {
     prefs.setString('fcm_token', token);
   }
 
+  void fetchIsLoggedIn() async {
+    var prefs = await SharedPreferences.getInstance();
+    if (prefs.getString('token') == null) {
+      prefs.setBool('isloggedin', false);
+    } else {
+      prefs.setBool('isloggedin', true);
+    }
+  }
+
   Future<void> setupInteractedMessage() async {
-    // Get any messages which caused the application to open from
-    // a terminated state.
     RemoteMessage initialMessage =
         await FirebaseMessaging.instance.getInitialMessage();
-    print('101: $initialMessage');
-    // If the message also contains a data property with a "type" of "chat",
-    // navigate to a chat screen
+
     if (initialMessage != null) {
       _handleMessage(initialMessage);
-      print('101: ${initialMessage.data}');
-      print('101: ${initialMessage.mutableContent}');
-      print('101: ${initialMessage.from}');
-      print('101: ${initialMessage.data}');
     }
 
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       RemoteNotification notification = message.notification;
       AndroidNotification android = message.notification?.android;
       if (notification != null && android != null) {
+        print('138: ${notification.body}');
+        print('138: ${notification.title}');
         flutterLocalNotificationsPlugin.show(
           notification.hashCode,
           notification.title,
@@ -154,17 +154,11 @@ class _MyAppState extends State<MyApp> {
               channel.id,
               channel.name,
               channelDescription: channel.description,
-              // TODO add a proper drawable resource to android, for now using
-              //      one that already exists in example app.
-              icon: null,
             ),
           ),
         );
       }
     });
-
-    // Also handle any interaction when the app is in the background via a
-    // Stream listener
     FirebaseMessaging.onMessageOpenedApp.listen(_handleMessage);
   }
 
@@ -181,12 +175,8 @@ class _MyAppState extends State<MyApp> {
 
     initToken();
     setupInteractedMessage();
-    BildirimAPI.init(initScheduled: true);
-    listenNotifications();
+    fetchIsLoggedIn();
   }
-
-  void listenNotifications() =>
-      BildirimAPI.onNotifications.stream.listen(onClickedNotification);
 
   void onClickedNotification(String payload) => Navigator.of(context).push(
         MaterialPageRoute(
@@ -195,21 +185,20 @@ class _MyAppState extends State<MyApp> {
               ),
         ),
       );
+  bool isLoggedIn() {
+    return PreferecesController.sharedPreferencesInstance
+            .getBool('isloggedin') ??
+        false;
+  }
 
   @override
   Widget build(BuildContext context) {
-    /*
-    const backgroundColor = const Color(0xFF0E7C7B); //background
-    const primaryColor = const Color(0xFFD4F4DD); //ana menü item
-    const secondaryColor = const Color(0xFF17BEBB); //appbar-navbar
-    */
     final ThemeData theme = ThemeData();
 
     return MaterialApp(
       title: 'Hasta Takip Sistemi',
       localizationsDelegates: [GlobalMaterialLocalizations.delegate],
       supportedLocales: [
-        //const Locale('en'),
         const Locale('tr'),
       ],
       theme: theme.copyWith(
@@ -231,7 +220,7 @@ class _MyAppState extends State<MyApp> {
             data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
             child: child),
       ),
-      home: LoginScreen(), //LoginScreen(),
+      home: isLoggedIn() ? AnaMenu() : LoginScreen(), //LoginScreen(),
       routes: {
         AnaMenu.routeName: (ctx) => AnaMenu(),
         KullandigimIlaclar.routeName: (ctx) => KullandigimIlaclar(),

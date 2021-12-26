@@ -10,7 +10,6 @@ import 'package:patient_tracking/Services/medication_service.dart';
 import 'package:patient_tracking/Widgets/g%C3%BCnl%C3%BCk_ila%C3%A7lar.dart';
 import 'package:patient_tracking/constraints.dart';
 import 'package:provider/provider.dart';
-import '../BildirimAPI.dart';
 
 class DailyMedsScreen extends StatefulWidget {
   static final routeName = '/daily-meds';
@@ -20,11 +19,13 @@ class DailyMedsScreen extends StatefulWidget {
 }
 
 class _DailyMedsScreenState extends State<DailyMedsScreen>
-    with SingleTickerProviderStateMixin {
+    with TickerProviderStateMixin {
   int _currentIndex = 0;
   TabController _tabController;
+  List<Widget> widgets = [];
+  List<Tab> tabs = [];
 
-  void _handleTabSelection() async {
+  void _handleTabSelection() {
     setState(() {
       _currentIndex = _tabController.index;
     });
@@ -33,16 +34,13 @@ class _DailyMedsScreenState extends State<DailyMedsScreen>
   Future<void> getDailyMeds() async {
     var dailymedsprovider =
         Provider.of<DailyMedsProvider>(context, listen: false);
-    dailymedsprovider.getDailyMeds();
+    await dailymedsprovider.getDailyMeds();
   }
 
   void initState() {
     super.initState();
-    _tabController = TabController(length: 7, vsync: this);
-    _tabController.addListener(_handleTabSelection);
-    var dailymedsprovider =
-        Provider.of<DailyMedsProvider>(context, listen: false);
-    dailymedsprovider.getDailyMeds();
+    getDailyMeds();
+    //getDailyMeds();
   }
 
   @override
@@ -53,117 +51,85 @@ class _DailyMedsScreenState extends State<DailyMedsScreen>
 
   @override
   Widget build(BuildContext context) {
-    final dailyMedsData = context.watch<DailyMedsProvider>();
+    final dailyMedsData = Provider.of<DailyMedsProvider>(context);
+    var calendarDays = dailyMedsData.calendarDays;
+
+    tabs.clear();
+    widgets.clear();
+    calendarDays.forEach((element) {
+      String dayName = '';
+      if (element.dayValue == 1) {
+        dayName = 'Pzt';
+      } else if (element.dayValue == 2) {
+        dayName = 'Sal';
+      } else if (element.dayValue == 3) {
+        dayName = 'Çrş';
+      } else if (element.dayValue == 4) {
+        dayName = 'Prş';
+      } else if (element.dayValue == 5) {
+        dayName = 'Cum';
+      } else if (element.dayValue == 6) {
+        dayName = 'Cts';
+      } else if (element.dayValue == 7) {
+        dayName = 'Pzr';
+      }
+      var widget = DailyMeds(element);
+      var tab = Tab(
+        child: FittedBox(
+          fit: BoxFit.fitWidth,
+          child: Text(
+            dayName,
+            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+          ),
+        ),
+      );
+      widgets.add(widget);
+      tabs.add(tab);
+    });
+    print(calendarDays.length.toString());
+    _tabController = getTabController();
+    _updatePage();
 
     final appBar = AppBar(
       elevation: 0,
       backgroundColor: kPrimaryColor,
       bottom: PreferredSize(
         preferredSize: Size.fromHeight(30),
-        child: TabBar(
-          indicatorColor: Colors.black,
-          controller: _tabController,
-          tabs: _tabs,
-        ),
+        child: calendarDays.length < 1
+            ? Container()
+            : TabBar(
+                indicatorColor: Colors.black,
+                controller: _tabController,
+                tabs: tabs,
+              ),
       ),
     );
     return Scaffold(
       appBar: appBar,
-      body: Column(
-        children: [
-          TopContainer(),
-          Expanded(
-            child: TabBarView(
-              controller: _tabController,
+      body: calendarDays.length < 1
+          ? Container()
+          : Column(
               children: [
-                DailyMeds(dailyMedsData.monday),
-                DailyMeds(dailyMedsData.tuesday),
-                DailyMeds(dailyMedsData.wednesday),
-                DailyMeds(dailyMedsData.thursday),
-                DailyMeds(dailyMedsData.friday),
-                DailyMeds(dailyMedsData.saturday),
-                DailyMeds(dailyMedsData.sunday),
+                TopContainer(),
+                Expanded(
+                  child: TabBarView(
+                    controller: _tabController,
+                    children: widgets,
+                  ),
+                ),
               ],
             ),
-          ),
-        ],
-      ),
-      /* floatingActionButton: FloatingActionButton(
-        child: CircleAvatar(backgroundColor: kPrimaryColor),
-        onPressed: () async {
-          await BildirimAPI.showScheduledNotification(
-              title: 'denemece', body: 'denemece2');
-        },
-      ), */
     );
   }
 
-  List<Widget> get _tabs {
-    return [
-      Tab(
-        child: FittedBox(
-          fit: BoxFit.fitWidth,
-          child: Text(
-            'Pzt',
-            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-          ),
-        ),
-      ),
-      Tab(
-        child: FittedBox(
-          fit: BoxFit.fitWidth,
-          child: Text(
-            'Salı',
-            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-          ),
-        ),
-      ),
-      Tab(
-        child: FittedBox(
-          fit: BoxFit.fitWidth,
-          child: Text(
-            'Çrş',
-            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-          ),
-        ),
-      ),
-      Tab(
-        child: FittedBox(
-          fit: BoxFit.fitWidth,
-          child: Text(
-            'Prş',
-            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-          ),
-        ),
-      ),
-      Tab(
-        child: FittedBox(
-          fit: BoxFit.fitWidth,
-          child: Text(
-            'Cum',
-            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-          ),
-        ),
-      ),
-      Tab(
-        child: FittedBox(
-          fit: BoxFit.fitWidth,
-          child: Text(
-            'Cts',
-            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-          ),
-        ),
-      ),
-      Tab(
-        child: FittedBox(
-          fit: BoxFit.fitWidth,
-          child: Text(
-            'Pzr',
-            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-          ),
-        ),
-      ),
-    ];
+  TabController getTabController() {
+    return TabController(
+        length: tabs.length, initialIndex: _currentIndex, vsync: this)
+      ..addListener(_handleTabSelection);
+  }
+
+  void _updatePage() {
+    setState(() {});
   }
 }
 

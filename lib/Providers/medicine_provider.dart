@@ -13,8 +13,8 @@ class MedicineProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void getDailyMeds(context, CalendarDay day, int dayValue) async {
-    day = await MedicationService.getDailyMeds(dayValue);
+  void getDailyMeds(context, CalendarDay day) async {
+    //day = await MedicationService.getDailyMeds();
   }
 
   void update(MedicationUser mu) {

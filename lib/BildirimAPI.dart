@@ -42,8 +42,10 @@ class BildirimAPI {
   }
 
   static Future init({bool initScheduled = false}) async {
-    final android = AndroidInitializationSettings('@mipmap/ic_launcher');
-    final settings = InitializationSettings(android: android);
+    final android = AndroidInitializationSettings('notification_icon');
+    final settings = InitializationSettings(
+      android: android,
+    );
 
     await _notifications.initialize(
       settings,

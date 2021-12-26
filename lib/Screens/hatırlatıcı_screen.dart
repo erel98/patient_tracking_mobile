@@ -4,12 +4,12 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:intl/intl.dart';
 import 'package:patient_tracking/Models/place.dart';
 import 'package:patient_tracking/Models/randevu.dart';
+import 'package:patient_tracking/Providers/places_provider.dart';
 import 'package:patient_tracking/Providers/randevu_provider.dart';
-import 'package:patient_tracking/Services/places_service.dart';
+import 'package:patient_tracking/Services/weather_service.dart';
 import 'package:patient_tracking/Widgets/hava_durumu.dart';
 import 'package:patient_tracking/Widgets/randevu_widget.dart';
 import 'package:provider/provider.dart';
-import '../BildirimAPI.dart';
 import '../constraints.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
@@ -35,21 +35,12 @@ class _HatirlaticiState extends State<Hatirlatici>
   }
 
   List<Place> places = [];
-  List<String> placeNames = [];
-  void fetchPlaces() async {
-    places = await PlaceService.getPlaces();
-    places.forEach((element) {
-      placeNames.add(element.name);
-    });
-  }
-
   void initState() {
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
     _tabController.addListener(_handleTabSelection);
-    fetchPlaces();
-    print('73: ${places.length}');
-    print('73: ${placeNames.length}');
+    var placesprovider = Provider.of<PlacesProvider>(context, listen: false);
+    placesprovider.getPlaces();
   }
 
   @override
@@ -94,12 +85,13 @@ class _HatirlaticiState extends State<Hatirlatici>
       helpText: '',
     );
     hourController.text = '${randevuSaat.hour}:${randevuSaat.minute}';
+    print('88: ${randevuSaat.hour}:${randevuSaat.minute}');
   }
 
   void _warnUser() {
     AlertDialog alert = AlertDialog(
       title: Text("Dikkat!"),
-      content: Text("Lütfen tarih ve saat alanlarını doldurunuz."),
+      content: Text('Lütfen tüm alanları doldurunuz.'),
       actions: [
         ElevatedButton(
             onPressed: () => Navigator.of(context).pop(),
@@ -157,22 +149,20 @@ class _HatirlaticiState extends State<Hatirlatici>
               print(
                   '144: ${DateFormat.yMMMEd(myLocale.toString()).format(DateTime.now())}');
               if (dateController.text.isNotEmpty &&
-                  hourController.text.isNotEmpty) {
-                final DateTime notificationDate = DateTime(
-                    randevuTarih.year,
-                    randevuTarih.month,
-                    randevuTarih.day,
-                    randevuSaat.hour,
-                    randevuSaat.minute);
+                  hourController.text.isNotEmpty &&
+                  titleController.text.isNotEmpty) {
+                String formattedText = DateFormat('yyyy-MM-dd HH:mm:ss').format(
+                    DateTime(
+                        randevuTarih.year,
+                        randevuTarih.month,
+                        randevuTarih.day,
+                        randevuSaat.hour,
+                        randevuSaat.minute));
 
-                BildirimAPI.showScheduledNotification(
-                    id: Random().nextInt(999999),
-                    payload: 'Unutmayın!',
-                    title: '${titleController.text} - randevunuz yaklaşıyor!',
-                    body:
-                        '${DateFormat.yMMMEd(myLocale.toString()).format(notificationDate)} tarihli hastane randevunuz yarın',
-                    scheduledDate: notificationDate //daha sonra değişecek
-                    );
+                final DateTime notificationDate = DateTime.parse(formattedText);
+                print('163: ${notificationDate}');
+                print('163: ${formattedText}');
+
                 var currentRandevu = Randevu(
                     date: notificationDate, reminderText: titleController.text);
                 final randevuProvider =
@@ -197,6 +187,8 @@ class _HatirlaticiState extends State<Hatirlatici>
 
   @override
   Widget build(BuildContext context) {
+    var placeData = Provider.of<PlacesProvider>(context);
+    places = placeData.places;
     final appBar = AppBar(
       elevation: 0,
       bottom: PreferredSize(
@@ -251,7 +243,7 @@ class _HatirlaticiState extends State<Hatirlatici>
               controller: _tabController,
               children: [
                 RandevuWidget(),
-                Weather(placeNames),
+                Weather(places),
               ],
             ),
           ),

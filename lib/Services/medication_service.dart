@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:patient_tracking/Models/calendarDay.dart';
 import 'package:patient_tracking/Models/calendarEvent.dart';
@@ -57,35 +58,46 @@ class MedicationService {
     return medicationVariantUsers;
   }
 
-  static Future<CalendarDay> getDailyMeds(int dayvalue) async {
-    CalendarDay currDay = CalendarDay(dayValue: dayvalue);
-    List<CalendarEvent> events = [];
-    String url = dotenv.env['API_URL'] + '/daily-meds' + '?day=$dayvalue';
-    HTTPService.httpGET(url, appendToken: true).then((http.Response response) {
+  static Future<List<CalendarDay>> getDailyMeds() async {
+    List<CalendarDay> days = [];
+    String url = dotenv.env['API_URL'] + '/daily-meds';
+    await HTTPService.httpGET(url, appendToken: true)
+        .then((http.Response response) {
       var jsonResponse = jsonDecode(response.body) as Map<String, dynamic>;
       var data = new List<Map<String, dynamic>>.from(jsonResponse['data']);
-      data.forEach((element) {
-        DailyMedication dailyMedication = DailyMedication(
-            id: element['id'],
-            medicationName: element['medication']['name'],
-            variantName: element['medication']['variantName'],
-            imageUrl:
-                '${dotenv.env['IMAGE_URL']}${element['medication']['photo']}',
-            quantity: element['quantity']);
-        // dailyMedication.printDailyMed();
-        CalendarEvent event = CalendarEvent(
-          dailyMedication: dailyMedication,
-          saat: element['hour'],
-        );
-        print('79: $event');
-        events.add(event);
+      data.forEach((day) {
+        List<CalendarEvent> calendarEvents = [];
+        CalendarDay calendarDay = CalendarDay(dayValue: day['day']);
+
+        print('71: ${day['events'].first.runtimeType}');
+
+        List<Map<String, dynamic>> events =
+            new List<Map<String, dynamic>>.from(day['events']);
+        events.forEach((element) {
+          DailyMedication dailyMedication = DailyMedication(
+              id: element['id'],
+              medicationName: element['medication']['name'],
+              variantName: element['medication']['variantName'],
+              imageUrl:
+                  '${dotenv.env['IMAGE_URL']}${element['medication']['photo']}',
+              quantity: element['quantity']);
+          // dailyMedication.printDailyMed();
+          var hour = element['hour'] ~/ 2;
+          var minute = element['hour'] % 2 == 1 ? 30 : 0;
+          TimeOfDay saat = TimeOfDay(hour: hour, minute: minute);
+          CalendarEvent event = CalendarEvent(
+            dailyMedication: dailyMedication,
+            saat: saat,
+          );
+          print('89: ${event.saat}');
+          calendarEvents.add(event);
+        });
+        calendarDay.calendarEvents = calendarEvents;
+        print('93: ${calendarDay.dayValue}');
+        days.add(calendarDay);
       });
     });
-    events.forEach((element) {
-      print('82: ' + element.dailyMedication.medicationName);
-    });
-    currDay.calendarEvents = events;
-    return currDay;
+    return days;
   }
 
   static Future<bool> updateMedication(MedicationUser mu) async {

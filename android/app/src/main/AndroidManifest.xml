@@ -9,12 +9,6 @@
         android:allowBackup="false"
         android:label="Hasta Takip"
         android:icon="@mipmap/ic_launcher">
-        <meta-data
-          android:name="com.google.firebase.messaging.default_notification_icon"
-          android:resource="@drawable/notification_icon" />
-        <meta-data
-          android:name="com.google.firebase.messaging.default_notification_color"
-          android:resource="@color/ic_launcher_background" />
         <service
             android:name="dev.fluttercommunity.plus.androidalarmmanager.AlarmService"
             android:permission="android.permission.BIND_JOB_SERVICE"
