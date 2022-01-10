@@ -1,15 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
-import 'package:patient_tracking/Models/calendarDay.dart';
-import 'package:patient_tracking/Models/calendarEvent.dart';
-import 'package:patient_tracking/Models/dailyMedication.dart';
-import 'package:patient_tracking/Models/medication.dart';
 import 'package:patient_tracking/Providers/dailyMeds_provider.dart';
-import 'package:patient_tracking/Providers/medicine_provider.dart';
-import 'package:patient_tracking/Services/medication_service.dart';
 import 'package:patient_tracking/Widgets/g%C3%BCnl%C3%BCk_ila%C3%A7lar.dart';
 import 'package:patient_tracking/constraints.dart';
 import 'package:provider/provider.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 class DailyMedsScreen extends StatefulWidget {
   static final routeName = '/daily-meds';
@@ -20,7 +15,7 @@ class DailyMedsScreen extends StatefulWidget {
 
 class _DailyMedsScreenState extends State<DailyMedsScreen>
     with TickerProviderStateMixin {
-  int _currentIndex = 0;
+  int _currentIndex = DateTime.now().weekday - 1;
   TabController _tabController;
   List<Widget> widgets = [];
   List<Tab> tabs = [];
@@ -103,6 +98,31 @@ class _DailyMedsScreenState extends State<DailyMedsScreen>
                 tabs: tabs,
               ),
       ),
+      actions: [
+        FittedBox(
+          fit: BoxFit.fitHeight,
+          child: IconButton(
+            icon: Icon(
+              FontAwesome5.question_circle,
+              color: Colors.white,
+            ),
+            onPressed: () => Alert(
+                context: context,
+                content: Column(
+                  children: [Text(dailyMedsInfo)],
+                ),
+                buttons: [
+                  DialogButton(
+                      color: kPrimaryColor,
+                      child: Text(
+                        'Anladım',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      onPressed: () => Navigator.of(context).pop())
+                ]).show(),
+          ),
+        )
+      ],
     );
     return Scaffold(
       appBar: appBar,

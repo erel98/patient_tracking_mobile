@@ -2,16 +2,14 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:intl/intl.dart';
-import 'package:patient_tracking/Models/place.dart';
 import 'package:patient_tracking/Models/randevu.dart';
-import 'package:patient_tracking/Providers/places_provider.dart';
 import 'package:patient_tracking/Providers/randevu_provider.dart';
-import 'package:patient_tracking/Services/weather_service.dart';
-import 'package:patient_tracking/Widgets/hava_durumu.dart';
 import 'package:patient_tracking/Widgets/randevu_widget.dart';
 import 'package:provider/provider.dart';
 import '../constraints.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
+
+import '../global.dart';
 
 class Hatirlatici extends StatefulWidget {
   static var routeName = '/hatirlatici';
@@ -25,28 +23,12 @@ class _HatirlaticiState extends State<Hatirlatici>
   var dateController = TextEditingController();
   var hourController = TextEditingController();
   int _currentIndex = 0;
-  TabController _tabController;
+
   DateTime randevuTarih;
   TimeOfDay randevuSaat;
-  void _handleTabSelection() async {
-    setState(() {
-      _currentIndex = _tabController.index;
-    });
-  }
 
-  List<Place> places = [];
   void initState() {
     super.initState();
-    _tabController = TabController(length: 2, vsync: this);
-    _tabController.addListener(_handleTabSelection);
-    var placesprovider = Provider.of<PlacesProvider>(context, listen: false);
-    placesprovider.getPlaces();
-  }
-
-  @override
-  void dispose() {
-    _tabController.dispose();
-    super.dispose();
   }
 
   void _showDatePicker() async {
@@ -86,24 +68,6 @@ class _HatirlaticiState extends State<Hatirlatici>
     );
     hourController.text = '${randevuSaat.hour}:${randevuSaat.minute}';
     print('88: ${randevuSaat.hour}:${randevuSaat.minute}');
-  }
-
-  void _warnUser() {
-    AlertDialog alert = AlertDialog(
-      title: Text("Dikkat!"),
-      content: Text('Lütfen tüm alanları doldurunuz.'),
-      actions: [
-        ElevatedButton(
-            onPressed: () => Navigator.of(context).pop(),
-            child: Text('Anladım')),
-      ],
-    );
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      },
-    );
   }
 
   void _addNewRandevu() {
@@ -174,7 +138,7 @@ class _HatirlaticiState extends State<Hatirlatici>
 
                 Navigator.pop(context);
               } else {
-                _warnUser();
+                Global.warnUser(context);
               }
             },
             child: Text(
@@ -187,18 +151,8 @@ class _HatirlaticiState extends State<Hatirlatici>
 
   @override
   Widget build(BuildContext context) {
-    var placeData = Provider.of<PlacesProvider>(context);
-    places = placeData.places;
     final appBar = AppBar(
       elevation: 0,
-      bottom: PreferredSize(
-        preferredSize: Size.fromHeight(50),
-        child: TabBar(
-          indicatorColor: Colors.white,
-          controller: _tabController,
-          tabs: _tabs,
-        ),
-      ),
       actions: [
         FittedBox(
           fit: BoxFit.fitHeight,
@@ -210,11 +164,7 @@ class _HatirlaticiState extends State<Hatirlatici>
             onPressed: () => Alert(
                 context: context,
                 content: Column(
-                  children: [
-                    Text(_tabController.index == 1
-                        ? havaDurumuInfo
-                        : randevuInfo)
-                  ],
+                  children: [Text(randevuInfo)],
                 ),
                 buttons: [
                   DialogButton(
@@ -239,13 +189,7 @@ class _HatirlaticiState extends State<Hatirlatici>
           Container(
             height: mq.height -
                 (mq.height * 0.1 + appBar.preferredSize.height + 25),
-            child: TabBarView(
-              controller: _tabController,
-              children: [
-                RandevuWidget(),
-                Weather(places),
-              ],
-            ),
+            child: RandevuWidget(),
           ),
         ],
       ),
@@ -260,21 +204,6 @@ class _HatirlaticiState extends State<Hatirlatici>
           : Container(),
     );
   }
-}
-
-List<Widget> get _tabs {
-  return [
-    Tab(
-      icon: Icon(
-        Icons.local_hospital,
-      ),
-      child: Text('Randevularım'),
-    ),
-    Tab(
-      icon: Icon(Icons.cloud),
-      child: Text('Hava durumu bildirimleri'),
-    ),
-  ];
 }
 
 class TopContainer extends StatelessWidget {

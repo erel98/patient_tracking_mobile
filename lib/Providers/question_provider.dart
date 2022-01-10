@@ -25,4 +25,11 @@ class QuestionProvider extends ChangeNotifier {
   void empty() {
     questions.clear();
   }
+
+  Future<bool> removeQuestion(int id) async {
+    var success = await QuestionService.removeQuestion(id);
+    questions.removeWhere((element) => element.id == id);
+    notifyListeners();
+    return success;
+  }
 }

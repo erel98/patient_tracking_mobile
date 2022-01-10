@@ -4,8 +4,8 @@ import 'package:patient_tracking/Models/medicationVariant.dart';
 
 class CalendarEvent {
   int id;
-  TimeOfDay saat; //0-48
+  DateTime takeTime;
   DailyMedication dailyMedication; //aynı saatte alınabilecek ilaçlar
 
-  CalendarEvent({this.id, this.saat, this.dailyMedication});
+  CalendarEvent({this.id, this.takeTime, this.dailyMedication});
 }

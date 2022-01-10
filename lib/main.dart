@@ -1,11 +1,11 @@
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:patient_tracking/Providers/bloodGlucose_provider.dart';
+import 'package:patient_tracking/Providers/medicationInteraction_provider.dart';
 import 'package:patient_tracking/Providers/question_provider.dart';
 import 'package:patient_tracking/Screens/organ_transplant_screen.dart';
 import 'package:patient_tracking/constraints.dart';
@@ -13,12 +13,10 @@ import 'package:patient_tracking/preferencesController.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'Providers/bloodPressure_provider.dart';
 import 'Providers/dailyMeds_provider.dart';
-import 'Providers/places_provider.dart';
 import 'Screens/ana_menü_screen.dart';
 import 'Screens/kullandığım_ilaçlar_screen.dart';
 import 'Screens/ilaç_detay_screen.dart';
 import 'Screens/hatırlatıcı_screen.dart';
-import 'Screens/hava_durumu_screen.dart';
 import 'Screens/bugünkü_ilaçlarım_screen.dart';
 import 'Screens/login_screen.dart';
 import 'Screens/yan_etkiler_screen.dart';
@@ -26,7 +24,6 @@ import 'Screens/soru_sor_screen.dart';
 import 'Screens/kan_basinci_screen.dart';
 import 'Screens/sorularım_screen.dart';
 import 'Screens/kan_glikoz_screen.dart';
-import 'BildirimAPI.dart';
 import 'Providers/medicine_provider.dart';
 import 'Providers/randevu_provider.dart';
 import 'package:provider/provider.dart';
@@ -102,7 +99,7 @@ void main() async {
         create: (_) => DailyMedsProvider(),
       ),
       ChangeNotifierProvider(
-        create: (_) => PlacesProvider(),
+        create: (_) => MedicationInteractionProvider(),
       ),
     ],
     child: MyApp(),
@@ -178,13 +175,13 @@ class _MyAppState extends State<MyApp> {
     fetchIsLoggedIn();
   }
 
-  void onClickedNotification(String payload) => Navigator.of(context).push(
+  /* void onClickedNotification(String payload) => Navigator.of(context).push(
         MaterialPageRoute(
           builder: (context) => HavaDurumu(
               //payload: payload
               ),
         ),
-      );
+      ); */
   bool isLoggedIn() {
     return PreferecesController.sharedPreferencesInstance
             .getBool('isloggedin') ??
@@ -226,7 +223,7 @@ class _MyAppState extends State<MyApp> {
         KullandigimIlaclar.routeName: (ctx) => KullandigimIlaclar(),
         IlacDetay.routeName: (ctx) => IlacDetay(),
         Hatirlatici.routeName: (ctx) => Hatirlatici(),
-        HavaDurumu.routeName: (ctx) => HavaDurumu(),
+        //HavaDurumu.routeName: (ctx) => HavaDurumu(),
         DailyMedsScreen.routeName: (ctx) => DailyMedsScreen(),
         AskQuestionScreen.routeName: (ctx) => AskQuestionScreen(),
         MyQuestionsScreen.routeName: (ctx) => MyQuestionsScreen(),

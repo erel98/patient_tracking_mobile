@@ -4,13 +4,15 @@ class DailyMedication {
   String variantName;
   String imageUrl;
   String quantity;
+  DateTime tookAt;
 
   DailyMedication(
       {this.id,
       this.medicationName,
       this.variantName,
       this.imageUrl,
-      this.quantity});
+      this.quantity,
+      this.tookAt});
 
   void printDailyMed() {
     print(

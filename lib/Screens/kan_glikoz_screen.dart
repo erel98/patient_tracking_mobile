@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:patient_tracking/Models/bloodGlucose.dart';
 import 'package:patient_tracking/Providers/bloodGlucose_provider.dart';
-import '../Widgets/Graphs/bg_günlük_grafik.dart';
-import '../Widgets/Graphs/bg_haftalık_grafik.dart';
+import 'package:patient_tracking/global.dart';
+import '../Widgets/Graphs/bg_grafik.dart';
 import 'package:patient_tracking/Widgets/blood_glucose_listview.dart';
 import 'package:provider/provider.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
@@ -53,6 +53,8 @@ class _BloodGlucoseScreenState extends State<BloodGlucoseScreen> {
             onPressed: () async {
               if (controller.text.isNotEmpty) {
                 addNewBp(context);
+              } else {
+                Global.warnUser(context);
               }
             })
       ],
@@ -66,8 +68,6 @@ class _BloodGlucoseScreenState extends State<BloodGlucoseScreen> {
     return appBar;
   }
 
-  bool isDaily = true;
-  bool isWeekly = false;
   @override
   Widget build(BuildContext context) {
     var width = MediaQuery.of(context).size.width;
@@ -92,41 +92,9 @@ class _BloodGlucoseScreenState extends State<BloodGlucoseScreen> {
         children: [
           TopContainer(),
           Container(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                ElevatedButton(
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all<Color>(
-                        isDaily ? kPrimaryColor : Colors.grey),
-                  ),
-                  onPressed: () {
-                    setState(() {
-                      isDaily = true;
-                      isWeekly = false;
-                    });
-                  },
-                  child: Text('Günlük'),
-                ),
-                ElevatedButton(
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all<Color>(
-                        isWeekly ? kPrimaryColor : Colors.grey),
-                  ),
-                  onPressed: () {
-                    setState(() {
-                      isDaily = false;
-                      isWeekly = true;
-                    });
-                  },
-                  child: Text('Haftalık'),
-                ),
-              ],
-            ),
-          ),
-          Container(
               margin: EdgeInsets.all(20),
-              padding: EdgeInsets.only(right: 20, left: 20, top: 10, bottom: 1),
+              padding:
+                  EdgeInsets.only(right: 20, left: 20, top: 10, bottom: 10),
               width: MediaQuery.of(context).size.width,
               height: 300,
               decoration: const BoxDecoration(
@@ -135,9 +103,7 @@ class _BloodGlucoseScreenState extends State<BloodGlucoseScreen> {
                 ),
                 color: Color(0xff232d37),
               ),
-              child: isDaily
-                  ? BloodGlucoseDailyGraph()
-                  : BloodGlucoseWeeklyGraph()),
+              child: BloodGlucoseGraph()),
           Container(
             height: height -
                 (getAppbar(context).preferredSize.height +

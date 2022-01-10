@@ -21,6 +21,7 @@ class _BloodGlucoseListState extends State<BloodGlucoseList> {
   Widget build(BuildContext context) {
     var bgdata = Provider.of<BloodGlucoseProvider>(context);
     var bgs = bgdata.bgs;
+    bgs.sort((a, b) => b.date.compareTo(a.date));
     Locale myLocale = Localizations.localeOf(context);
     return bgs.isNotEmpty
         ? ListView.separated(

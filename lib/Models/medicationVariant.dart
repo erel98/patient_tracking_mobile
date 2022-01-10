@@ -1,5 +1,3 @@
-import 'package:patient_tracking/Models/medicationVariantUser.dart';
-
 import 'medication.dart';
 
 class MedicationVariant {

@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:patient_tracking/Models/randevu.dart';
 import 'package:patient_tracking/Responses/API_Response.dart';
+import 'package:patient_tracking/constraints.dart';
 import '../global.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
@@ -13,7 +14,7 @@ class RandevuService {
     Randevu newRandevu;
     var randevuDate = randevu.date;
     var reminderText = randevu.reminderText;
-    final DateFormat formatter = DateFormat('yyyy-MM-dd HH:m:ss');
+    final DateFormat formatter = DateFormat(dateFormat);
     final String formatted = formatter.format(randevuDate);
     print(formatted);
     Map<String, dynamic> body = {};

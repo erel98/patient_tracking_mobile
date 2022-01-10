@@ -57,4 +57,17 @@ class QuestionService {
     });
     return questions;
   }
+
+  static Future<bool> removeQuestion(int id) async {
+    var deleteUrl = '$url/$id';
+    var success = false;
+    await HTTPService.httpDELETE(deleteUrl, appendToken: true)
+        .then((API_Response response) {
+      print('65: ${response.status}');
+      if (Global.successList.contains(response.status)) {
+        success = true;
+      }
+    });
+    return success;
+  }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:patient_tracking/Widgets/sorular%C4%B1m_list.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 import '../constraints.dart';
 
 class MyQuestionsScreen extends StatefulWidget {
@@ -14,6 +15,31 @@ class _MyQuestionsScreenState extends State<MyQuestionsScreen> {
   Widget build(BuildContext context) {
     final appBar = AppBar(
       elevation: 0,
+      actions: [
+        FittedBox(
+          fit: BoxFit.fitHeight,
+          child: IconButton(
+            icon: Icon(
+              FontAwesome5.question_circle,
+              color: Colors.white,
+            ),
+            onPressed: () => Alert(
+                context: context,
+                content: Column(
+                  children: [Text(questionsInfo)],
+                ),
+                buttons: [
+                  DialogButton(
+                      color: kPrimaryColor,
+                      child: Text(
+                        'Anladım',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      onPressed: () => Navigator.of(context).pop())
+                ]).show(),
+          ),
+        )
+      ],
     );
     final mq = MediaQuery.of(context).size;
     return Scaffold(

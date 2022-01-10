@@ -63,7 +63,7 @@ class Global {
       ),
     ),
     AnaMenuItem(
-      'Organ\nTransplant',
+      'Karaciğer\nNakli',
       '/organ-transplant',
       Icon(
         FontAwesome.heart,
@@ -108,7 +108,7 @@ class Global {
       ),
     ),
     AnaMenuItem(
-      'Yan etkiler',
+      'Notlarım',
       SideEffectsScreen.routeName,
       Icon(
         FontAwesome5.sticky_note,
@@ -125,35 +125,22 @@ class Global {
           size: iconSize,
         )),
   ];
-  static void setBildirimGunleri() async {
-    var prefs = await SharedPreferences.getInstance();
-    prefs.setBool('isPazartesi', false);
-    prefs.setBool('isSali', false);
-    prefs.setBool('isCarsamba', false);
-    prefs.setBool('isPersembe', false);
-    prefs.setBool('isCuma', false);
-    prefs.setBool('isCumartesi', false);
-    prefs.setBool('isPazar', false);
-    bildirimGunleri.forEach((element) {
-      if (element == 1)
-        prefs.setBool('isPazartesi', true);
-      else if (element == 2)
-        prefs.setBool('isSali', true);
-      else if (element == 3)
-        prefs.setBool('isCarsamba', true);
-      else if (element == 4)
-        prefs.setBool('isPersembe', true);
-      else if (element == 5)
-        prefs.setBool('isCuma', true);
-      else if (element == 6)
-        prefs.setBool('isCumartesi', true);
-      else if (element == 7) prefs.setBool('isPazar', true);
-    });
-  }
 
-  static void setBildirimSaati(DateTime time) async {
-    var prefs = await SharedPreferences.getInstance();
-    prefs.setInt('bildirim-saat', time.hour);
-    prefs.setInt('bildirim-dakika', time.minute);
+  static void warnUser(BuildContext context) {
+    AlertDialog alert = AlertDialog(
+      title: Text("Dikkat!"),
+      content: Text('Lütfen tüm alanları doldurunuz.'),
+      actions: [
+        ElevatedButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: Text('Anladım')),
+      ],
+    );
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
   }
 }

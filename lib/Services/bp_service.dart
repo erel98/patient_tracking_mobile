@@ -23,9 +23,9 @@ class BloodPressureService {
       if (Global.successList.contains(response.status)) {
         newbp = BloodPressure(
           id: data['id'],
-          systole: data['systole'],
-          diastole: data['diastole'],
-          heartBeat: data['heartbeat'],
+          systole: double.parse(data['systole']),
+          diastole: double.parse(data['diastole']),
+          heartBeat: int.parse(data['heartbeat']),
           time: DateTime.now(),
         );
       }

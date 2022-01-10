@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:patient_tracking/Models/calendarDay.dart';
 import 'package:patient_tracking/Models/dailyMedication.dart';
-import 'package:patient_tracking/Models/medicationVariantUser.dart';
+import 'package:patient_tracking/Services/medication_service.dart';
 import 'package:patient_tracking/constraints.dart';
 
 class DailyMeds extends StatefulWidget {
@@ -22,14 +22,21 @@ class _DailyMedsState extends State<DailyMeds> {
     super.initState();
     var currentEvents = widget.calendarDay.calendarEvents;
     for (int i = 0; i < currentEvents.length; i++) {
-      currentEvents
-          .sort((a, b) => a.saat.toString().compareTo(b.saat.toString()));
+      currentEvents.sort(
+          (a, b) => a.takeTime.toString().compareTo(b.takeTime.toString()));
     }
 
     for (int i = 0; i < currentEvents.length; i++) {
       _data.add(generateItem(
           currentEvents[i].dailyMedication, widget.calendarDay, i));
     }
+
+    _data.forEach((element) {
+      //print('initstate id: ${element.id}');
+      //print('initstate tit: ${element.headerTitle}');
+      //print('initstate subt: ${element.headerSubtitle}');
+      //print('initstate dif: ${element.difference}');
+    });
   }
 
   void showAlertDialog(BuildContext context) {
@@ -55,7 +62,9 @@ class _DailyMedsState extends State<DailyMeds> {
 
   @override
   Widget build(BuildContext context) {
-    // print('62: ${DateTime.now()}');
+    _data.forEach((element) {
+      //print('build id: ${element.id}');
+    });
     return SingleChildScrollView(child: _buildPanel());
   }
 
@@ -82,7 +91,7 @@ class _DailyMedsState extends State<DailyMeds> {
                       size: 40,
                       color: kPrimaryColor,
                     )
-                  : item.difference < 0 && item.isFuture
+                  : item.difference < 0 && !item.isFuture
                       ? Icon(
                           FontAwesome5.frown,
                           size: 40,
@@ -123,14 +132,19 @@ class _DailyMedsState extends State<DailyMeds> {
                   'Aldım',
                   style: TextStyle(fontSize: 17),
                 ),
-                onPressed: item.difference < 0
+                onPressed: (item.difference < -medTolerance) || item.isTaken
                     ? null
-                    : () {
-                        if (item.difference <= 30 && item.difference > 0) {
+                    : () async {
+                        if (item.difference <= 10 &&
+                            item.difference > -medTolerance) {
+                          MedicationService.updateDailyMedication(
+                              item.dailyMedication.id);
                           setState(() {
+                            item.dailyMedication.tookAt = DateTime.now();
                             item.isTaken = true;
+                            //print('133 sadece //print: ${item.id}');
                           });
-                        } else if (item.difference > 30) {
+                        } else if (item.difference > 10) {
                           showAlertDialog(context);
                         }
                       }),
@@ -143,6 +157,7 @@ class _DailyMedsState extends State<DailyMeds> {
 }
 
 class Item {
+  DailyMedication dailyMedication;
   String headerTitle;
   String headerSubtitle;
   Icon headerEmoji;
@@ -154,7 +169,8 @@ class Item {
   bool isFuture;
 
   Item(
-      {String headerTitle,
+      {DailyMedication dailyMedication,
+      String headerTitle,
       String headerSubtitle,
       Icon headerEmoji,
       Image bodyImage,
@@ -163,6 +179,7 @@ class Item {
       double difference,
       bool isTaken = false,
       bool isFuture}) {
+    this.dailyMedication = dailyMedication;
     this.headerTitle = headerTitle;
     this.headerSubtitle = headerSubtitle;
     this.headerEmoji = headerEmoji;
@@ -178,34 +195,35 @@ class Item {
 Item generateItem(DailyMedication med, CalendarDay calendarDay, int i) {
   DateTime medDate;
   var now = DateTime.now();
-  medDate = DateTime(
-      now.year,
-      now.month,
-      now.day,
-      calendarDay.calendarEvents[i].saat.hour,
-      calendarDay.calendarEvents[i].saat.minute);
+  medDate = calendarDay.calendarEvents[i].takeTime;
   var difference = medDate.difference(now).inMinutes;
   bool isFuture = medDate.isAfter(DateTime.now());
-  bool isTaken = false;
+  bool isTaken = med.tookAt == null ? false : true;
+  //print('188 daily med id: ${med.id}');
   return Item(
-      headerTitle:
-          '${calendarDay.calendarEvents[i].saat.hour.toString().padLeft(2, '0')}:${calendarDay.calendarEvents[i].saat.minute.toString().padLeft(2, '0')} ${med.medicationName}',
-      headerSubtitle: '${med.quantity}',
-      bodyImage: Image.network(
-        med.imageUrl,
-        scale: 0.5,
-      ),
-      bodyApproximation: difference >= 60 && !isFuture
-          ? 'Yaklaşık ${round(difference / 60)} saat kaldı'
-          : isFuture
-              ? ''
-              : difference >= 0
-                  ? '$difference dakika kaldı'
-                  : !isTaken
-                      ? 'Bu ilacın saati geçti'
-                      : 'İlacınızı vaktinde aldınız',
-      difference: difference.toDouble(),
-      isFuture: isFuture);
+    dailyMedication: med,
+    headerTitle:
+        '${calendarDay.calendarEvents[i].takeTime.hour.toString().padLeft(2, '0')}:${calendarDay.calendarEvents[i].takeTime.minute.toString().padLeft(2, '0')} ${med.medicationName}',
+    headerSubtitle: '${med.quantity}',
+    bodyImage: Image.network(
+      med.imageUrl,
+      scale: 0.5,
+    ),
+    bodyApproximation: difference >= 60 && isFuture
+        ? 'Yaklaşık ${round(difference / 60)} saat kaldı'
+        : isFuture
+            ? ''
+            : difference >= 0
+                ? difference < 10
+                    ? 'İlacınızı hemen alınız'
+                    : '$difference dakika kaldı'
+                : !isTaken
+                    ? 'Bu ilacın saati geçti'
+                    : 'İlacınızı vaktinde aldınız',
+    difference: difference.toDouble(),
+    isFuture: isFuture,
+    isTaken: isTaken,
+  );
 }
 
 int round(double number) {

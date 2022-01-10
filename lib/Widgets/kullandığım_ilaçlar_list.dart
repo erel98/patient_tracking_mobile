@@ -20,7 +20,7 @@ class UsedMeds extends StatefulWidget {
 
 class _UsedMedsState extends State<UsedMeds> {
   Future<bool> updateIsNotify(MedicationUser mu) async {
-    bool isSuccess = await MedicationService.updateMedication(mu);
+    bool isSuccess = await MedicationService.updateMyMedication(mu);
     return isSuccess;
   }
 
@@ -39,7 +39,9 @@ class _UsedMedsState extends State<UsedMeds> {
   Widget build(BuildContext context) {
     final medsData = Provider.of<MedicineProvider>(context);
     final meds = medsData.medUsers;
-    print('42: ${meds.length}');
+    meds.forEach((element) {
+      print('42: ${element.id}');
+    });
     return meds.isNotEmpty
         ? Container(
             margin: EdgeInsets.only(top: 10),
