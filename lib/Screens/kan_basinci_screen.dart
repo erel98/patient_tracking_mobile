@@ -47,18 +47,18 @@ class _BloodPressureScreenState extends State<BloodPressureScreen> {
       content: Column(
         children: [
           TextField(
-            controller: kController,
-            keyboardType: TextInputType.number,
-            decoration: InputDecoration(
-              labelText: 'küçük tansiyon',
-              floatingLabelBehavior: FloatingLabelBehavior.auto,
-            ),
-          ),
-          TextField(
             controller: bController,
             keyboardType: TextInputType.number,
             decoration: InputDecoration(
               labelText: 'büyük tansiyon',
+              floatingLabelBehavior: FloatingLabelBehavior.auto,
+            ),
+          ),
+          TextField(
+            controller: kController,
+            keyboardType: TextInputType.number,
+            decoration: InputDecoration(
+              labelText: 'küçük tansiyon',
               floatingLabelBehavior: FloatingLabelBehavior.auto,
             ),
           ),

@@ -115,20 +115,6 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                 ),
-                SizedBox(height: 10),
-                TextButton(
-                  style: ButtonStyle(
-                      overlayColor: MaterialStateColor.resolveWith(
-                          (states) => Colors.transparent)),
-                  onPressed: () => null,
-                  child: Text(
-                    'Şifremi unuttum',
-                    style: TextStyle(
-                        color: kPrimaryColor,
-                        fontSize: 12,
-                        decoration: TextDecoration.underline),
-                  ),
-                ),
                 SizedBox(
                   height: 10,
                 ),

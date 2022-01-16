@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:patient_tracking/Models/bloodPressure.dart';
 import 'package:patient_tracking/Responses/API_Response.dart';
@@ -46,6 +45,7 @@ class BloodPressureService {
         var systole = (element['systole'] as String).replaceAll(',', '.');
         print('44: ${element['diastole']}');
         BloodPressure currentBp = new BloodPressure(
+            id: element['id'],
             diastole: double.parse(diastole),
             systole: double.parse(systole),
             heartBeat: int.parse(element['heartbeat']),
@@ -54,5 +54,18 @@ class BloodPressureService {
       });
     });
     return bloodPressures;
+  }
+
+  static Future<bool> removeBloodPressure(int id) async {
+    var success = false;
+    print('$url/$id');
+    await HTTPService.httpDELETE('$url/$id', appendToken: true)
+        .then((API_Response response) {
+      print('65: ${response.status}');
+      if (Global.successList.contains(response.status)) {
+        success = true;
+      }
+    });
+    return success;
   }
 }

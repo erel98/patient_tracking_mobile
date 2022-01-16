@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:patient_tracking/Models/food.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:patient_tracking/Providers/medicationInteraction_provider.dart';
 import 'package:patient_tracking/Widgets/no_data.dart';
 import 'package:provider/provider.dart';
@@ -27,6 +27,9 @@ class _MedToFoodInteractionState extends State<MedToFoodInteraction> {
     final interactionprovider =
         Provider.of<MedicationInteractionProvider>(context);
     var foods = interactionprovider.medInteraction.foods;
+    foods.forEach((element) {
+      print('food name: ${element.name}');
+    });
     return foods == null
         ? NoDataFound('Beraberinde tüketilmemesi gereken yemek')
         : ListView.separated(
@@ -47,7 +50,10 @@ class _MedToFoodInteractionState extends State<MedToFoodInteraction> {
                 ),
                 child: Center(
                   child: ListTile(
-                    //leading: Image.network(widget.foods[index].imageUrl),
+                    leading: foods[index].imageUrl != null
+                        ? Image.network(
+                            '${dotenv.env['IMAGE_URL']}${foods[index].imageUrl}')
+                        : Container(),
                     title: Text(
                       foods[index].name,
                       style: TextStyle(

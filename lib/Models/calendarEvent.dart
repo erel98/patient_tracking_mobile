@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:patient_tracking/Models/dailyMedication.dart';
-import 'package:patient_tracking/Models/medicationVariant.dart';
 
 class CalendarEvent {
   int id;

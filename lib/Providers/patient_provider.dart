@@ -32,9 +32,10 @@ class PatientProvider with ChangeNotifier {
         success = true;
         // // print('24 ${loginResponse.}');
 
-        // print('24 ${response.data.runtimeType}');
+        print('24 ${response.data}');
         var prefs = await SharedPreferences.getInstance();
         prefs.setString('token', loginResponse.token);
+        prefs.setBool('isloggedin', true);
         // print('24 ${loginResponse.token}');
       } else if (response.status == 422) {
         // print('422 döndü');
@@ -61,6 +62,7 @@ class PatientProvider with ChangeNotifier {
 
     await HTTPService.httpGET(url, appendToken: true)
         .then((http.Response response) {
+      print('64: ${response.body}');
       if (Global.successList.contains(response.statusCode)) {
         success = true;
         var jsonResponse = jsonDecode(response.body);

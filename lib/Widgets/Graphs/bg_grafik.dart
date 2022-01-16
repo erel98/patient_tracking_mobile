@@ -26,8 +26,9 @@ class _BloodGlucoseGraphState extends State<BloodGlucoseGraph> {
   List<FlSpot> spots = [];
   @override
   Widget build(BuildContext context) {
-    final bgsData = Provider.of<BloodGlucoseProvider>(context);
-    final bgs = bgsData.bgs;
+    var bgsData = Provider.of<BloodGlucoseProvider>(context);
+    var bgs = bgsData.bgs;
+    spots.clear();
     bgs.sort((a, b) => b.date.compareTo(a.date));
     print('sj: ${bgs.length}');
     for (int i = 0; i < bgs.length; i++) {
@@ -39,7 +40,7 @@ class _BloodGlucoseGraphState extends State<BloodGlucoseGraph> {
         minX: 0,
         minY: 0,
         maxX: bgs.length.toDouble() + 1,
-        maxY: 200,
+        maxY: 1000,
         titlesData: FlTitlesData(
           show: true,
           bottomTitles: SideTitles(
@@ -50,7 +51,7 @@ class _BloodGlucoseGraphState extends State<BloodGlucoseGraph> {
             getTextStyles: (BuildContext context, value) => const TextStyle(
                 color: Colors.grey, fontWeight: FontWeight.bold, fontSize: 10),
             getTitles: (value) {
-              if (value % 20 == 0) {
+              if (value % 100 == 0 && value != 0) {
                 return '${value.toInt()}';
               }
               return '';

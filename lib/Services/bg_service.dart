@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:intl/intl.dart';
 import 'package:patient_tracking/Models/bloodGlucose.dart';
 import 'package:patient_tracking/Responses/API_Response.dart';
 import '../global.dart';
@@ -46,5 +45,17 @@ class BloodGlucoseService {
       });
     });
     return bgs;
+  }
+
+  static Future<bool> removeBloodGlucose(int id) async {
+    var success = false;
+    await HTTPService.httpDELETE('$url/$id', appendToken: true)
+        .then((API_Response response) {
+      print('55: ${response.status}');
+      if (Global.successList.contains(response.status)) {
+        success = true;
+      }
+    });
+    return success;
   }
 }

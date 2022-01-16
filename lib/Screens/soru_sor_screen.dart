@@ -72,8 +72,6 @@ class _AskQuestionScreenState extends State<AskQuestionScreen> {
             ),
             child: TextField(
               controller: content,
-              maxLines: null,
-              keyboardType: TextInputType.multiline,
               decoration: InputDecoration(
                 floatingLabelBehavior: FloatingLabelBehavior.auto,
                 hintText: 'Lütfen sorunuzu tanımlayınız.',

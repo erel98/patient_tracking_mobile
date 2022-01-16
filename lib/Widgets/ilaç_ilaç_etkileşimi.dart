@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_icons/flutter_icons.dart';
-import 'package:patient_tracking/Models/medication.dart';
 import 'package:patient_tracking/Providers/medicationInteraction_provider.dart';
 import 'package:patient_tracking/Widgets/no_data.dart';
-import 'package:patient_tracking/constraints.dart';
 import 'package:provider/provider.dart';
 
 class MedToMedInteraction extends StatefulWidget {
@@ -39,30 +38,28 @@ class _MedToMedInteractionState extends State<MedToMedInteraction> {
               BuildContext context,
               int index,
             ) {
-              return Container(
-                margin: EdgeInsets.symmetric(horizontal: 50),
-                height: 70,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: kPrimaryColor,
+              return ListTile(
+                leading: Icon(
+                  FontAwesome5.hand_point_right,
+                  size: 30,
+                  color: Colors.black,
                 ),
-                child: Center(
-                  child: ListTile(
-                    leading: Icon(
-                      FontAwesome5.hand_point_right,
-                      size: 30,
-                      color: Colors.black,
-                    ),
-                    title: Text(
-                      meds[index].name,
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
+                title: meds[index].imageUrl != null &&
+                        meds[index].imageUrl.isNotEmpty
+                    ? Container(
+                        margin: EdgeInsets.all(0),
+                        child: Image.network(
+                          dotenv.env['IMAGE_URL'] + meds[index].imageUrl,
+                        ),
+                      )
+                    : Text(
+                        meds[index].name,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    ),
-                  ),
-                ),
               );
             },
           );

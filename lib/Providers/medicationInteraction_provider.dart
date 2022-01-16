@@ -7,5 +7,7 @@ class MedicationInteractionProvider with ChangeNotifier {
 
   void getInteractionsById(int id) async {
     medInteraction = await MedicationService.getMedicationDetails(id);
+    print('providerdan food name: ${medInteraction.foods.first.name}');
+    notifyListeners();
   }
 }

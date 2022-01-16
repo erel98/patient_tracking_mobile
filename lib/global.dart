@@ -3,7 +3,7 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:patient_tracking/Screens/kan_basinci_screen.dart';
 import 'package:patient_tracking/Screens/sorular%C4%B1m_screen.dart';
-import 'package:patient_tracking/Screens/yan_etkiler_screen.dart';
+import 'package:patient_tracking/Screens/notlar%C4%B1m_screen.dart';
 import 'package:patient_tracking/constraints.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'Widgets/ana_menü_item.dart';
@@ -109,21 +109,13 @@ class Global {
     ),
     AnaMenuItem(
       'Notlarım',
-      SideEffectsScreen.routeName,
+      NotesScreen.routeName,
       Icon(
         FontAwesome5.sticky_note,
         color: kMenuIconColor,
         size: iconSize,
       ),
     ),
-    AnaMenuItem(
-        'Mesajlar',
-        '',
-        Icon(
-          Icons.message,
-          color: kMenuIconColor,
-          size: iconSize,
-        )),
   ];
 
   static void warnUser(BuildContext context) {

@@ -17,4 +17,11 @@ class BloodGlucoseProvider with ChangeNotifier {
     bgs.add(newbg);
     notifyListeners();
   }
+
+  Future<bool> removeBloodGlucose(int id) async {
+    var success = await BloodGlucoseService.removeBloodGlucose(id);
+    bgs.removeWhere((element) => element.id == id);
+    notifyListeners();
+    return success;
+  }
 }

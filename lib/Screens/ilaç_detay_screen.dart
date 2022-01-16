@@ -1,16 +1,9 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:patient_tracking/Models/food.dart';
-import 'package:patient_tracking/Models/medicationInteraction.dart';
-import 'package:patient_tracking/Models/medicationVariant.dart';
-import 'package:patient_tracking/Models/medicationVariantUser.dart';
-import 'package:patient_tracking/Providers/medicationInteraction_provider.dart';
 import '../Widgets/ilaç_yemek_etkileşimi.dart';
 import '../Models/medication.dart';
 import '../Widgets/ilaç_ilaç_etkileşimi.dart';
-import 'package:patient_tracking/Providers/medicine_provider.dart';
-import 'package:provider/provider.dart';
 import '../Widgets/yan_etkiler.dart';
 import '../constraints.dart';
 import '../global.dart';

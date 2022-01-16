@@ -1,6 +1,7 @@
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -19,7 +20,7 @@ import 'Screens/ilaç_detay_screen.dart';
 import 'Screens/hatırlatıcı_screen.dart';
 import 'Screens/bugünkü_ilaçlarım_screen.dart';
 import 'Screens/login_screen.dart';
-import 'Screens/yan_etkiler_screen.dart';
+import 'Screens/notlarım_screen.dart';
 import 'Screens/soru_sor_screen.dart';
 import 'Screens/kan_basinci_screen.dart';
 import 'Screens/sorularım_screen.dart';
@@ -43,6 +44,8 @@ FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
 
 void main() async {
   await dotenv.load();
+  SystemChrome.setPreferredOrientations(
+      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
   await SharedPreferences.getInstance().then(
       (instance) => PreferecesController.sharedPreferencesInstance = instance);
   WidgetsFlutterBinding.ensureInitialized();
@@ -227,7 +230,7 @@ class _MyAppState extends State<MyApp> {
         DailyMedsScreen.routeName: (ctx) => DailyMedsScreen(),
         AskQuestionScreen.routeName: (ctx) => AskQuestionScreen(),
         MyQuestionsScreen.routeName: (ctx) => MyQuestionsScreen(),
-        SideEffectsScreen.routeName: (ctx) => SideEffectsScreen(),
+        NotesScreen.routeName: (ctx) => NotesScreen(),
         BloodPressureScreen.routeName: (ctx) => BloodPressureScreen(),
         BloodGlucoseScreen.routeName: (ctx) => BloodGlucoseScreen(),
         OrganTransplantScreen.routeName: (ctx) => OrganTransplantScreen(),

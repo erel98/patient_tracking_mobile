@@ -24,6 +24,13 @@ class BloodPressureProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  Future<bool> removeBloodPressure(int id) async {
+    var success = await BloodPressureService.removeBloodPressure(id);
+    bps.removeWhere((element) => element.id == id);
+    notifyListeners();
+    return success;
+  }
+
   void update(BloodPressure bloodPressure) {
     bps[bps.indexWhere((m) => m.id == bloodPressure.id)] = bloodPressure;
     notifyListeners();

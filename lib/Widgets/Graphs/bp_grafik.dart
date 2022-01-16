@@ -56,7 +56,8 @@ class _BloodPressureGraphState extends State<BloodPressureGraph> {
   Widget build(BuildContext context) {
     final bpsData = Provider.of<BloodPressureProvider>(context);
     final bps = bpsData.bps;
-
+    systoleList.clear();
+    diastoleList.clear();
     for (int i = 0; i < bps.length; i++) {
       systoleList.add(FlSpot((i + 1).toDouble(), bps[i].systole));
       diastoleList.add(FlSpot((i + 1).toDouble(), bps[i].diastole));
@@ -79,7 +80,7 @@ class _BloodPressureGraphState extends State<BloodPressureGraph> {
                   fontWeight: FontWeight.bold,
                   fontSize: 10),
               getTitles: (value) {
-                if (value % 2 == 0) {
+                if (value % 2 == 0 && value != 0) {
                   return '${value.toInt()}';
                 }
                 return '';

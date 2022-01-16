@@ -1,7 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:patient_tracking/Models/medicationVariant.dart';
 import 'package:patient_tracking/Models/medicationVariantUser.dart';
 import 'package:patient_tracking/Providers/medicine_provider.dart';
 import 'package:patient_tracking/Services/medication_service.dart';
@@ -9,7 +7,6 @@ import 'package:patient_tracking/Widgets/no_data.dart';
 import 'package:patient_tracking/constraints.dart';
 import 'package:provider/provider.dart';
 import '../Screens/ilaç_detay_screen.dart';
-import 'package:loading_overlay/loading_overlay.dart';
 
 import '../global.dart';
 
@@ -20,7 +17,8 @@ class UsedMeds extends StatefulWidget {
 
 class _UsedMedsState extends State<UsedMeds> {
   Future<bool> updateIsNotify(MedicationUser mu) async {
-    bool isSuccess = await MedicationService.updateMyMedication(mu);
+    bool isSuccess =
+        await MedicationService.updateMyMedication(mu, mu.isNotify);
     return isSuccess;
   }
 

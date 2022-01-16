@@ -1,11 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_icons/flutter_icons.dart';
-import 'package:patient_tracking/Providers/patient_provider.dart';
 import 'package:patient_tracking/constraints.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import '../global.dart';
 import '../Widgets/ana_menü.dart';
 import '../Widgets/accountMenu.dart';
@@ -37,13 +32,6 @@ class _AnaMenuState extends State<AnaMenu> {
     bottomOpacity: 0,
     elevation: 0,
     backgroundColor: kPrimaryColor,
-    leading: IconButton(
-      onPressed: null,
-      icon: Icon(
-        Icons.menu,
-        color: Colors.black,
-      ),
-    ),
   );
 
   @override
@@ -176,7 +164,6 @@ class MainScreenTopContainer extends StatelessWidget {
                     fontSize: 20),
               ),
               Spacer(),
-              Icon(FontAwesome.smile_o)
             ],
           ),
         ),

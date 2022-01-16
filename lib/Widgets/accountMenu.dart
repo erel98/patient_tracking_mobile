@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:patient_tracking/Providers/patient_provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../preferencesController.dart';
 import 'myTextField.dart';

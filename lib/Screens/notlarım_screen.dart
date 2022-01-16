@@ -4,14 +4,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../constraints.dart';
 
-class SideEffectsScreen extends StatefulWidget {
-  static final routeName = '/side-effects';
+class NotesScreen extends StatefulWidget {
+  static final routeName = '/notes';
 
   @override
-  _SideEffectsScreenState createState() => _SideEffectsScreenState();
+  _NotesScreenState createState() => _NotesScreenState();
 }
 
-class _SideEffectsScreenState extends State<SideEffectsScreen> {
+class _NotesScreenState extends State<NotesScreen> {
   final controller = TextEditingController();
   var prefs;
 
@@ -32,12 +32,15 @@ class _SideEffectsScreenState extends State<SideEffectsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final appBar = AppBar();
+    final appBar = AppBar(
+      elevation: 0,
+    );
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: appBar,
       body: Column(
         children: [
+          TopContainer(),
           Container(
             margin: EdgeInsets.all(10),
             child: Text(
@@ -50,7 +53,8 @@ class _SideEffectsScreenState extends State<SideEffectsScreen> {
             height: 10,
           ),
           Container(
-            height: 500,
+            height: MediaQuery.of(context).size.height -
+                (10 + 15 + 15 + 250 + MediaQuery.of(context).size.height * 0.1),
             margin: EdgeInsets.only(left: 15, right: 15, top: 10, bottom: 20),
             padding: EdgeInsets.symmetric(horizontal: 15),
             decoration: BoxDecoration(
@@ -68,8 +72,6 @@ class _SideEffectsScreenState extends State<SideEffectsScreen> {
             ),
             child: TextField(
               controller: controller,
-              maxLines: null,
-              keyboardType: TextInputType.multiline,
               decoration: InputDecoration(
                 floatingLabelBehavior: FloatingLabelBehavior.auto,
                 hintStyle: TextStyle(
@@ -95,6 +97,24 @@ class _SideEffectsScreenState extends State<SideEffectsScreen> {
             ),
           )
         ],
+      ),
+    );
+  }
+}
+
+class TopContainer extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 20),
+      height: MediaQuery.of(context).size.height * 0.1,
+      decoration: BoxDecoration(
+        border: Border.all(width: 0, color: kPrimaryColor),
+        color: kPrimaryColor,
+        borderRadius: BorderRadius.only(
+          bottomLeft: Radius.circular(30),
+          bottomRight: Radius.circular(30),
+        ),
       ),
     );
   }

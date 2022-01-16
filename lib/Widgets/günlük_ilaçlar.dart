@@ -3,6 +3,7 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:patient_tracking/Models/calendarDay.dart';
 import 'package:patient_tracking/Models/dailyMedication.dart';
 import 'package:patient_tracking/Services/medication_service.dart';
+import 'package:patient_tracking/Widgets/no_data.dart';
 import 'package:patient_tracking/constraints.dart';
 
 class DailyMeds extends StatefulWidget {
@@ -62,10 +63,17 @@ class _DailyMedsState extends State<DailyMeds> {
 
   @override
   Widget build(BuildContext context) {
+    print('şuan length: ${_data.length}');
     _data.forEach((element) {
-      //print('build id: ${element.id}');
+      print('item var');
     });
-    return SingleChildScrollView(child: _buildPanel());
+    return SingleChildScrollView(
+        child: _data.isNotEmpty
+            ? _buildPanel()
+            : Container(
+                width: MediaQuery.of(context).size.width,
+                height: 500,
+                child: NoDataFound('Bugün ilacınız')));
   }
 
   Widget _buildPanel() {
@@ -135,7 +143,7 @@ class _DailyMedsState extends State<DailyMeds> {
                 onPressed: (item.difference < -medTolerance) || item.isTaken
                     ? null
                     : () async {
-                        if (item.difference <= 10 &&
+                        if (item.difference <= 15 &&
                             item.difference > -medTolerance) {
                           MedicationService.updateDailyMedication(
                               item.dailyMedication.id);
@@ -144,7 +152,7 @@ class _DailyMedsState extends State<DailyMeds> {
                             item.isTaken = true;
                             //print('133 sadece //print: ${item.id}');
                           });
-                        } else if (item.difference > 10) {
+                        } else if (item.difference > 15) {
                           showAlertDialog(context);
                         }
                       }),
@@ -210,7 +218,9 @@ Item generateItem(DailyMedication med, CalendarDay calendarDay, int i) {
       scale: 0.5,
     ),
     bodyApproximation: difference >= 60 && isFuture
-        ? 'Yaklaşık ${round(difference / 60)} saat kaldı'
+        ? difference < 1440
+            ? 'Yaklaşık ${round(difference / 60)} saat kaldı'
+            : 'Yaklaşık ${round(difference / 1440)} gün kaldı'
         : isFuture
             ? ''
             : difference >= 0

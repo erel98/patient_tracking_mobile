@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:patient_tracking/Models/medicationVariant.dart';
-import 'package:patient_tracking/Models/medicationVariantUser.dart';
-import 'package:patient_tracking/Providers/medicine_provider.dart';
-import 'package:patient_tracking/Services/medication_service.dart';
-// ignore: implementation_imports
-import 'package:provider/src/provider.dart';
+import 'package:flutter_icons/flutter_icons.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 import '../Widgets/kullandığım_ilaçlar_list.dart';
 import '../constraints.dart';
 
@@ -15,12 +11,36 @@ class KullandigimIlaclar extends StatefulWidget {
 }
 
 class _KullandigimIlaclarState extends State<KullandigimIlaclar> {
-  final appbar = AppBar(
-    elevation: 0,
-  );
-
   @override
   Widget build(BuildContext context) {
+    final appbar = AppBar(
+      elevation: 0,
+      actions: [
+        FittedBox(
+          fit: BoxFit.fitHeight,
+          child: IconButton(
+            icon: Icon(
+              FontAwesome5.question_circle,
+              color: Colors.white,
+            ),
+            onPressed: () => Alert(
+                context: context,
+                content: Column(
+                  children: [Text(medInfo)],
+                ),
+                buttons: [
+                  DialogButton(
+                      color: kPrimaryColor,
+                      child: Text(
+                        'Anladım',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      onPressed: () => Navigator.of(context).pop())
+                ]).show(),
+          ),
+        )
+      ],
+    );
     return Scaffold(
       //backgroundColor: Colors.white,
       appBar: appbar,

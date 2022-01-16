@@ -106,10 +106,12 @@ class MedicationService {
     return days;
   }
 
-  static Future<bool> updateMyMedication(MedicationUser mu) async {
+  static Future<bool> updateMyMedication(
+      MedicationUser mu, bool isNotify) async {
     bool success = false;
+    print('gönderilen isNotify: $isNotify');
     String url = dotenv.env['API_URL'] + '/my-medications/' + mu.id.toString();
-    var body = {'is_notification_active': mu.isNotify};
+    var body = {'is_notification_active': isNotify};
     var response = await HTTPService.httpUPDATE(url, body, appendToken: true);
     print('57 ${response.statusCode}');
     print('57 ${response.body}');
@@ -140,12 +142,13 @@ class MedicationService {
     interaction.foods = [];
     interaction.medications = [];
     interaction.sideEffects = [];
+
     await HTTPService.httpGET('$url/$id', appendToken: true)
         .then((http.Response response) {
-      //print('120 response: ${response.body}');
+      print('148 response: ${response.body}');
       var jsonResponse = jsonDecode(response.body) as Map<String, dynamic>;
       var data = new Map<String, List<dynamic>>.from(jsonResponse['data']);
-      if (data['foods'] != null) {
+      if (data['foods'] != null && data['foods'].isNotEmpty) {
         data['foods'].forEach((element) {
           Food food = new Food(
               id: element['id'],
@@ -155,17 +158,24 @@ class MedicationService {
         });
       }
       if (data['side_effect'] != null) {
+        print('side effects boş değil dedi');
         data['side_effect'].forEach((element) {
           interaction.sideEffects.add(element);
+          print('eklenen side effect: $element');
         });
       }
-      if (data['meds'] != null) {
-        data['meds'].forEach((element) {
-          // will be fixed
-          interaction.medications.add(element['name']);
+      if (data['medications'] != null) {
+        print('yasak meds boş değil dedi');
+        data['medications'].forEach((element) {
+          Medication forbMed = Medication(
+              id: element['id'],
+              name: element['name'],
+              imageUrl: element['photo']);
+          interaction.medications.add(forbMed);
         });
       }
     });
+
     return interaction;
   }
 }

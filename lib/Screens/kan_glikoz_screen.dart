@@ -105,19 +105,16 @@ class _BloodGlucoseScreenState extends State<BloodGlucoseScreen> {
               ),
               child: BloodGlucoseGraph()),
           Container(
-            height: height -
-                (getAppbar(context).preferredSize.height +
-                    width * 0.1 +
-                    20 +
-                    300 +
-                    20 +
-                    66 +
-                    21 +
-                    27),
-            child: Consumer<BloodGlucoseProvider>(
-              builder: (_, bps, child) => BloodGlucoseList(),
-            ),
-          )
+              height: height -
+                  (getAppbar(context).preferredSize.height +
+                      width * 0.1 +
+                      20 +
+                      300 +
+                      20 +
+                      66 +
+                      21 +
+                      27),
+              child: BloodGlucoseList())
         ],
       ),
     );
