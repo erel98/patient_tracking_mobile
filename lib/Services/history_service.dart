@@ -24,7 +24,7 @@ class HistoryService {
               ? DateTime.parse(
                   element['took_at'],
                 )
-              : null,
+              : DateTime.parse(element['take_time']),
         );
         histories.add(history);
       });

@@ -81,7 +81,6 @@ class _DailyMedsScreenState extends State<DailyMedsScreen>
       widgets.add(widget);
       tabs.add(tab);
     });
-    print(calendarDays.length.toString());
     _tabController = getTabController();
     _updatePage();
 

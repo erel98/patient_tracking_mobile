@@ -31,13 +31,6 @@ class _DailyMedsState extends State<DailyMeds> {
       _data.add(generateItem(
           currentEvents[i].dailyMedication, widget.calendarDay, i));
     }
-
-    _data.forEach((element) {
-      //print('initstate id: ${element.id}');
-      //print('initstate tit: ${element.headerTitle}');
-      //print('initstate subt: ${element.headerSubtitle}');
-      //print('initstate dif: ${element.difference}');
-    });
   }
 
   void showAlertDialog(BuildContext context) {
@@ -63,10 +56,6 @@ class _DailyMedsState extends State<DailyMeds> {
 
   @override
   Widget build(BuildContext context) {
-    print('şuan length: ${_data.length}');
-    _data.forEach((element) {
-      print('item var');
-    });
     return SingleChildScrollView(
         child: _data.isNotEmpty
             ? _buildPanel()
@@ -150,7 +139,6 @@ class _DailyMedsState extends State<DailyMeds> {
                           setState(() {
                             item.dailyMedication.tookAt = DateTime.now();
                             item.isTaken = true;
-                            //print('133 sadece //print: ${item.id}');
                           });
                         } else if (item.difference > 15) {
                           showAlertDialog(context);
@@ -207,7 +195,6 @@ Item generateItem(DailyMedication med, CalendarDay calendarDay, int i) {
   var difference = medDate.difference(now).inMinutes;
   bool isFuture = medDate.isAfter(DateTime.now());
   bool isTaken = med.tookAt == null ? false : true;
-  //print('188 daily med id: ${med.id}');
   return Item(
     dailyMedication: med,
     headerTitle:

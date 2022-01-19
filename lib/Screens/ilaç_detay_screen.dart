@@ -46,7 +46,6 @@ class _IlacDetayState extends State<IlacDetay>
     final routeArgs =
         ModalRoute.of(context).settings.arguments as Map<String, int>;
     medId = routeArgs['medId'] as int;
-    print('56 med id: $medId');
     AppBar appBar = AppBar(
       elevation: 0,
       centerTitle: true,

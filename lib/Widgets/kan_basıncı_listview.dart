@@ -32,9 +32,6 @@ class _BloodPressureListState extends State<BloodPressureList> {
   Widget build(BuildContext context) {
     final bpsData = Provider.of<BloodPressureProvider>(context);
     final bps = bpsData.bps;
-    bps.forEach((element) {
-      print(element.heartBeat);
-    });
     Locale myLocale = Localizations.localeOf(context);
     return bps.isNotEmpty
         ? ListView.separated(
@@ -52,7 +49,6 @@ class _BloodPressureListState extends State<BloodPressureList> {
                     color: Colors.red,
                   ),
                   onPressed: () async {
-                    print('id: ${bps[index].id}');
                     showDialog(
                         context: context,
                         builder: (BuildContext context) {

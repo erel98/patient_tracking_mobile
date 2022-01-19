@@ -36,14 +36,12 @@ class BloodPressureService {
     List<BloodPressure> bloodPressures = [];
     await HTTPService.httpGET(url, appendToken: true)
         .then((http.Response response) {
-      print('39 ${response.body}');
       var jsonResponse = jsonDecode(response.body) as Map<String, dynamic>;
       var data = new List<Map<String, dynamic>>.from(jsonResponse['data']);
       data.forEach((element) {
         var createdAt = DateTime.parse(element['created_at']);
         var diastole = (element['diastole'] as String).replaceAll(',', '.');
         var systole = (element['systole'] as String).replaceAll(',', '.');
-        print('44: ${element['diastole']}');
         BloodPressure currentBp = new BloodPressure(
             id: element['id'],
             diastole: double.parse(diastole),
@@ -58,10 +56,8 @@ class BloodPressureService {
 
   static Future<bool> removeBloodPressure(int id) async {
     var success = false;
-    print('$url/$id');
     await HTTPService.httpDELETE('$url/$id', appendToken: true)
         .then((API_Response response) {
-      print('65: ${response.status}');
       if (Global.successList.contains(response.status)) {
         success = true;
       }

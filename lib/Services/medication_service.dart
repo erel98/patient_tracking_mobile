@@ -17,15 +17,11 @@ import 'http_service.dart';
 class MedicationService {
   static String url = dotenv.env['API_URL'] + '/my-medications';
   static Future<List<MedicationUser>> getMyMedications() async {
-    print('başladı');
-    //String url = dotenv.env['API_URL'] + '/my-medications';
     List<MedicationUser> medicationVariantUsers = [];
     await HTTPService.httpGET(url, appendToken: true)
         .then((http.Response response) {
-      // print('83 ${response.body}');
       if (Global.successList.contains(response.statusCode)) {
         var jsonResponse = jsonDecode(response.body) as Map<String, dynamic>;
-        // print('24: ${jsonResponse['data'].runtimeType}');
         var jsonData =
             new List<Map<String, dynamic>>.from(jsonResponse['data']);
         jsonData.forEach((data) {
@@ -35,19 +31,13 @@ class MedicationService {
           MedicationVariant tempVariant = new MedicationVariant();
 
           tempMedicine.id = data['medication']['id'];
-          //print('tempMedicine.id: ${tempMedicine.id}');
           tempMedicine.name = data['medication']['name'];
-          // print('tempMedicine.name: ${tempMedicine.name}');
           tempMedicine.imageUrl =
               '${dotenv.env['IMAGE_URL']}${data['medication']['photo']}';
-          print('tempMedicine.imageUrl: ${tempMedicine.imageUrl}');
           tempMedicine.stomach = data['medication']['empty_stomach'];
-          // print('tempMedicine.stomach: ${tempMedicine.stomach}');
 
           tempVariant.id = data['variant']['id'];
-          print('tempVariant.id: ${tempVariant.id}');
           tempVariant.name = data['variant']['name'];
-          print('tempVariant.name: ${tempVariant.name}');
           tempVariant.medication = tempMedicine;
 
           tempMu.id = data['id'];
@@ -72,13 +62,9 @@ class MedicationService {
       data.forEach((day) {
         List<CalendarEvent> calendarEvents = [];
         CalendarDay calendarDay = CalendarDay(dayValue: day['day']);
-
-        //print('71: ${day['events'].first.runtimeType}');
-
         List<Map<String, dynamic>> events =
             new List<Map<String, dynamic>>.from(day['events']);
         events.forEach((element) {
-          print('79: ${element['tookAt']}');
           DailyMedication dailyMedication = DailyMedication(
             id: element['id'],
             medicationName: element['medication']['name'],
@@ -90,8 +76,6 @@ class MedicationService {
                 ? DateTime.parse(element['tookAt'])
                 : null,
           );
-          //print('88 daily med id: ${dailyMedication.id}');
-          // dailyMedication.printDailyMed();
           CalendarEvent event = CalendarEvent(
             dailyMedication: dailyMedication,
             takeTime: DateTime.parse(element['takeTime']),
@@ -99,7 +83,6 @@ class MedicationService {
           calendarEvents.add(event);
         });
         calendarDay.calendarEvents = calendarEvents;
-        print('93: ${calendarDay.dayValue}');
         days.add(calendarDay);
       });
     });
@@ -109,12 +92,9 @@ class MedicationService {
   static Future<bool> updateMyMedication(
       MedicationUser mu, bool isNotify) async {
     bool success = false;
-    print('gönderilen isNotify: $isNotify');
     String url = dotenv.env['API_URL'] + '/my-medications/' + mu.id.toString();
     var body = {'is_notification_active': isNotify};
     var response = await HTTPService.httpUPDATE(url, body, appendToken: true);
-    print('57 ${response.statusCode}');
-    print('57 ${response.body}');
 
     if (Global.successList.contains(response.statusCode)) {
       success = true;
@@ -123,13 +103,10 @@ class MedicationService {
   }
 
   static Future<bool> updateDailyMedication(int id) async {
-    print('118: $id');
     bool success = false;
     String url = '${dotenv.env['API_URL']}/daily-meds/$id';
     var body = {'took_at': DateFormat(dateFormat).format(DateTime.now())};
     var response = await HTTPService.httpUPDATE(url, body, appendToken: true);
-    print('57 ${response.statusCode}');
-    print('57 ${response.body}');
 
     if (Global.successList.contains(response.statusCode)) {
       success = true;
@@ -145,7 +122,6 @@ class MedicationService {
 
     await HTTPService.httpGET('$url/$id', appendToken: true)
         .then((http.Response response) {
-      print('148 response: ${response.body}');
       var jsonResponse = jsonDecode(response.body) as Map<String, dynamic>;
       var data = new Map<String, List<dynamic>>.from(jsonResponse['data']);
       if (data['foods'] != null && data['foods'].isNotEmpty) {
@@ -158,14 +134,11 @@ class MedicationService {
         });
       }
       if (data['side_effect'] != null) {
-        print('side effects boş değil dedi');
         data['side_effect'].forEach((element) {
           interaction.sideEffects.add(element);
-          print('eklenen side effect: $element');
         });
       }
       if (data['medications'] != null) {
-        print('yasak meds boş değil dedi');
         data['medications'].forEach((element) {
           Medication forbMed = Medication(
               id: element['id'],

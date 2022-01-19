@@ -37,9 +37,6 @@ class _UsedMedsState extends State<UsedMeds> {
   Widget build(BuildContext context) {
     final medsData = Provider.of<MedicineProvider>(context);
     final meds = medsData.medUsers;
-    meds.forEach((element) {
-      print('42: ${element.id}');
-    });
     return meds.isNotEmpty
         ? Container(
             margin: EdgeInsets.only(top: 10),

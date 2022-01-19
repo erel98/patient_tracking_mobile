@@ -13,9 +13,4 @@ class DailyMedication {
       this.imageUrl,
       this.quantity,
       this.tookAt});
-
-  void printDailyMed() {
-    print(
-        'id: $id\nname: $medicationName\nvariantName: $variantName\nurl: $imageUrl\nquantity: $quantity');
-  }
 }

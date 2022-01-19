@@ -30,7 +30,6 @@ class _BloodGlucoseGraphState extends State<BloodGlucoseGraph> {
     var bgs = bgsData.bgs;
     spots.clear();
     bgs.sort((a, b) => b.date.compareTo(a.date));
-    print('sj: ${bgs.length}');
     for (int i = 0; i < bgs.length; i++) {
       spots.add(FlSpot((i + 1).toDouble(), bgs[i].value.toDouble()));
     }

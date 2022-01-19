@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:patient_tracking/Services/patient_service.dart';
 
+import '../constraints.dart';
+import '../global.dart';
 import '../preferencesController.dart';
 import 'myTextField.dart';
 
@@ -49,7 +53,55 @@ class _AccountMenuState extends State<AccountMenu> {
               hintText: 'kilonuz',
               inputType: TextInputType.number,
               controller: weightController),
-          //ElevatedButton(onPressed: onPressed, child: child)
+          Container(
+            margin: EdgeInsets.only(top: 50),
+            child: ElevatedButton(
+              onPressed: () async {
+                if (heightController.text.contains('.') ||
+                    heightController.text.contains(',')) {
+                  AlertDialog alert = AlertDialog(
+                    title: Text("Dikkat!"),
+                    content:
+                        Text('Boyunuz cm cinsinden bir tam sayı olmalıdır.'),
+                    actions: [
+                      ElevatedButton(
+                          onPressed: () => Navigator.of(context).pop(),
+                          child: Text('Anladım')),
+                    ],
+                  );
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return alert;
+                    },
+                  );
+                } else {
+                  if (nameController.text.isNotEmpty &&
+                      heightController.text.isNotEmpty &&
+                      weightController.text.isNotEmpty) {
+                    var success = await PatientService.updateMe(
+                        name: nameController.text,
+                        weight: double.parse(weightController.text),
+                        height: int.parse(heightController.text));
+                    if (success) {
+                      setState(() {
+                        Fluttertoast.showToast(
+                            msg: 'Bilgileriniz başarıyla güncellendi');
+                      });
+                    }
+                  } else {
+                    Global.warnUser(context);
+                  }
+                }
+              },
+              child: Text('Kaydet'),
+              style: ButtonStyle(
+                overlayColor: MaterialStateColor.resolveWith(
+                    (states) => Colors.transparent),
+                backgroundColor: MaterialStateProperty.all(kPrimaryColor),
+              ),
+            ),
+          )
         ],
       ),
     );

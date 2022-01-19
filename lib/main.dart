@@ -40,7 +40,6 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   // If you're going to use other Firebase services in the background, such as Firestore,
   // make sure you call `initializeApp` before using other Firebase services.
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  print('Handling a background message ${message.messageId}');
 }
 
 AndroidNotificationChannel channel;
@@ -127,7 +126,6 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   Future<void> initToken() async {
     String token = await FirebaseMessaging.instance.getToken();
-    print('73 $token');
     var prefs = await SharedPreferences.getInstance();
     prefs.setString('fcm_token', token);
   }
@@ -153,8 +151,6 @@ class _MyAppState extends State<MyApp> {
       RemoteNotification notification = message.notification;
       AndroidNotification android = message.notification?.android;
       if (notification != null && android != null) {
-        print('138: ${notification.body}');
-        print('138: ${notification.title}');
         flutterLocalNotificationsPlugin.show(
           notification.hashCode,
           notification.title,

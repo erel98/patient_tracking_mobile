@@ -36,7 +36,6 @@ class _BloodMedicineGraphState extends State<BloodMedicineGraph> {
   List<int> distinctMedIds = [];
   int tempId = -1;
   List<FlSpot> mapListToFlSpots(List<int> values) {
-    print('36 values: ${values.length}');
     List<FlSpot> spots = [];
     for (int i = 0; i < values.length; i++) {
       spots.add(FlSpot((i + 1).toDouble(), values[i].toDouble()));

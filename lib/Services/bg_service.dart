@@ -51,7 +51,6 @@ class BloodGlucoseService {
     var success = false;
     await HTTPService.httpDELETE('$url/$id', appendToken: true)
         .then((API_Response response) {
-      print('55: ${response.status}');
       if (Global.successList.contains(response.status)) {
         success = true;
       }

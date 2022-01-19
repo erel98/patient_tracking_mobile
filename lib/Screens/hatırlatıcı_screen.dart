@@ -66,7 +66,6 @@ class _HatirlaticiState extends State<Hatirlatici>
       helpText: '',
     );
     hourController.text = '${randevuSaat.hour}:${randevuSaat.minute}';
-    print('88: ${randevuSaat.hour}:${randevuSaat.minute}');
   }
 
   void _addNewRandevu() {
@@ -109,8 +108,6 @@ class _HatirlaticiState extends State<Hatirlatici>
             color: kPrimaryColor,
             onPressed: () async {
               Locale myLocale = Localizations.localeOf(context);
-              print(
-                  '144: ${DateFormat.yMMMEd(myLocale.toString()).format(DateTime.now())}');
               if (dateController.text.isNotEmpty &&
                   hourController.text.isNotEmpty &&
                   titleController.text.isNotEmpty) {
@@ -123,9 +120,6 @@ class _HatirlaticiState extends State<Hatirlatici>
                         randevuSaat.minute));
 
                 final DateTime notificationDate = DateTime.parse(formattedText);
-                print('163: ${notificationDate}');
-                print('163: ${formattedText}');
-
                 var currentRandevu = Randevu(
                     date: notificationDate, reminderText: titleController.text);
                 final randevuProvider =

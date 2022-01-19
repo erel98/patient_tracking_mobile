@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:patient_tracking/Providers/patient_provider.dart';
+import 'package:patient_tracking/Services/patient_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../constraints.dart';
 import '../global.dart';
@@ -15,8 +15,8 @@ class LoginScreen extends StatefulWidget {
 //password
 //dotenv.env['API_URL'];
 class _LoginScreenState extends State<LoginScreen> {
-  var phoneController = TextEditingController(text: '5396169835');
-  var passwordController = TextEditingController(text: '1234');
+  var phoneController = TextEditingController();
+  var passwordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -134,10 +134,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       var phoneNumber = phoneController.text;
                       var password = passwordController.text;
                       if (phoneNumber.isNotEmpty && password.isNotEmpty) {
-                        if (await PatientProvider.login(
-                            phoneNumber, password)) {
+                        if (await PatientService.login(phoneNumber, password)) {
                           var prefs = await SharedPreferences.getInstance();
-                          if (await PatientProvider.sendMe(
+                          if (await PatientService.sendMe(
                               prefs.getString('token'))) {
                             //EasyLoading.dismiss();
                             Navigator.of(context).pushNamed('/ana-menu');

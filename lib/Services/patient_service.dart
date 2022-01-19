@@ -12,7 +12,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 
 import '../global.dart';
 
-class PatientProvider with ChangeNotifier {
+class PatientService with ChangeNotifier {
   static Patient currentPatient = Patient();
 
   static Future<bool> login(String phone, String password) async {
@@ -30,15 +30,11 @@ class PatientProvider with ChangeNotifier {
           LoginResponse(token: response.data['token']);
       if (Global.successList.contains(response.status)) {
         success = true;
-        // // print('24 ${loginResponse.}');
 
-        print('24 ${response.data}');
         var prefs = await SharedPreferences.getInstance();
         prefs.setString('token', loginResponse.token);
         prefs.setBool('isloggedin', true);
-        // print('24 ${loginResponse.token}');
       } else if (response.status == 422) {
-        // print('422 döndü');
         Fluttertoast.showToast(
             msg: 'Telefon numarası ya da şifre hatalı',
             toastLength: Toast.LENGTH_LONG,
@@ -51,7 +47,6 @@ class PatientProvider with ChangeNotifier {
       }
     });
 
-    // print(success.toString());
     return success;
   }
 
@@ -62,7 +57,6 @@ class PatientProvider with ChangeNotifier {
 
     await HTTPService.httpGET(url, appendToken: true)
         .then((http.Response response) {
-      print('64: ${response.body}');
       if (Global.successList.contains(response.statusCode)) {
         success = true;
         var jsonResponse = jsonDecode(response.body);
@@ -70,6 +64,28 @@ class PatientProvider with ChangeNotifier {
         prefs.setString('name', currentPatient.fullName);
         prefs.setDouble('weight', currentPatient.weight);
         prefs.setInt('height', currentPatient.height);
+      }
+    });
+    return success;
+  }
+
+  static Future<bool> updateMe({String name, int height, double weight}) async {
+    bool success = false;
+    String url = '${dotenv.env['API_URL']}/profile';
+    Map<String, dynamic> body = {};
+    if (name != null) body['name'] = name;
+    if (height != null) body['height'] = height;
+    if (weight != null) body['weight'] = weight;
+    var prefs = await SharedPreferences.getInstance();
+    await HTTPService.httpUPDATE(url, body, appendToken: true)
+        .then((http.Response response) {
+      if (Global.successList.contains(response.statusCode)) {
+        success = true;
+        prefs.setString('name', name);
+        prefs.setDouble('weight', weight);
+        prefs.setInt('height', height);
+      } else {
+        Fluttertoast.showToast(msg: 'Hay aksi! Bir şeyler ters gitti.');
       }
     });
     return success;

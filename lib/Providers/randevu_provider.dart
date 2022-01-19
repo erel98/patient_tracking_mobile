@@ -13,7 +13,6 @@ class RandevuProvider with ChangeNotifier {
 
   void addRandevu(Randevu randevu) async {
     Randevu newRandevu = await RandevuService.postRandevu(randevu);
-    print('16 id: ${newRandevu.id} name: ${newRandevu.reminderText}');
     if (newRandevu.id != null) {
       randevuList.add(newRandevu);
       notifyListeners();

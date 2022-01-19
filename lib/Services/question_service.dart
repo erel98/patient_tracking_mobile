@@ -19,9 +19,6 @@ class QuestionService {
     postBody['question'] = body;
     await HTTPService.httpPOST(url, postBody, appendToken: true)
         .then((API_Response response) {
-      print('21: ${response.status}');
-      print('22: ${response.data}');
-      print('23: ${response.message}');
       var data = response.data;
       newQuestion = Question(
           id: data['id'], title: data['subject'], body: data['question']);
@@ -40,7 +37,6 @@ class QuestionService {
     List<Question> questions = [];
     await HTTPService.httpGET(url, appendToken: true)
         .then((http.Response response) {
-      //print('37: ${response.body}');
       var jsonResponse = jsonDecode(response.body) as Map<String, dynamic>;
       //List<dynamic> data = jsonResponse['data'];
       var data = new List<Map<String, dynamic>>.from(jsonResponse['data']);
@@ -63,7 +59,6 @@ class QuestionService {
     var success = false;
     await HTTPService.httpDELETE(deleteUrl, appendToken: true)
         .then((API_Response response) {
-      print('65: ${response.status}');
       if (Global.successList.contains(response.status)) {
         success = true;
       }

@@ -45,8 +45,6 @@ class _MyQuestionsListState extends State<MyQuestionsList> {
     final questions = questionsData.questions;
 
     mapQuestionsToData(questions);
-    //_data.forEach((element) => print(element.isAnswered));
-
     return questions.isNotEmpty
         ? ExpansionPanelList(
             expansionCallback: (int index, bool isExpanded) {
@@ -55,7 +53,6 @@ class _MyQuestionsListState extends State<MyQuestionsList> {
               });
             },
             children: questions.map<ExpansionPanel>((Question item) {
-              //print(item.runtimeType);
               return ExpansionPanel(
                 headerBuilder: (BuildContext context, bool isExpanded) =>
                     ChangeNotifierProvider.value(

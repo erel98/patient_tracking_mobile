@@ -26,9 +26,6 @@ class Medication {
     this.forbiddenFoods = forbiddenFoods;
     this.forbiddenMeds = forbiddenMeds;
   }
-  void display() {
-    // print('id: $id\nName: $name\nSide Effect: $sideEffects');
-  }
 
   factory Medication.fromJson(Map<String, dynamic> json) {
     return Medication(

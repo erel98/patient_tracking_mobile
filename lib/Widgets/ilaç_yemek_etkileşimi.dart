@@ -27,9 +27,6 @@ class _MedToFoodInteractionState extends State<MedToFoodInteraction> {
     final interactionprovider =
         Provider.of<MedicationInteractionProvider>(context);
     var foods = interactionprovider.medInteraction.foods;
-    foods.forEach((element) {
-      print('food name: ${element.name}');
-    });
     return foods == null
         ? NoDataFound('Beraberinde tüketilmemesi gereken yemek')
         : ListView.separated(
