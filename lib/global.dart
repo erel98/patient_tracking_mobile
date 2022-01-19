@@ -46,7 +46,7 @@ class Global {
     ),
     AnaMenuItem(
       'Geçmiş',
-      '',
+      '/history',
       Icon(
         FontAwesome5Solid.book_medical,
         color: kMenuIconColor,
@@ -100,7 +100,7 @@ class Global {
     ),
     AnaMenuItem(
       'Kan ilaç\ndüzeyi',
-      '',
+      '/blood-medicine',
       Icon(
         FontAwesome5Solid.chart_line,
         color: kMenuIconColor,

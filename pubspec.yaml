@@ -50,6 +50,7 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   firebase_messaging: ^11.2.4
+  collection: ^1.15.0
   
 
   # The following adds the Cupertino Icons font to your application.

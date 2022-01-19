@@ -217,19 +217,19 @@ Item generateItem(DailyMedication med, CalendarDay calendarDay, int i) {
       med.imageUrl,
       scale: 0.5,
     ),
-    bodyApproximation: difference >= 60 && isFuture
-        ? difference < 1440
-            ? 'Yaklaşık ${round(difference / 60)} saat kaldı'
-            : 'Yaklaşık ${round(difference / 1440)} gün kaldı'
-        : isFuture
-            ? ''
-            : difference >= 0
-                ? difference < 10
-                    ? 'İlacınızı hemen alınız'
-                    : '$difference dakika kaldı'
-                : !isTaken
-                    ? 'Bu ilacın saati geçti'
-                    : 'İlacınızı vaktinde aldınız',
+    bodyApproximation: isTaken
+        ? 'İlacı vaktinde aldınız'
+        : difference > 1440
+            ? 'Yaklaşık ${round(difference / 1440)} gün kaldı'
+            : difference > 60 && difference < 1440
+                ? 'Yaklaşık ${round(difference / 60)} saat kaldı'
+                : difference > 15 && difference < 60
+                    ? '$difference dakika kaldı'
+                    : difference > -15 && difference < 15
+                        ? 'İlacınızı hemen alınız'
+                        : difference < -15
+                            ? 'Bu ilacın saati geçti'
+                            : '',
     difference: difference.toDouble(),
     isFuture: isFuture,
     isTaken: isTaken,

@@ -6,8 +6,12 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:patient_tracking/Providers/bloodGlucose_provider.dart';
+import 'package:patient_tracking/Providers/bloodMedicine_provider.dart';
+import 'package:patient_tracking/Providers/history_provider.dart';
 import 'package:patient_tracking/Providers/medicationInteraction_provider.dart';
 import 'package:patient_tracking/Providers/question_provider.dart';
+import 'package:patient_tracking/Screens/ge%C3%A7mi%C5%9F_screen.dart';
+import 'package:patient_tracking/Screens/kan_ila%C3%A7_screen.dart';
 import 'package:patient_tracking/Screens/organ_transplant_screen.dart';
 import 'package:patient_tracking/constraints.dart';
 import 'package:patient_tracking/preferencesController.dart';
@@ -103,6 +107,12 @@ void main() async {
       ),
       ChangeNotifierProvider(
         create: (_) => MedicationInteractionProvider(),
+      ),
+      ChangeNotifierProvider(
+        create: (_) => BloodMedicineProvider(),
+      ),
+      ChangeNotifierProvider(
+        create: (_) => HistoryProvider(),
       ),
     ],
     child: MyApp(),
@@ -234,6 +244,8 @@ class _MyAppState extends State<MyApp> {
         BloodPressureScreen.routeName: (ctx) => BloodPressureScreen(),
         BloodGlucoseScreen.routeName: (ctx) => BloodGlucoseScreen(),
         OrganTransplantScreen.routeName: (ctx) => OrganTransplantScreen(),
+        BloodMedicineScreen.routeName: (ctx) => BloodMedicineScreen(),
+        HistoryScreen.routeName: (ctx) => HistoryScreen(),
       },
     );
   }

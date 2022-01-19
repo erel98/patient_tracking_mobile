@@ -9,6 +9,7 @@ final kMenuItemColor =
 const kMenuTextColor = Color(0xFF004c4c);
 const kMenuIconColor = Color(0xFF004c4c);
 final dateFormat = 'yyyy-MM-dd HH:m:ss';
+final dateFormat2 = 'yyyy-MM-dd';
 final medTolerance = 15;
 final havaDurumuInfo =
     'Bulunduğunuz ilçeyi seçiniz.\nArdından hava durumu bildirimleri almak istediğiniz günleri dokunarak seçiniz.\nBildirimleri seçtiğiniz günlerde almak istediğiniz saati giriniz ve ardından kaydediniz.';

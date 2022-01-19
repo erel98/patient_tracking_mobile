@@ -86,7 +86,7 @@ class _BloodGlucoseGraphState extends State<BloodGlucoseGraph> {
             barWidth: 1.5,
             isStrokeCapRound: false,
             dotData: FlDotData(
-              show: false,
+              show: true,
             ),
             /* belowBarData: BarAreaData(
                 show: true,

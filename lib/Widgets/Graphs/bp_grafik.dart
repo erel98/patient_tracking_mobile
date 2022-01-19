@@ -115,7 +115,7 @@ class _BloodPressureGraphState extends State<BloodPressureGraph> {
               barWidth: 2,
               isStrokeCapRound: true,
               dotData: FlDotData(
-                show: false,
+                show: true,
               ),
             ),
             LineChartBarData(
@@ -125,7 +125,7 @@ class _BloodPressureGraphState extends State<BloodPressureGraph> {
               barWidth: 2,
               isStrokeCapRound: true,
               dotData: FlDotData(
-                show: false,
+                show: true,
               ),
             ),
             LineChartBarData(
