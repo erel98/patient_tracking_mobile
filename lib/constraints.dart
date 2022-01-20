@@ -21,3 +21,9 @@ final questionsInfo =
     'İletmek istediğiniz soruları buradan iletebilir ve en kısa sürede sorunuza yanıt alabilirsiniz. Altta bulunan yeşil buton ile sorunuzu yazabilirsiniz. Sorunuz yanıtlandığında bu sayfada yeşil bir ikonla gösterilecektir.';
 final medInfo =
     'İlacın sol tarafında bulunan çan ikonuyla ilacın bildirimlerini kapatıp açabilirsiniz. İlaca dokunarak ilaç detaylarını inceleyebilirsiniz.';
+final bpInfo =
+    'Altta bulunan ölçüm butonuyla tansiyon ölçüm verilerinizi sisteme girebilirsiniz. Girdiğiniz değerlerden bir grafik oluşacak. Grafikte bulunan mavi çizgi küçük tansiyonunuz, turuncu çizgi büyük tansiyonunuzdur. Kırmızı kesikli çizgi büyük tansiyon üst sınırı, mavi kesikli çizgi büyük tansiyon alt sınırı, pembe kesikli çizgi küçük tansiyon üst sınırı ve yeşil kesikli çizgi küçük tansiyon alt sınırıdır. Verilerinizin sınırlar içerisinde kalmasına dikkat ediniz. Aksi bir durumda doktorunuza danışınız.';
+final bgInfo =
+    'Altta bulunan ölçüm butonuyla kan şekerinizi ölçüp değeri girebilirsiniz. Girdiğiniz değerlerden bir grafik oluşacak. Verilerin kesikli çizgiler aralığında kalması gerekiyor, aksi takdirde doktorunuza danışınız.';
+final medDetailsInfo =
+    'Altta köşelerde bulunan ok butonlarıyla ekranlar arasında geçiş yaparak ilacın yan etkilerini, beraberinde alınmaması gereken ilaçları ve beraberinde tüketilmemesi gereken besinleri inceleyebilirsiniz.';

@@ -35,7 +35,7 @@ class _DailyMedsState extends State<DailyMeds> {
 
   void showAlertDialog(BuildContext context) {
     Widget okButton = TextButton(
-      child: Text("OK"),
+      child: Text("Anladım"),
       onPressed: () => Navigator.of(context).pop(),
     );
 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 import 'package:patient_tracking/Models/bloodGlucose.dart';
 import 'package:patient_tracking/Providers/bloodGlucose_provider.dart';
 import 'package:patient_tracking/global.dart';
@@ -64,6 +65,36 @@ class _BloodGlucoseScreenState extends State<BloodGlucoseScreen> {
   AppBar getAppbar(BuildContext context) {
     final appBar = AppBar(
       elevation: 0,
+      actions: [
+        FittedBox(
+          fit: BoxFit.fitHeight,
+          child: IconButton(
+            icon: Icon(
+              FontAwesome5.question_circle,
+              color: Colors.white,
+            ),
+            onPressed: () => Alert(
+                context: context,
+                content: Column(
+                  children: [
+                    Text(
+                      bgInfo,
+                      style: TextStyle(height: 1.3),
+                    ),
+                  ],
+                ),
+                buttons: [
+                  DialogButton(
+                      color: kPrimaryColor,
+                      child: Text(
+                        'Anladım',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      onPressed: () => Navigator.of(context).pop())
+                ]).show(),
+          ),
+        )
+      ],
     );
     return appBar;
   }

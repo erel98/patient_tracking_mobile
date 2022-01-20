@@ -142,7 +142,8 @@ class _LoginScreenState extends State<LoginScreen> {
                             Navigator.of(context).pushNamed('/ana-menu');
                           } else {
                             Fluttertoast.showToast(
-                                msg: 'Hay aksi! Bir şeyler ters gitti');
+                                msg:
+                                    'Hay aksi! Bir şeyler ters gitti. Lütfen bilgilerini kontrol ediniz.');
                           }
                         }
                       } else {

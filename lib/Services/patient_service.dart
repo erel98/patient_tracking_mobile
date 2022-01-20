@@ -26,10 +26,10 @@ class PatientService with ChangeNotifier {
     body['fcm_token'] = fcmToken;
 
     await HTTPService.httpPOST(url, body).then((API_Response response) async {
-      LoginResponse loginResponse =
-          LoginResponse(token: response.data['token']);
       if (Global.successList.contains(response.status)) {
         success = true;
+        LoginResponse loginResponse =
+            LoginResponse(token: response.data['token']);
 
         var prefs = await SharedPreferences.getInstance();
         prefs.setString('token', loginResponse.token);

@@ -36,11 +36,14 @@ class _AnaMenuState extends State<AnaMenu> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: appBar,
-      bottomNavigationBar: bottomNavBar(),
-      body: MainScreenTopContainer(widgetOptions: widgetOptions),
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        appBar: appBar,
+        bottomNavigationBar: bottomNavBar(),
+        body: MainScreenTopContainer(widgetOptions: widgetOptions),
+      ),
     );
   }
 

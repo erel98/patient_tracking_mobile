@@ -157,7 +157,12 @@ class _HatirlaticiState extends State<Hatirlatici>
             onPressed: () => Alert(
                 context: context,
                 content: Column(
-                  children: [Text(randevuInfo)],
+                  children: [
+                    Text(
+                      randevuInfo,
+                      style: TextStyle(height: 1.3),
+                    ),
+                  ],
                 ),
                 buttons: [
                   DialogButton(

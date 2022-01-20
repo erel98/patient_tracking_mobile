@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:patient_tracking/Models/food.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 import '../Widgets/ilaç_yemek_etkileşimi.dart';
 import '../Models/medication.dart';
 import '../Widgets/ilaç_ilaç_etkileşimi.dart';
@@ -49,6 +50,36 @@ class _IlacDetayState extends State<IlacDetay>
     AppBar appBar = AppBar(
       elevation: 0,
       centerTitle: true,
+      actions: [
+        FittedBox(
+          fit: BoxFit.fitHeight,
+          child: IconButton(
+            icon: Icon(
+              FontAwesome5.question_circle,
+              color: Colors.white,
+            ),
+            onPressed: () => Alert(
+                context: context,
+                content: Column(
+                  children: [
+                    Text(
+                      medDetailsInfo,
+                      style: TextStyle(height: 1.3),
+                    ),
+                  ],
+                ),
+                buttons: [
+                  DialogButton(
+                      color: kPrimaryColor,
+                      child: Text(
+                        'Anladım',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      onPressed: () => Navigator.of(context).pop())
+                ]).show(),
+          ),
+        )
+      ],
     );
     return Scaffold(
       appBar: appBar,

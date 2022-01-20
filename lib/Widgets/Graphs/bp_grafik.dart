@@ -66,8 +66,8 @@ class _BloodPressureGraphState extends State<BloodPressureGraph> {
       LineChartData(
           minX: 0,
           minY: 0,
-          maxX: bps.length.toDouble(),
-          maxY: 15,
+          maxX: (bps.length + 1).toDouble(),
+          maxY: 150,
           titlesData: FlTitlesData(
             show: true,
             bottomTitles: SideTitles(
@@ -80,7 +80,7 @@ class _BloodPressureGraphState extends State<BloodPressureGraph> {
                   fontWeight: FontWeight.bold,
                   fontSize: 10),
               getTitles: (value) {
-                if (value % 2 == 0 && value != 0) {
+                if (value % 20 == 0 && value != 0) {
                   return '${value.toInt()}';
                 }
                 return '';
@@ -130,8 +130,8 @@ class _BloodPressureGraphState extends State<BloodPressureGraph> {
             ),
             LineChartBarData(
               spots: [
-                FlSpot(0, 10),
-                FlSpot(bps.length.toDouble(), 10),
+                FlSpot(0, 100),
+                FlSpot((bps.length + 1).toDouble(), 100),
               ],
               dashArray: [2],
               isCurved: false,
@@ -144,12 +144,12 @@ class _BloodPressureGraphState extends State<BloodPressureGraph> {
             ),
             LineChartBarData(
               spots: [
-                FlSpot(0, 6),
-                FlSpot(bps.length.toDouble(), 6),
+                FlSpot(0, 60),
+                FlSpot((bps.length + 1).toDouble(), 60),
               ],
               dashArray: [2],
               isCurved: false,
-              colors: [Colors.blue],
+              colors: [Colors.green],
               barWidth: 1,
               isStrokeCapRound: true,
               dotData: FlDotData(
@@ -158,8 +158,8 @@ class _BloodPressureGraphState extends State<BloodPressureGraph> {
             ),
             LineChartBarData(
               spots: [
-                FlSpot(0, 14),
-                FlSpot(bps.length.toDouble(), 14),
+                FlSpot(0, 140),
+                FlSpot((bps.length + 1).toDouble(), 140),
               ],
               dashArray: [2],
               isCurved: false,

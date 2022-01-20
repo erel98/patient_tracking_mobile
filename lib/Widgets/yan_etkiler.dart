@@ -27,8 +27,12 @@ class _SideEffectsState extends State<SideEffects> {
     final interactionprovider =
         Provider.of<MedicationInteractionProvider>(context);
     var sideEffects = interactionprovider.medInteraction.sideEffects;
-    final mq = MediaQuery.of(context).size;
-    return sideEffects == null
+    if (sideEffects != null) {
+      sideEffects.forEach((element) {
+        print('side effect: ${element}');
+      });
+    }
+    return sideEffects == null || sideEffects.isEmpty
         ? NoDataFound('Bilinen yan etki')
         : ListView.separated(
             separatorBuilder: (BuildContext ctx, int index) => SizedBox(

@@ -23,7 +23,7 @@ class _UsedMedsState extends State<UsedMeds> {
   }
 
   String parseStomach(bool stomach) {
-    return stomach ? 'aç karna' : 'tok karna';
+    return stomach ? 'aç karnına' : 'tok karnına';
   }
 
   @override

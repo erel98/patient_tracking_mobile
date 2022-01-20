@@ -26,7 +26,12 @@ class _MyQuestionsScreenState extends State<MyQuestionsScreen> {
             onPressed: () => Alert(
                 context: context,
                 content: Column(
-                  children: [Text(questionsInfo)],
+                  children: [
+                    Text(
+                      questionsInfo,
+                      style: TextStyle(height: 1.3),
+                    )
+                  ],
                 ),
                 buttons: [
                   DialogButton(

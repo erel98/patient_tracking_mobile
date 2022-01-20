@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 import 'package:patient_tracking/Models/bloodPressure.dart';
 import 'package:patient_tracking/Providers/bloodPressure_provider.dart';
 import '../Widgets/Graphs/bp_grafik.dart';
@@ -95,6 +96,36 @@ class _BloodPressureScreenState extends State<BloodPressureScreen> {
   AppBar getAppbar(BuildContext context) {
     final appBar = AppBar(
       elevation: 0,
+      actions: [
+        FittedBox(
+          fit: BoxFit.fitHeight,
+          child: IconButton(
+            icon: Icon(
+              FontAwesome5.question_circle,
+              color: Colors.white,
+            ),
+            onPressed: () => Alert(
+                context: context,
+                content: Column(
+                  children: [
+                    Text(
+                      bpInfo,
+                      style: TextStyle(height: 1.3),
+                    ),
+                  ],
+                ),
+                buttons: [
+                  DialogButton(
+                      color: kPrimaryColor,
+                      child: Text(
+                        'Anladım',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      onPressed: () => Navigator.of(context).pop())
+                ]).show(),
+          ),
+        )
+      ],
     );
     return appBar;
   }
