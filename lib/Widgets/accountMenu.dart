@@ -16,6 +16,7 @@ class _AccountMenuState extends State<AccountMenu> {
   final nameController = TextEditingController();
   final heightController = TextEditingController();
   final weightController = TextEditingController();
+  final operationDateController = TextEditingController();
 
   @override
   void initState() {
@@ -32,6 +33,8 @@ class _AccountMenuState extends State<AccountMenu> {
     weightController.text = PreferecesController.sharedPreferencesInstance
         .getDouble('weight')
         .toString();
+    operationDateController.text =
+        PreferecesController.sharedPreferencesInstance.getString('op_date');
   }
 
   @override
@@ -53,6 +56,11 @@ class _AccountMenuState extends State<AccountMenu> {
               hintText: 'kilonuz',
               inputType: TextInputType.number,
               controller: weightController),
+          MyTextField(
+            hintText: 'ameliyat tarihiniz',
+            controller: operationDateController,
+            enabled: false,
+          ),
           Container(
             margin: EdgeInsets.only(top: 50),
             child: ElevatedButton(

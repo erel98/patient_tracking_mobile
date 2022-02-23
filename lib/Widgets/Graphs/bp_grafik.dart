@@ -130,22 +130,8 @@ class _BloodPressureGraphState extends State<BloodPressureGraph> {
             ),
             LineChartBarData(
               spots: [
-                FlSpot(0, 100),
-                FlSpot((bps.length + 1).toDouble(), 100),
-              ],
-              dashArray: [2],
-              isCurved: false,
-              colors: [Colors.blue],
-              barWidth: 1,
-              isStrokeCapRound: true,
-              dotData: FlDotData(
-                show: false,
-              ),
-            ),
-            LineChartBarData(
-              spots: [
-                FlSpot(0, 60),
-                FlSpot((bps.length + 1).toDouble(), 60),
+                FlSpot(0, 80),
+                FlSpot((bps.length + 1).toDouble(), 80),
               ],
               dashArray: [2],
               isCurved: false,
@@ -158,8 +144,8 @@ class _BloodPressureGraphState extends State<BloodPressureGraph> {
             ),
             LineChartBarData(
               spots: [
-                FlSpot(0, 140),
-                FlSpot((bps.length + 1).toDouble(), 140),
+                FlSpot(0, 130),
+                FlSpot((bps.length + 1).toDouble(), 130),
               ],
               dashArray: [2],
               isCurved: false,

@@ -6,7 +6,13 @@ class MyTextField extends StatefulWidget {
   final String hintText;
   final Function onChanged;
   final TextInputType inputType;
-  MyTextField({this.controller, this.hintText, this.onChanged, this.inputType});
+  final bool enabled;
+  MyTextField(
+      {this.controller,
+      this.hintText,
+      this.onChanged,
+      this.inputType,
+      this.enabled});
   @override
   _MyTextFieldState createState() => _MyTextFieldState();
 }
@@ -31,6 +37,7 @@ class _MyTextFieldState extends State<MyTextField> {
       ),
       child: TextField(
         controller: widget.controller,
+        enabled: widget.enabled,
         onChanged: widget.onChanged,
         keyboardType: widget.inputType,
         decoration: InputDecoration(

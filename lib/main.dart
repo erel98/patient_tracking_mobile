@@ -232,7 +232,6 @@ class _MyAppState extends State<MyApp> {
         KullandigimIlaclar.routeName: (ctx) => KullandigimIlaclar(),
         IlacDetay.routeName: (ctx) => IlacDetay(),
         Hatirlatici.routeName: (ctx) => Hatirlatici(),
-        //HavaDurumu.routeName: (ctx) => HavaDurumu(),
         DailyMedsScreen.routeName: (ctx) => DailyMedsScreen(),
         AskQuestionScreen.routeName: (ctx) => AskQuestionScreen(),
         MyQuestionsScreen.routeName: (ctx) => MyQuestionsScreen(),

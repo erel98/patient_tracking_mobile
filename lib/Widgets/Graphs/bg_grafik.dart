@@ -29,7 +29,7 @@ class _BloodGlucoseGraphState extends State<BloodGlucoseGraph> {
     var bgsData = Provider.of<BloodGlucoseProvider>(context);
     var bgs = bgsData.bgs;
     spots.clear();
-    bgs.sort((a, b) => b.date.compareTo(a.date));
+    bgs.sort((a, b) => a.date.compareTo(b.date));
     for (int i = 0; i < bgs.length; i++) {
       spots.add(FlSpot((i + 1).toDouble(), bgs[i].value.toDouble()));
     }
@@ -93,6 +93,20 @@ class _BloodGlucoseGraphState extends State<BloodGlucoseGraph> {
                     kLineColors.map((color) => color.withOpacity(0.3)).toList(),
               ) */
           ),
+          LineChartBarData(
+            spots: [
+              FlSpot(0, 200),
+              FlSpot((bgs.length + 1).toDouble(), 200),
+            ],
+            dashArray: [2],
+            isCurved: false,
+            colors: [Colors.red],
+            barWidth: 1,
+            isStrokeCapRound: true,
+            dotData: FlDotData(
+              show: false,
+            ),
+          )
         ],
       ),
     );

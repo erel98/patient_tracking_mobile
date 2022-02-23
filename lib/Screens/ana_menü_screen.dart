@@ -39,6 +39,7 @@ class _AnaMenuState extends State<AnaMenu> {
     return WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         backgroundColor: Colors.white,
         appBar: appBar,
         bottomNavigationBar: bottomNavBar(),

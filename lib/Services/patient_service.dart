@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 import 'package:patient_tracking/Models/patient.dart';
 import 'package:patient_tracking/Responses/API_Response.dart';
 import 'package:patient_tracking/Responses/loginResponse.dart';
@@ -10,6 +11,7 @@ import 'package:patient_tracking/Services/http_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
+import '../constraints.dart';
 import '../global.dart';
 
 class PatientService with ChangeNotifier {
@@ -59,11 +61,14 @@ class PatientService with ChangeNotifier {
         .then((http.Response response) {
       if (Global.successList.contains(response.statusCode)) {
         success = true;
+        final DateFormat formatter = DateFormat(dateFormat2);
         var jsonResponse = jsonDecode(response.body);
         currentPatient = Patient.fromJson(jsonResponse['data']);
+        final String formatted = formatter.format(currentPatient.operationDate);
         prefs.setString('name', currentPatient.fullName);
         prefs.setDouble('weight', currentPatient.weight);
         prefs.setInt('height', currentPatient.height);
+        prefs.setString('op_date', formatted);
       }
     });
     return success;
