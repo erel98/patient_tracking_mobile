@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 import 'package:patient_tracking/Providers/medicationInteraction_provider.dart';
 import 'package:patient_tracking/Widgets/no_data.dart';
+import 'package:patient_tracking/constraints.dart';
 import 'package:provider/provider.dart';
-import '../constraints.dart';
+import 'package:flutter_html/flutter_html.dart';
 
-class MedToFoodInteraction extends StatefulWidget {
+class SideEffects extends StatefulWidget {
   final int medId;
-  MedToFoodInteraction(this.medId);
+  SideEffects(this.medId);
 
   @override
-  State<MedToFoodInteraction> createState() => _MedToFoodInteractionState();
+  State<SideEffects> createState() => _SideEffectsState();
 }
 
-class _MedToFoodInteractionState extends State<MedToFoodInteraction> {
+class _SideEffectsState extends State<SideEffects> {
   @override
   void initState() {
     super.initState();
@@ -26,33 +27,41 @@ class _MedToFoodInteractionState extends State<MedToFoodInteraction> {
   Widget build(BuildContext context) {
     final interactionprovider =
         Provider.of<MedicationInteractionProvider>(context);
-    var foods = interactionprovider.medInteraction.foods;
-    return foods == null
-        ? NoDataFound('Beraberinde tüketilmemesi gereken yemek')
-        : ListView.separated(
+    var sideEffects = interactionprovider.medInteraction.sideEffects;
+    /* if (sideEffects != null) {
+      sideEffects.forEach((element) {
+        print('side effect: ${element}');
+      });
+    } */
+    return sideEffects == null || sideEffects.isEmpty
+        ? NoDataFound('Bilinen yan etki')
+        : Html(
+            data: sideEffects,
+          ); /* ListView.separated(
             separatorBuilder: (BuildContext ctx, int index) => SizedBox(
               height: 20,
             ),
-            itemCount: foods.length,
+            itemCount: sideEffects.length,
             itemBuilder: (
               BuildContext context,
               int index,
             ) {
               return Container(
                 margin: EdgeInsets.symmetric(horizontal: 50),
-                height: 70,
+                height: 60,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
                   color: kPrimaryColor,
                 ),
                 child: Center(
                   child: ListTile(
-                    leading: foods[index].imageUrl != null
-                        ? Image.network(
-                            '${dotenv.env['IMAGE_URL']}${foods[index].imageUrl}')
-                        : Container(),
+                    leading: Icon(
+                      FontAwesome5.hand_point_right,
+                      size: 30,
+                      color: Colors.black,
+                    ),
                     title: Text(
-                      foods[index].name,
+                      sideEffects[index],
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 18,
@@ -63,6 +72,6 @@ class _MedToFoodInteractionState extends State<MedToFoodInteraction> {
                 ),
               );
             },
-          );
+          ); */
   }
 }

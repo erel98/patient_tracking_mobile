@@ -149,7 +149,7 @@ class MainScreenTopContainer extends StatelessWidget {
       children: [
         Container(
           padding: EdgeInsets.symmetric(horizontal: 20),
-          height: MediaQuery.of(context).size.height * 0.1,
+          height: MediaQuery.of(context).size.height * 0.06,
           decoration: BoxDecoration(
             border: Border.all(width: 0, color: kPrimaryColor),
             color: kPrimaryColor,

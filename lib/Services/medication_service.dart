@@ -116,37 +116,41 @@ class MedicationService {
 
   static Future<MedicationInteraction> getMedicationDetails(int id) async {
     MedicationInteraction interaction = new MedicationInteraction();
-    interaction.foods = [];
-    interaction.medications = [];
-    interaction.sideEffects = [];
 
     await HTTPService.httpGET('$url/$id', appendToken: true)
         .then((http.Response response) {
       var jsonResponse = jsonDecode(response.body) as Map<String, dynamic>;
-      var data = new Map<String, List<dynamic>>.from(jsonResponse['data']);
-      if (data['foods'] != null && data['foods'].isNotEmpty) {
-        data['foods'].forEach((element) {
-          Food food = new Food(
-              id: element['id'],
-              name: element['name'],
-              imageUrl: element['image']);
-          interaction.foods.add(food);
-        });
-      }
-      if (data['side_effect'] != null) {
-        data['side_effect'].forEach((element) {
-          interaction.sideEffects.add(element);
-        });
-      }
-      if (data['medications'] != null) {
-        data['medications'].forEach((element) {
-          Medication forbMed = Medication(
-              id: element['id'],
-              name: element['name'],
-              imageUrl: element['photo']);
-          interaction.medications.add(forbMed);
-        });
-      }
+      var data = new Map<String, dynamic>.from(jsonResponse['data']);
+      print(response.body);
+
+      interaction.effects = data['effects'];
+      interaction.usage = data['usage'];
+      interaction.sideEffects = data['side_effects'];
+      interaction.foods = data['food_interactions'];
+
+      if (interaction.effects != null)
+        interaction.effects = interaction.effects
+            .replaceAll('<li></li>', '')
+            .replaceAll('<li>', '<li style="font-size:20px;line-height:20px;">')
+            .replaceAll('</li>', '<br></li>');
+
+      if (interaction.usage != null)
+        interaction.usage = interaction.usage
+            .replaceAll('<li></li>', '')
+            .replaceAll('<li>', '<li style="font-size:20px;line-height:20px;">')
+            .replaceAll('</li>', '<br></li>');
+
+      if (interaction.sideEffects != null)
+        interaction.sideEffects = interaction.sideEffects
+            .replaceAll('<li></li>', '')
+            .replaceAll('<li>', '<li style="font-size:20px;line-height:20px;">')
+            .replaceAll('</li>', '<br></li>');
+      if (interaction.foods != null)
+        interaction.foods = interaction.foods
+            .replaceAll('<li></li>', '')
+            .replaceAll('<li>', '<li style="font-size:20px;line-height:20px;">')
+            .replaceAll('</li>', '<br></li>');
+      print(interaction.effects);
     });
 
     return interaction;

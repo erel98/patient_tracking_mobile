@@ -173,7 +173,7 @@ class TopContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 20),
-      height: MediaQuery.of(context).size.height * 0.2,
+      height: MediaQuery.of(context).size.height * 0.05,
       decoration: BoxDecoration(
         border: Border.all(width: 0, color: kPrimaryColor),
         color: kPrimaryColor,

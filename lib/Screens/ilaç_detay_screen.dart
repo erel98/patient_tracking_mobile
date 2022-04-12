@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:patient_tracking/Models/food.dart';
+import 'package:patient_tracking/Widgets/ila%C3%A7_al%C4%B1nma_%C5%9Fekli.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
-import '../Widgets/ilaç_yemek_etkileşimi.dart';
+import '../Widgets/ilaç_besin_etkileşimi.dart';
 import '../Models/medication.dart';
-import '../Widgets/ilaç_ilaç_etkileşimi.dart';
-import '../Widgets/yan_etkiler.dart';
+import '../Widgets/ilaç_etkisi.dart';
+import '../Widgets/ilaç_yaygın_yan_etkileri.dart';
 import '../constraints.dart';
 import '../global.dart';
 
@@ -32,7 +33,7 @@ class _IlacDetayState extends State<IlacDetay>
 
   void initState() {
     super.initState();
-    _tabController = TabController(length: 3, vsync: this);
+    _tabController = TabController(length: 4, vsync: this);
     _tabController.addListener(_handleTabSelection);
   }
 
@@ -50,6 +51,15 @@ class _IlacDetayState extends State<IlacDetay>
     AppBar appBar = AppBar(
       elevation: 0,
       centerTitle: true,
+      bottom: TabBar(tabs: [
+        FittedBox(fit: BoxFit.fitWidth, child: Tab(text: 'İlaç Etkisi')),
+        FittedBox(fit: BoxFit.fitWidth, child: Tab(text: 'Alınma Şekli')),
+        FittedBox(
+            fit: BoxFit.fitWidth, child: Tab(text: 'Yaygın Yan Etkileri')),
+        FittedBox(
+            fit: BoxFit.fitWidth,
+            child: Tab(text: 'İlacın Besin Etkileşimleri')),
+      ], controller: _tabController),
       actions: [
         FittedBox(
           fit: BoxFit.fitHeight,
@@ -97,9 +107,10 @@ class _IlacDetayState extends State<IlacDetay>
             child: TabBarView(
               controller: _tabController,
               children: [
+                MedEffect(medId),
+                MedicationUsage(medId),
                 SideEffects(medId),
-                MedToMedInteraction(medId),
-                MedToFoodInteraction(medId)
+                MedToFoodInteraction(medId),
               ],
             ),
           ),
@@ -161,7 +172,7 @@ class DetailsScreenTopContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 20),
-      height: MediaQuery.of(context).size.height * 0.1,
+      height: MediaQuery.of(context).size.height * 0.05,
       decoration: BoxDecoration(
         border: Border.all(width: 0, color: kPrimaryColor),
         color: kPrimaryColor,

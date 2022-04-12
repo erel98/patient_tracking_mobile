@@ -71,6 +71,7 @@ class _NotesScreenState extends State<NotesScreen> {
               ],
             ),
             child: TextField(
+              maxLines: null,
               controller: controller,
               decoration: InputDecoration(
                 floatingLabelBehavior: FloatingLabelBehavior.auto,

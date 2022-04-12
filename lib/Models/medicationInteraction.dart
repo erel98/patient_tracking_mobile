@@ -4,10 +4,11 @@ import 'food.dart';
 
 class MedicationInteraction {
   int medId;
-  List<String> sideEffects;
-  List<Food> foods;
-  List<Medication> medications;
+  String sideEffects;
+  String usage;
+  String foods;
+  String effects;
 
   MedicationInteraction(
-      {this.medId, this.sideEffects, this.foods, this.medications});
+      {this.medId, this.sideEffects, this.usage, this.foods, this.effects});
 }

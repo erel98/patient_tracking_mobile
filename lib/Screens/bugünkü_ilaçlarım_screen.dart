@@ -16,9 +16,9 @@ class DailyMedsScreen extends StatefulWidget {
 class _DailyMedsScreenState extends State<DailyMedsScreen>
     with TickerProviderStateMixin {
   int _currentIndex = DateTime.now().weekday - 1;
-  TabController _tabController;
   List<Widget> widgets = [];
   List<Tab> tabs = [];
+  TabController _tabController;
 
   void _handleTabSelection() {
     setState(() {
@@ -157,7 +157,7 @@ class TopContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 20),
-      height: MediaQuery.of(context).size.height * 0.1,
+      height: MediaQuery.of(context).size.height * 0.05,
       width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
         border: Border.all(width: 0, color: kPrimaryColor),

@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:patient_tracking/Providers/medicationInteraction_provider.dart';
 import 'package:patient_tracking/Widgets/no_data.dart';
-import 'package:patient_tracking/constraints.dart';
 import 'package:provider/provider.dart';
+import '../constraints.dart';
+import 'package:flutter_html/flutter_html.dart';
 
-class SideEffects extends StatefulWidget {
+class MedToFoodInteraction extends StatefulWidget {
   final int medId;
-  SideEffects(this.medId);
+  MedToFoodInteraction(this.medId);
 
   @override
-  State<SideEffects> createState() => _SideEffectsState();
+  State<MedToFoodInteraction> createState() => _MedToFoodInteractionState();
 }
 
-class _SideEffectsState extends State<SideEffects> {
+class _MedToFoodInteractionState extends State<MedToFoodInteraction> {
   @override
   void initState() {
     super.initState();
@@ -26,39 +27,34 @@ class _SideEffectsState extends State<SideEffects> {
   Widget build(BuildContext context) {
     final interactionprovider =
         Provider.of<MedicationInteractionProvider>(context);
-    var sideEffects = interactionprovider.medInteraction.sideEffects;
-    if (sideEffects != null) {
-      sideEffects.forEach((element) {
-        print('side effect: ${element}');
-      });
-    }
-    return sideEffects == null || sideEffects.isEmpty
-        ? NoDataFound('Bilinen yan etki')
-        : ListView.separated(
+    var foods = interactionprovider.medInteraction.foods;
+    return foods == null
+        ? NoDataFound('Beraberinde tüketilmemesi gereken yemek')
+        : Html(data: foods);
+    /* ListView.separated(
             separatorBuilder: (BuildContext ctx, int index) => SizedBox(
               height: 20,
             ),
-            itemCount: sideEffects.length,
+            itemCount: foods.length,
             itemBuilder: (
               BuildContext context,
               int index,
             ) {
               return Container(
                 margin: EdgeInsets.symmetric(horizontal: 50),
-                height: 60,
+                height: 70,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
                   color: kPrimaryColor,
                 ),
                 child: Center(
                   child: ListTile(
-                    leading: Icon(
-                      FontAwesome5.hand_point_right,
-                      size: 30,
-                      color: Colors.black,
-                    ),
+                    leading: foods[index].imageUrl != null
+                        ? Image.network(
+                            '${dotenv.env['IMAGE_URL']}${foods[index].imageUrl}')
+                        : Container(),
                     title: Text(
-                      sideEffects[index],
+                      foods[index].name,
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 18,
@@ -69,6 +65,6 @@ class _SideEffectsState extends State<SideEffects> {
                 ),
               );
             },
-          );
+          ); */
   }
 }

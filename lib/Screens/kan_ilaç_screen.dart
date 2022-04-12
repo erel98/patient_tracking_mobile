@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:patient_tracking/Providers/bloodMedicine_provider.dart';
 import 'package:patient_tracking/Widgets/Graphs/bm_grafik.dart';
+import 'package:patient_tracking/Widgets/no_data.dart';
 import 'package:provider/provider.dart';
 
 import '../constraints.dart';
@@ -108,7 +109,7 @@ class _BloodMedicineScreenState extends State<BloodMedicineScreen>
     return Scaffold(
       appBar: appBar,
       body: bms.length < 1
-          ? Container()
+          ? NoDataFound('Kan ilaç veriniz')
           : Column(
               children: [
                 TopContainer(),
@@ -127,7 +128,7 @@ class TopContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 20),
-      height: MediaQuery.of(context).size.height * 0.1,
+      height: MediaQuery.of(context).size.height * 0.05,
       decoration: BoxDecoration(
         border: Border.all(width: 0, color: kPrimaryColor),
         color: kPrimaryColor,

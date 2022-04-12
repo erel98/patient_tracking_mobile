@@ -4,16 +4,17 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:patient_tracking/Providers/medicationInteraction_provider.dart';
 import 'package:patient_tracking/Widgets/no_data.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_html/flutter_html.dart';
 
-class MedToMedInteraction extends StatefulWidget {
+class MedEffect extends StatefulWidget {
   final int medId;
-  MedToMedInteraction(this.medId);
+  MedEffect(this.medId);
 
   @override
-  State<MedToMedInteraction> createState() => _MedToMedInteractionState();
+  State<MedEffect> createState() => _MedEffectState();
 }
 
-class _MedToMedInteractionState extends State<MedToMedInteraction> {
+class _MedEffectState extends State<MedEffect> {
   @override
   void initState() {
     super.initState();
@@ -26,10 +27,11 @@ class _MedToMedInteractionState extends State<MedToMedInteraction> {
   Widget build(BuildContext context) {
     final interactionprovider =
         Provider.of<MedicationInteractionProvider>(context);
-    var meds = interactionprovider.medInteraction.medications;
+    var meds = interactionprovider.medInteraction.effects; //String
     return meds == null
         ? NoDataFound('Beraberinde alınmaması gereken ilaç')
-        : ListView.separated(
+        : Html(data: meds);
+    /* ListView.separated(
             separatorBuilder: (BuildContext ctx, int index) => SizedBox(
               height: 20,
             ),
@@ -62,6 +64,6 @@ class _MedToMedInteractionState extends State<MedToMedInteraction> {
                       ),
               );
             },
-          );
+          ); */
   }
 }

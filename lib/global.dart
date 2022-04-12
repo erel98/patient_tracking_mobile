@@ -27,7 +27,7 @@ class Global {
 
   static var mainMenuItemList = <Widget>[
     AnaMenuItem(
-      'İlaçlarım',
+      'Bugünkü\nilaçlarım',
       DailyMedsScreen.routeName,
       Icon(
         FontAwesome5Solid.pills,
@@ -47,8 +47,8 @@ class Global {
     AnaMenuItem(
       'Geçmiş',
       '/history',
-      Icon(
-        FontAwesome5Solid.book_medical,
+      ImageIcon(
+        AssetImage('assets/icons/calendar.png'),
         color: kMenuIconColor,
         size: iconSize,
       ),
@@ -65,8 +65,8 @@ class Global {
     AnaMenuItem(
       'Karaciğer\nNakli',
       '/organ-transplant',
-      Icon(
-        FontAwesome.heart,
+      ImageIcon(
+        AssetImage('assets/icons/transplant.png'),
         color: kMenuIconColor,
         size: iconSize,
       ),
@@ -84,7 +84,7 @@ class Global {
       'Kan basıncı',
       BloodPressureScreen.routeName,
       ImageIcon(
-        AssetImage('assets/icons/blood-pressure.png'),
+        AssetImage('assets/icons/arm.png'),
         color: kMenuIconColor,
         size: iconSize,
       ),
