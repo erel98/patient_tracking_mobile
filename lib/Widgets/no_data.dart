@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class NoDataFound extends StatelessWidget {
   String print;
   NoDataFound(this.print);

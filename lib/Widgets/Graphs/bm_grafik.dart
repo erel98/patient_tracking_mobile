@@ -1,11 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:patient_tracking/Models/bloodMedicine.dart';
-import 'package:patient_tracking/Providers/bloodMedicine_provider.dart';
-import 'package:collection/collection.dart';
 import 'package:patient_tracking/Services/bm_service.dart';
-import 'package:patient_tracking/constraints.dart';
-import 'package:provider/provider.dart';
 
 class BloodMedicineGraph extends StatefulWidget {
   final List<BloodMedicine> bms;

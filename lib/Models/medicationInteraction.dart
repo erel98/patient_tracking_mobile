@@ -1,7 +1,3 @@
-import 'package:patient_tracking/Models/medication.dart';
-
-import 'food.dart';
-
 class MedicationInteraction {
   int medId;
   String sideEffects;

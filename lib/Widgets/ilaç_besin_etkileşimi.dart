@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:patient_tracking/Providers/medicationInteraction_provider.dart';
 import 'package:patient_tracking/Widgets/no_data.dart';
 import 'package:provider/provider.dart';
-import '../constraints.dart';
 import 'package:flutter_html/flutter_html.dart';
 
 class MedToFoodInteraction extends StatefulWidget {

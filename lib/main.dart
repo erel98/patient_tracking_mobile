@@ -8,6 +8,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:patient_tracking/Providers/bloodGlucose_provider.dart';
 import 'package:patient_tracking/Providers/bloodMedicine_provider.dart';
 import 'package:patient_tracking/Providers/history_provider.dart';
+import 'package:patient_tracking/Providers/liverProvider.dart';
 import 'package:patient_tracking/Providers/medicationInteraction_provider.dart';
 import 'package:patient_tracking/Providers/question_provider.dart';
 import 'package:patient_tracking/Screens/ge%C3%A7mi%C5%9F_screen.dart';
@@ -112,6 +113,9 @@ void main() async {
       ),
       ChangeNotifierProvider(
         create: (_) => HistoryProvider(),
+      ),
+      ChangeNotifierProvider(
+        create: (_) => LiverProvider(),
       ),
     ],
     child: MyApp(),

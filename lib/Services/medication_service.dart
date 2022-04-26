@@ -4,7 +4,6 @@ import 'package:intl/intl.dart';
 import 'package:patient_tracking/Models/calendarDay.dart';
 import 'package:patient_tracking/Models/calendarEvent.dart';
 import 'package:patient_tracking/Models/dailyMedication.dart';
-import 'package:patient_tracking/Models/food.dart';
 import 'package:patient_tracking/Models/medicationInteraction.dart';
 import 'package:patient_tracking/Models/medicationVariantUser.dart';
 import 'package:patient_tracking/Models/medicationVariant.dart';

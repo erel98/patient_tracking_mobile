@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:patient_tracking/constraints.dart';
 
+// ignore: must_be_immutable
 class AnaMenuItem extends StatelessWidget {
   String menuText;
   String route;

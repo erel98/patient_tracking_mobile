@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:flutter_icons/flutter_icons.dart';
 import 'package:patient_tracking/Providers/medicationInteraction_provider.dart';
 import 'package:patient_tracking/Widgets/no_data.dart';
 import 'package:provider/provider.dart';

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:patient_tracking/Widgets/karaci%C4%9Fer_info.dart';
 
 import '../constraints.dart';
 
@@ -19,13 +20,12 @@ class _OrganTransplantScreenState extends State<OrganTransplantScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final mq = MediaQuery.of(context).size;
     final appBar = AppBar(
       elevation: 0,
       bottom: const TabBar(
         tabs: [
           Tab(text: 'Karaciğer Nakli Nedir'),
-          Tab(text: 'Karaciğer Naklinden Sonra Yaşama Uyum'),
+          Tab(text: 'Nakilden Sonra'),
         ],
       ),
     );
@@ -39,51 +39,12 @@ class _OrganTransplantScreenState extends State<OrganTransplantScreen> {
             Expanded(
               child: TabBarView(
                 children: [
-                  MenuItem(mq: mq),
-                  MenuItem(mq: mq),
+                  LiverInfoWidget(1),
+                  LiverInfoWidget(2),
                 ],
               ),
             ),
           ],
-        ),
-      ),
-    );
-  }
-}
-
-class MenuItem extends StatelessWidget {
-  const MenuItem({
-    Key key,
-    @required this.mq,
-  }) : super(key: key);
-
-  final Size mq;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: mq.height * 0.7,
-      width: mq.width * 0.9,
-      margin: EdgeInsets.all(20),
-      padding: EdgeInsets.all(5),
-      decoration: BoxDecoration(
-        boxShadow: [
-          BoxShadow(
-            color: kPrimaryColor.withOpacity(0.23),
-            blurRadius: 50,
-            offset: Offset(0, 10),
-          ),
-        ],
-      ),
-      child: Card(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(15),
-        ),
-        child: TextField(
-          enabled: false,
-          decoration: InputDecoration(
-            border: InputBorder.none,
-          ),
         ),
       ),
     );
