@@ -48,7 +48,7 @@ class _BloodGlucoseGraphState extends State<BloodGlucoseGraph> {
           leftTitles: SideTitles(
             showTitles: true,
             getTextStyles: (BuildContext context, value) => const TextStyle(
-                color: Colors.grey, fontWeight: FontWeight.bold, fontSize: 10),
+                color: Colors.grey, fontWeight: FontWeight.bold, fontSize: 8),
             getTitles: (value) {
               if (value % 100 == 0 && value != 0) {
                 return '${value.toInt()}';

@@ -55,10 +55,10 @@ class _IlacDetayState extends State<IlacDetay>
         FittedBox(fit: BoxFit.fitWidth, child: Tab(text: 'İlaç Etkisi')),
         FittedBox(fit: BoxFit.fitWidth, child: Tab(text: 'Alınma Şekli')),
         FittedBox(
-            fit: BoxFit.fitWidth, child: Tab(text: 'Yaygın Yan Etkileri')),
+            fit: BoxFit.fitWidth, child: Tab(text: 'Yaygın Yan\nEtkileri')),
         FittedBox(
             fit: BoxFit.fitWidth,
-            child: Tab(text: 'İlacın Besin Etkileşimleri')),
+            child: Tab(text: 'İlacın Besin\nEtkileşimleri')),
       ], controller: _tabController),
       actions: [
         FittedBox(
@@ -113,49 +113,6 @@ class _IlacDetayState extends State<IlacDetay>
                 MedToFoodInteraction(medId),
               ],
             ),
-          ),
-          Stack(
-            children: [
-              Global.detailsState != 0
-                  ? Align(
-                      alignment: Alignment.bottomLeft,
-                      child: Container(
-                        margin: EdgeInsets.only(bottom: 5, left: 5),
-                        child: FloatingActionButton(
-                          backgroundColor: kPrimaryColor,
-                          child: Icon(
-                            FontAwesome.arrow_left,
-                            size: 30,
-                          ),
-                          onPressed: () {
-                            setState(() {
-                              _tabController
-                                  .animateTo(_tabController.index - 1);
-                            });
-                          },
-                        ),
-                      ),
-                    )
-                  : Container(),
-              _tabController.index != 2
-                  ? Align(
-                      alignment: Alignment.bottomRight,
-                      child: Container(
-                        margin: EdgeInsets.only(bottom: 5, right: 5),
-                        child: FloatingActionButton(
-                          backgroundColor: kPrimaryColor,
-                          child: Icon(
-                            FontAwesome.arrow_right,
-                            size: 30,
-                          ),
-                          onPressed: () {
-                            _tabController.animateTo(_tabController.index + 1);
-                          },
-                        ),
-                      ),
-                    )
-                  : Container(),
-            ],
           ),
         ],
       ),

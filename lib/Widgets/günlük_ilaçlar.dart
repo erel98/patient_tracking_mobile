@@ -114,11 +114,14 @@ class _DailyMedsState extends State<DailyMeds> {
                   SizedBox(
                     width: 10,
                   ),
-                  Text(
-                    item.bodyApproximation,
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 18,
+                  FittedBox(
+                    fit: BoxFit.fitWidth,
+                    child: Text(
+                      item.bodyApproximation,
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 18,
+                      ),
                     ),
                   ),
                 ],

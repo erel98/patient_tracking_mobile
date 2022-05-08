@@ -60,8 +60,7 @@ class _MyQuestionsScreenState extends State<MyQuestionsScreen> {
         child: FloatingActionButton(
             backgroundColor: kPrimaryColor,
             child: Icon(FontAwesome5.comment),
-            onPressed: () =>
-                Navigator.of(context).pushReplacementNamed('/ask-question')),
+            onPressed: () => Navigator.of(context).pushNamed('/ask-question')),
       ),
     );
   }

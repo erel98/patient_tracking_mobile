@@ -123,14 +123,14 @@ class _BloodGlucoseScreenState extends State<BloodGlucoseScreen> {
         children: [
           TopContainer(),
           Container(
-              margin: EdgeInsets.all(20),
+              margin: EdgeInsets.all(10),
               padding:
-                  EdgeInsets.only(right: 20, left: 20, top: 10, bottom: 10),
+                  EdgeInsets.only(right: 10, left: 10, top: 10, bottom: 10),
               width: MediaQuery.of(context).size.width,
               height: 300,
               decoration: const BoxDecoration(
                 borderRadius: BorderRadius.all(
-                  Radius.circular(18),
+                  Radius.circular(10),
                 ),
                 color: Color(0xff232d37),
               ),

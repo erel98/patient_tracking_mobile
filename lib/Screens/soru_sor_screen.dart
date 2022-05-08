@@ -95,7 +95,7 @@ class _AskQuestionScreenState extends State<AskQuestionScreen> {
                     questionProvider.addQuestion(question);
                     content.clear();
                     subject.clear();
-                    Navigator.of(context).popAndPushNamed('/my-questions');
+                    Navigator.of(context).pop();
                   } else {
                     Fluttertoast.showToast(
                         msg:

@@ -24,8 +24,9 @@ class _OrganTransplantScreenState extends State<OrganTransplantScreen> {
       elevation: 0,
       bottom: const TabBar(
         tabs: [
-          Tab(text: 'Karaciğer Nakli Nedir'),
-          Tab(text: 'Nakilden Sonra'),
+          FittedBox(
+              fit: BoxFit.fitWidth, child: Tab(text: 'Karaciğer Nakli Nedir')),
+          FittedBox(fit: BoxFit.fitWidth, child: Tab(text: 'Nakilden Sonra')),
         ],
       ),
     );

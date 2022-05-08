@@ -21,6 +21,10 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: kPrimaryColor,
+      ),
       body: Global.isLoading
           ? Center(
               child: CircularProgressIndicator(),

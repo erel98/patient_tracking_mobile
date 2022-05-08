@@ -84,7 +84,6 @@ void main() async {
     badge: true,
     sound: true,
   );
-
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(

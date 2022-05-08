@@ -65,7 +65,11 @@ class _HatirlaticiState extends State<Hatirlatici>
       errorInvalidText: 'Lütfen geçerli bir saat giriniz!',
       helpText: '',
     );
-    hourController.text = '${randevuSaat.hour}:${randevuSaat.minute}';
+    String minute = randevuSaat.minute.toString();
+    if (minute.length == 1) {
+      minute = '0' + minute;
+    }
+    hourController.text = '${randevuSaat.hour}:$minute';
   }
 
   void _addNewRandevu() {
