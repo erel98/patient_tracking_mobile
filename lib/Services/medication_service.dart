@@ -126,6 +126,7 @@ class MedicationService {
       interaction.usage = data['usage'];
       interaction.sideEffects = data['side_effects'];
       interaction.foods = data['food_interactions'];
+      interaction.medToMedInteraction = data['medication_interactions'];
 
       if (interaction.effects != null)
         interaction.effects = interaction.effects
@@ -149,7 +150,11 @@ class MedicationService {
             .replaceAll('<li></li>', '')
             .replaceAll('<li>', '<li style="font-size:20px;line-height:20px;">')
             .replaceAll('</li>', '<br></li>');
-      print(interaction.effects);
+      if (interaction.medToMedInteraction != null)
+        interaction.medToMedInteraction = interaction.medToMedInteraction
+            .replaceAll('<li></li>', '')
+            .replaceAll('<li>', '<li style="font-size:20px;line-height:20px;">')
+            .replaceAll('</li>', '<br></li>');
     });
 
     return interaction;

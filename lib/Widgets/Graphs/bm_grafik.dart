@@ -71,7 +71,7 @@ class _BloodMedicineGraphState extends State<BloodMedicineGraph> {
           minX: 0,
           minY: 0,
           maxX: (widget.bms.length).toDouble(),
-          maxY: 1000,
+          maxY: 50,
           titlesData: FlTitlesData(
             show: true,
             bottomTitles: SideTitles(
@@ -84,7 +84,7 @@ class _BloodMedicineGraphState extends State<BloodMedicineGraph> {
                   fontWeight: FontWeight.bold,
                   fontSize: 10),
               getTitles: (value) {
-                if (value % 100 == 0 && value != 0) {
+                if (value % 5 == 0 && value != 0) {
                   return '${value.toInt()}';
                 }
                 return '';
@@ -122,11 +122,34 @@ class _BloodMedicineGraphState extends State<BloodMedicineGraph> {
               dotData: FlDotData(
                 show: true,
               ),
-              /* belowBarData: BarAreaData(
-              show: true,
-              colors:
-                  kLineColors.map((color) => color.withOpacity(0.3)).toList(),
-            ) */
+            ),
+            LineChartBarData(
+              spots: [
+                FlSpot(0, 5),
+                FlSpot((widget.bms.length).toDouble(), 5),
+              ],
+              dashArray: [2],
+              isCurved: false,
+              colors: [Colors.green],
+              barWidth: 1,
+              isStrokeCapRound: true,
+              dotData: FlDotData(
+                show: false,
+              ),
+            ),
+            LineChartBarData(
+              spots: [
+                FlSpot(0, 15),
+                FlSpot((widget.bms.length).toDouble(), 15),
+              ],
+              dashArray: [2],
+              isCurved: false,
+              colors: [Colors.red],
+              barWidth: 1,
+              isStrokeCapRound: true,
+              dotData: FlDotData(
+                show: false,
+              ),
             ),
           ],
         ),

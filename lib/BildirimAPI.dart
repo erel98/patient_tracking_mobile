@@ -35,9 +35,12 @@ class BildirimAPI {
 
   static Future _notificationDetails() async {
     return NotificationDetails(
-      android: AndroidNotificationDetails('channel id', 'channel name',
-          channelDescription: 'channel description',
-          importance: Importance.defaultImportance),
+      android: AndroidNotificationDetails(
+        'channel id',
+        'channel name',
+        channelDescription: 'channel description',
+        importance: Importance.defaultImportance,
+      ),
     );
   }
 
@@ -82,7 +85,6 @@ class BildirimAPI {
     String payload,
     DateTime scheduledDate,
   }) async {
-    final tz.TZDateTime now = tz.TZDateTime.now(tz.local);
     tz.TZDateTime scheduledTZDateTime = tz.TZDateTime(
         tz.local,
         scheduledDate.year,
@@ -91,22 +93,12 @@ class BildirimAPI {
         scheduledDate.hour,
         scheduledDate.minute);
     await _notifications.zonedSchedule(
-        id,
-        title,
-        body,
-        scheduledTZDateTime,
-        // _scheduleWeekly(await initNotificationTime(),
-        //     days: await initNotificationDays()),
-        //_scheduleDaily(Time(8)),
-        //TZDateTime.from(scheduledDate, local),
-        await _notificationDetails(),
+        id, title, body, scheduledTZDateTime, await _notificationDetails(),
         payload: payload,
         androidAllowWhileIdle: true,
         uiLocalNotificationDateInterpretation:
             UILocalNotificationDateInterpretation.absoluteTime,
-        matchDateTimeComponents: DateTimeComponents.dayOfWeekAndTime
-        //matchDateTimeComponents: DateTimeComponents.time
-        );
+        matchDateTimeComponents: DateTimeComponents.dayOfWeekAndTime);
   }
 
   static TZDateTime _scheduleDaily(Time time) {

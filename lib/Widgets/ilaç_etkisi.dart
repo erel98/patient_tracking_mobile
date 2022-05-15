@@ -28,40 +28,8 @@ class _MedEffectState extends State<MedEffect> {
     var meds = interactionprovider.medInteraction.effects; //String
     return meds == null
         ? NoDataFound('Beraberinde alınmaması gereken ilaç')
-        : Html(data: meds);
-    /* ListView.separated(
-            separatorBuilder: (BuildContext ctx, int index) => SizedBox(
-              height: 20,
-            ),
-            itemCount: meds.length,
-            itemBuilder: (
-              BuildContext context,
-              int index,
-            ) {
-              return ListTile(
-                leading: Icon(
-                  FontAwesome5.hand_point_right,
-                  size: 30,
-                  color: Colors.black,
-                ),
-                title: meds[index].imageUrl != null &&
-                        meds[index].imageUrl.isNotEmpty
-                    ? Container(
-                        margin: EdgeInsets.all(0),
-                        child: Image.network(
-                          dotenv.env['IMAGE_URL'] + meds[index].imageUrl,
-                        ),
-                      )
-                    : Text(
-                        meds[index].name,
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-              );
-            },
-          ); */
+        : SingleChildScrollView(
+            child: Html(data: meds),
+          );
   }
 }

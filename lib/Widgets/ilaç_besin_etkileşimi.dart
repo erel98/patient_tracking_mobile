@@ -28,41 +28,16 @@ class _MedToFoodInteractionState extends State<MedToFoodInteraction> {
     var foods = interactionprovider.medInteraction.foods;
     return foods == null
         ? NoDataFound('Beraberinde tüketilmemesi gereken yemek')
-        : Html(data: foods);
-    /* ListView.separated(
-            separatorBuilder: (BuildContext ctx, int index) => SizedBox(
-              height: 20,
+        : SingleChildScrollView(
+            child: Column(
+              children: [
+                Image.asset(
+                  'assets/images/greyfurt.jpeg',
+                  scale: 2.5,
+                ),
+                Html(data: foods),
+              ],
             ),
-            itemCount: foods.length,
-            itemBuilder: (
-              BuildContext context,
-              int index,
-            ) {
-              return Container(
-                margin: EdgeInsets.symmetric(horizontal: 50),
-                height: 70,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: kPrimaryColor,
-                ),
-                child: Center(
-                  child: ListTile(
-                    leading: foods[index].imageUrl != null
-                        ? Image.network(
-                            '${dotenv.env['IMAGE_URL']}${foods[index].imageUrl}')
-                        : Container(),
-                    title: Text(
-                      foods[index].name,
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ),
-              );
-            },
-          ); */
+          );
   }
 }

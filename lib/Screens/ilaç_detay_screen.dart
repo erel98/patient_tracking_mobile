@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:patient_tracking/Models/food.dart';
 import 'package:patient_tracking/Widgets/ila%C3%A7_al%C4%B1nma_%C5%9Fekli.dart';
+import 'package:patient_tracking/Widgets/ila%C3%A7_ila%C3%A7_etkile%C5%9Fimi.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import '../Widgets/ilaç_besin_etkileşimi.dart';
 import '../Models/medication.dart';
@@ -33,7 +34,7 @@ class _IlacDetayState extends State<IlacDetay>
 
   void initState() {
     super.initState();
-    _tabController = TabController(length: 4, vsync: this);
+    _tabController = TabController(length: 5, vsync: this);
     _tabController.addListener(_handleTabSelection);
   }
 
@@ -59,6 +60,8 @@ class _IlacDetayState extends State<IlacDetay>
         FittedBox(
             fit: BoxFit.fitWidth,
             child: Tab(text: 'İlacın Besin\nEtkileşimleri')),
+        FittedBox(
+            fit: BoxFit.fitWidth, child: Tab(text: 'İlaç-İlaç\nEtkileşimleri'))
       ], controller: _tabController),
       actions: [
         FittedBox(
@@ -111,6 +114,7 @@ class _IlacDetayState extends State<IlacDetay>
                 MedicationUsage(medId),
                 SideEffects(medId),
                 MedToFoodInteraction(medId),
+                MedToMedInteraction(medId)
               ],
             ),
           ),

@@ -62,6 +62,7 @@ class _BloodMedicineScreenState extends State<BloodMedicineScreen>
       if (bms[i].medId != tempId) {
         if (!distinctMedIds.contains(bms[i].medId)) {
           distinctMedIds.add(bms[i].medId);
+          print('adding ${bms[i].medId}');
         }
         tempId = bms[i].medId;
       }
@@ -93,6 +94,7 @@ class _BloodMedicineScreenState extends State<BloodMedicineScreen>
     }
     _tabController = getTabController();
     _updatePage();
+    print('distinctmedids length: ${distinctMedIds.length}');
     final appBar = AppBar(
       elevation: 0,
       bottom: PreferredSize(
@@ -100,7 +102,9 @@ class _BloodMedicineScreenState extends State<BloodMedicineScreen>
         child: bms.length < 1
             ? Container()
             : TabBar(
-                indicatorColor: Colors.black,
+                indicatorColor: distinctMedIds.length == 1
+                    ? Colors.transparent
+                    : Colors.white,
                 controller: _tabController,
                 tabs: tabs,
               ),

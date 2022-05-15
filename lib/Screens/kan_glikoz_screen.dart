@@ -109,10 +109,7 @@ class _BloodGlucoseScreenState extends State<BloodGlucoseScreen> {
         margin: EdgeInsets.only(right: 40),
         child: FloatingActionButton(
           elevation: 40,
-          child: Image.asset(
-            'assets/icons/blood-pressure.png',
-            scale: 1.3,
-          ),
+          child: Icon(FontAwesome.tint),
           onPressed: () => addBpPopup(context).show(),
           backgroundColor: kPrimaryColor,
         ),

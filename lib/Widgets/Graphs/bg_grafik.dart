@@ -87,11 +87,6 @@ class _BloodGlucoseGraphState extends State<BloodGlucoseGraph> {
             dotData: FlDotData(
               show: true,
             ),
-            /* belowBarData: BarAreaData(
-                show: true,
-                colors:
-                    kLineColors.map((color) => color.withOpacity(0.3)).toList(),
-              ) */
           ),
           LineChartBarData(
             spots: [

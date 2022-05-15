@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:patient_tracking/Providers/medicationInteraction_provider.dart';
-import 'package:patient_tracking/Widgets/no_data.dart';
-import 'package:provider/provider.dart';
 import 'package:flutter_html/flutter_html.dart';
+import 'package:patient_tracking/Providers/medicationInteraction_provider.dart';
+import 'package:provider/provider.dart';
 
-class MedicationUsage extends StatefulWidget {
+import 'no_data.dart';
+
+class MedToMedInteraction extends StatefulWidget {
   final int medId;
-  MedicationUsage(this.medId);
+  MedToMedInteraction(this.medId);
 
   @override
-  State<MedicationUsage> createState() => _MedicationUsageState();
+  State<MedToMedInteraction> createState() => _MedToMedInteractionState();
 }
 
-class _MedicationUsageState extends State<MedicationUsage> {
+class _MedToMedInteractionState extends State<MedToMedInteraction> {
   @override
   void initState() {
     super.initState();
@@ -25,13 +26,11 @@ class _MedicationUsageState extends State<MedicationUsage> {
   Widget build(BuildContext context) {
     final interactionprovider =
         Provider.of<MedicationInteractionProvider>(context);
-    var usage = interactionprovider.medInteraction.usage;
-    return usage == null
-        ? NoDataFound("Veri")
-        : SingleChildScrollView(
-            child: Html(
-              data: usage,
-            ),
+    var medtomed = interactionprovider.medInteraction.medToMedInteraction;
+    return medtomed == null || medtomed.isEmpty
+        ? NoDataFound('Bilinen yan etki')
+        : Html(
+            data: medtomed,
           );
   }
 }

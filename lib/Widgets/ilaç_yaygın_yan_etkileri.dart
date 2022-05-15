@@ -26,50 +26,12 @@ class _SideEffectsState extends State<SideEffects> {
     final interactionprovider =
         Provider.of<MedicationInteractionProvider>(context);
     var sideEffects = interactionprovider.medInteraction.sideEffects;
-    /* if (sideEffects != null) {
-      sideEffects.forEach((element) {
-        print('side effect: ${element}');
-      });
-    } */
     return sideEffects == null || sideEffects.isEmpty
         ? NoDataFound('Bilinen yan etki')
-        : Html(
-            data: sideEffects,
-          ); /* ListView.separated(
-            separatorBuilder: (BuildContext ctx, int index) => SizedBox(
-              height: 20,
+        : SingleChildScrollView(
+            child: Html(
+              data: sideEffects,
             ),
-            itemCount: sideEffects.length,
-            itemBuilder: (
-              BuildContext context,
-              int index,
-            ) {
-              return Container(
-                margin: EdgeInsets.symmetric(horizontal: 50),
-                height: 60,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: kPrimaryColor,
-                ),
-                child: Center(
-                  child: ListTile(
-                    leading: Icon(
-                      FontAwesome5.hand_point_right,
-                      size: 30,
-                      color: Colors.black,
-                    ),
-                    title: Text(
-                      sideEffects[index],
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ),
-              );
-            },
-          ); */
+          );
   }
 }
