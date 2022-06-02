@@ -73,7 +73,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     controller: phoneController,
                     keyboardType: TextInputType.phone,
                     decoration: InputDecoration(
-                      label: Text('telefon'),
+                      label: Text('Telefon'),
                       floatingLabelBehavior: FloatingLabelBehavior.auto,
                       //hintText: widget.hintText,
                       hintStyle: TextStyle(
