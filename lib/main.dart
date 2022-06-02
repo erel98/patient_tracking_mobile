@@ -130,19 +130,23 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  Future<void> initToken() async {
-    String token = await FirebaseMessaging.instance.getToken();
-    var prefs = await SharedPreferences.getInstance();
-    prefs.setString('fcm_token', token);
+  final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+  void initToken() {
+    _prefs.then((SharedPreferences prefs) => {
+      FirebaseMessaging.instance.getToken().then((token) => {
+        prefs.setString('fcm_token', token)
+      })
+    });
   }
 
-  void fetchIsLoggedIn() async {
-    var prefs = await SharedPreferences.getInstance();
-    if (prefs.getString('token') == null) {
-      prefs.setBool('isloggedin', false);
-    } else {
-      prefs.setBool('isloggedin', true);
-    }
+  void fetchIsLoggedIn() {
+    _prefs.then((SharedPreferences prefs) => {
+      if (prefs.getString('token') == null) {
+          prefs.setBool('isloggedin', false)
+      } else {
+        prefs.setBool('isloggedin', true)
+      }
+    });
   }
 
   Future<void> setupInteractedMessage() async {
