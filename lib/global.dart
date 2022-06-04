@@ -4,6 +4,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:patient_tracking/Screens/kan_basinci_screen.dart';
 import 'package:patient_tracking/Screens/sorular%C4%B1m_screen.dart';
 import 'package:patient_tracking/Screens/notlar%C4%B1m_screen.dart';
+import 'package:patient_tracking/Widgets/diger_ilaclar_list.dart';
 import 'package:patient_tracking/constraints.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'Widgets/ana_menü_item.dart';
@@ -40,6 +41,15 @@ class Global {
       KullandigimIlaclar.routeName,
       Icon(
         FontAwesome5Solid.capsules,
+        color: kMenuIconColor,
+        size: iconSize,
+      ),
+    ),
+    AnaMenuItem(
+      'Kullandığım\ndiğer ilaçlar',
+      "/diger-ilaclar",
+      Icon(
+        FontAwesome5Solid.tablets,
         color: kMenuIconColor,
         size: iconSize,
       ),

@@ -12,10 +12,13 @@ import 'package:patient_tracking/Providers/bloodMedicine_provider.dart';
 import 'package:patient_tracking/Providers/history_provider.dart';
 import 'package:patient_tracking/Providers/liverProvider.dart';
 import 'package:patient_tracking/Providers/medicationInteraction_provider.dart';
+import 'package:patient_tracking/Providers/otherMedication_provider.dart';
 import 'package:patient_tracking/Providers/question_provider.dart';
 import 'package:patient_tracking/Screens/ge%C3%A7mi%C5%9F_screen.dart';
 import 'package:patient_tracking/Screens/kan_ila%C3%A7_screen.dart';
 import 'package:patient_tracking/Screens/organ_transplant_screen.dart';
+import 'package:patient_tracking/Screens/othermeds_detail_screen.dart';
+import 'package:patient_tracking/Screens/othermeds_screen.dart';
 import 'package:patient_tracking/constraints.dart';
 import 'package:patient_tracking/preferencesController.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -119,6 +122,9 @@ void main() async {
       ChangeNotifierProvider(
         create: (_) => LiverProvider(),
       ),
+      ChangeNotifierProvider(
+        create: (_) => OtherMedicineProvider(),
+      ),
     ],
     child: MyApp(),
   ));
@@ -133,20 +139,19 @@ class _MyAppState extends State<MyApp> {
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   void initToken() {
     _prefs.then((SharedPreferences prefs) => {
-      FirebaseMessaging.instance.getToken().then((token) => {
-        prefs.setString('fcm_token', token)
-      })
-    });
+          FirebaseMessaging.instance
+              .getToken()
+              .then((token) => {prefs.setString('fcm_token', token)})
+        });
   }
 
   void fetchIsLoggedIn() {
     _prefs.then((SharedPreferences prefs) => {
-      if (prefs.getString('token') == null) {
-          prefs.setBool('isloggedin', false)
-      } else {
-        prefs.setBool('isloggedin', true)
-      }
-    });
+          if (prefs.getString('token') == null)
+            {prefs.setBool('isloggedin', false)}
+          else
+            {prefs.setBool('isloggedin', true)}
+        });
   }
 
   Future<void> setupInteractedMessage() async {
@@ -251,6 +256,8 @@ class _MyAppState extends State<MyApp> {
         OrganTransplantScreen.routeName: (ctx) => OrganTransplantScreen(),
         BloodMedicineScreen.routeName: (ctx) => BloodMedicineScreen(),
         HistoryScreen.routeName: (ctx) => HistoryScreen(),
+        OtherMeds.routeName: (ctx) => OtherMeds(),
+        OtherMedsDetails.routeName: (ctx) => OtherMedsDetails()
       },
     );
   }

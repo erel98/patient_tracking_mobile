@@ -39,7 +39,7 @@ class _BloodGlucoseGraphState extends State<BloodGlucoseGraph> {
         minX: 0,
         minY: 0,
         maxX: bgs.length.toDouble() + 1,
-        maxY: 1000,
+        maxY: 800,
         titlesData: FlTitlesData(
           show: true,
           bottomTitles: SideTitles(
@@ -90,12 +90,26 @@ class _BloodGlucoseGraphState extends State<BloodGlucoseGraph> {
           ),
           LineChartBarData(
             spots: [
-              FlSpot(0, 200),
-              FlSpot((bgs.length + 1).toDouble(), 200),
+              FlSpot(0, 180),
+              FlSpot((bgs.length + 1).toDouble(), 180),
             ],
             dashArray: [2],
             isCurved: false,
             colors: [Colors.red],
+            barWidth: 1,
+            isStrokeCapRound: true,
+            dotData: FlDotData(
+              show: false,
+            ),
+          ),
+          LineChartBarData(
+            spots: [
+              FlSpot(0, 100),
+              FlSpot((bgs.length + 1).toDouble(), 100),
+            ],
+            dashArray: [2],
+            isCurved: false,
+            colors: [Colors.blue.shade200],
             barWidth: 1,
             isStrokeCapRound: true,
             dotData: FlDotData(

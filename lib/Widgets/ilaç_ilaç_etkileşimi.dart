@@ -29,8 +29,10 @@ class _MedToMedInteractionState extends State<MedToMedInteraction> {
     var medtomed = interactionprovider.medInteraction.medToMedInteraction;
     return medtomed == null || medtomed.isEmpty
         ? NoDataFound('Bilinen yan etki')
-        : Html(
-            data: medtomed,
+        : SingleChildScrollView(
+            child: Html(
+              data: medtomed,
+            ),
           );
   }
 }
