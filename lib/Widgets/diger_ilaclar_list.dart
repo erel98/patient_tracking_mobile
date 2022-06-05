@@ -17,7 +17,7 @@ class OtherUsedMeds extends StatefulWidget {
 class _OtherUsedMedsState extends State<OtherUsedMeds> {
   Future<bool> updateIsNotify(OtherMedication om) async {
     bool isSuccess =
-        await OtherMedicationService.updateMyMedication(om, om.isNotify);
+        await OtherMedicationService.updateMyOtherMedication(om, om.isNotify);
     return isSuccess;
   }
 
@@ -91,16 +91,16 @@ class _OtherUsedMedsState extends State<OtherUsedMeds> {
                             fontSize: 20,
                           ),
                         ),
-                        /*trailing: Image.network(
-                          otherMeds[index].medication.imageUrl,
+                        trailing: Image.network(
+                          otherMeds[index].imageUrl,
                           width: 75,
                           height: 70,
-                        ),*/
+                        ),
                       ),
                     ),
                   );
                 }),
           )
-        : NoDataFound('kullandığınız diğer ilaç');
+        : NoDataFound('Kullandığınız diğer ilaç');
   }
 }

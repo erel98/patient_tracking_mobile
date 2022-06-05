@@ -8,7 +8,7 @@ import 'package:http/http.dart' as http;
 import 'http_service.dart';
 
 class OtherMedicationService {
-  static String url = dotenv.env['API_URL'] + '/other-medications';
+  static String url = dotenv.env['API_URL'] + '/my-other-medications';
 
   static Future<List<OtherMedication>> getOtherMedications() async {
     List<OtherMedication> otherMeds = [];
@@ -20,19 +20,23 @@ class OtherMedicationService {
       jsonData.forEach((data) {
         OtherMedication otherMedication = new OtherMedication();
         otherMedication.id = data['id'];
-        otherMedication.name = data['name'];
+        otherMedication.name = data['medication']['name'];
         otherMedication.isNotify = data['is_notification_active'];
-        otherMedication.description = data['description'];
+        otherMedication.description = data['medication']['description'];
+        otherMedication.imageUrl =
+            dotenv.env['IMAGE_URL'] + data['medication']['photo'];
 
         otherMeds.add(otherMedication);
       });
     });
+    return otherMeds;
   }
 
-  static Future<bool> updateMyMedication(
+  static Future<bool> updateMyOtherMedication(
       OtherMedication om, bool isNotify) async {
     bool success = false;
-    String url = dotenv.env['API_URL'] + '/my-medications/' + om.id.toString();
+    String url =
+        dotenv.env['API_URL'] + '/my-other-medications/' + om.id.toString();
     var body = {'is_notification_active': isNotify};
     var response = await HTTPService.httpUPDATE(url, body, appendToken: true);
 
