@@ -95,10 +95,10 @@ class _UsedMedsState extends State<UsedMeds> {
                             fontSize: 20,
                           ),
                         ),
-                        subtitle: Text(
+                        /*subtitle: Text(
                           '${parseStomach(meds[index].medication.stomach)}',
                           style: TextStyle(color: Colors.grey, fontSize: 17),
-                        ),
+                        ),*/
                         trailing: Image.network(
                           meds[index].medication.imageUrl,
                           width: 75,

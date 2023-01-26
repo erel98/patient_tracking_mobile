@@ -18,15 +18,17 @@ class OtherMedicationService {
       var jsonResponse = jsonDecode(response.body) as Map<String, dynamic>;
       var jsonData = new List<Map<String, dynamic>>.from(jsonResponse['data']);
       jsonData.forEach((data) {
-        OtherMedication otherMedication = new OtherMedication();
-        otherMedication.id = data['id'];
-        otherMedication.name = data['medication']['name'];
-        otherMedication.isNotify = data['is_notification_active'];
-        otherMedication.description = data['medication']['description'];
-        otherMedication.imageUrl =
-            dotenv.env['IMAGE_URL'] + data['medication']['photo'];
+        if (data['medication'] != null) {
+          OtherMedication otherMedication = new OtherMedication();
+          otherMedication.id = data['id'];
+          otherMedication.name = data['medication']['name'];
+          otherMedication.isNotify = data['is_notification_active'];
+          otherMedication.description = data['medication']['description'];
+          otherMedication.imageUrl =
+              dotenv.env['IMAGE_URL'] + data['medication']['photo'];
 
-        otherMeds.add(otherMedication);
+          otherMeds.add(otherMedication);
+        }
       });
     });
     return otherMeds;

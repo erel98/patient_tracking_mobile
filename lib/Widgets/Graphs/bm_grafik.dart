@@ -122,7 +122,7 @@ class _BloodMedicineGraphState extends State<BloodMedicineGraph> {
               dotData: FlDotData(
                 show: true,
               ),
-            ),
+            ), /*
             LineChartBarData(
               spots: [
                 FlSpot(0, 5),
@@ -150,7 +150,7 @@ class _BloodMedicineGraphState extends State<BloodMedicineGraph> {
               dotData: FlDotData(
                 show: false,
               ),
-            ),
+            ),*/
           ],
         ),
       ),

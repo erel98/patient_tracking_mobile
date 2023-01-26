@@ -37,7 +37,7 @@ class Global {
       ),
     ),
     AnaMenuItem(
-      'Kullandığım\nilaçlar',
+      'Kullandığım\nimmünosüpresif ilaçlar',
       KullandigimIlaclar.routeName,
       Icon(
         FontAwesome5Solid.capsules,
@@ -82,15 +82,6 @@ class Global {
       ),
     ),
     AnaMenuItem(
-      'Danışmanlık',
-      MyQuestionsScreen.routeName,
-      Icon(
-        FontAwesome.question,
-        color: kMenuIconColor,
-        size: iconSize,
-      ),
-    ),
-    AnaMenuItem(
       'Kan basıncı',
       BloodPressureScreen.routeName,
       ImageIcon(
@@ -100,7 +91,7 @@ class Global {
       ),
     ),
     AnaMenuItem(
-      'Kan glikoz\ndeğeri',
+      'Kan şekeri\ndeğeri',
       '/blood-glucose',
       Icon(
         FontAwesome.tint,
@@ -122,6 +113,15 @@ class Global {
       NotesScreen.routeName,
       Icon(
         FontAwesome5.sticky_note,
+        color: kMenuIconColor,
+        size: iconSize,
+      ),
+    ),
+    AnaMenuItem(
+      'Danışmanlık',
+      MyQuestionsScreen.routeName,
+      Icon(
+        FontAwesome.question,
         color: kMenuIconColor,
         size: iconSize,
       ),

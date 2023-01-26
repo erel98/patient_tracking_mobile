@@ -57,11 +57,11 @@ class _OtherUsedMedsState extends State<OtherUsedMeds> {
                           ),
                         ]),
                     child: InkWell(
-                      onTap: () => Navigator.pushNamed(
+                      /*onTap: () => Navigator.pushNamed(
                         context,
                         OtherMedsDetails.routeName,
                         arguments: {'medId': otherMeds[index].id},
-                      ),
+                      ),*/
                       child: ListTile(
                         leading: CircleAvatar(
                           backgroundColor: otherMeds[index].isNotify
